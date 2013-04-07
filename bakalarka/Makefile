@@ -13,6 +13,10 @@ final: clean $(CO).ps
 
 pdf: $(CO).pdf
 
+vlnka:
+	vlna $(CO).tex
+	vlna $(REF).bib
+
 $(CO).ps: $(CO).dvi
 	dvips $(CO)
 

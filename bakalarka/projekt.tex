@@ -33,6 +33,17 @@
 
 %zde muzeme vlozit vlastni balicky
 
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{mdwlist}
+
+\usepackage[bf]{caption2}
+
+\theoremstyle{definition}
+\newtheorem{Def}{Definice}[section]
+\newtheorem{Alg}{Algoritmus}
+%\newtheorem{Veta}{Věta}
+
 
 % =======================================================================
 % balíček "hyperref" vytváří klikací odkazy v pdf, pokud tedy použijeme pdflatex
@@ -57,7 +68,7 @@
 \projectinfo{
   %Prace
   project=BP,            %typ prace BP/SP/DP/DR
-  year=2008,             %rok
+  year=2013,             %rok
   date=\today,           %datum odevzdani
   %Nazev prace
   title.cs={Název práce},  %nazev prace v cestine
@@ -76,16 +87,16 @@
   %bud pomoci nasledujicich parametru nebo pomoci vyhrazenych maker (viz dale)
   %===========================================================================
   %Klicova slova
-  keywords.cs={Klíčová slova v českém jazyce.}, %klicova slova v ceskem jazyce
-  keywords.en={Klíčová slova v anglickém jazyce.}, %klicova slova v anglickem jazyce
+  keywords.cs={Klíčová slova v~českém jazyce.}, %klicova slova v ceskem jazyce
+  keywords.en={Klíčová slova v~anglickém jazyce.}, %klicova slova v anglickem jazyce
   %Abstract
-  abstract.cs={Výtah (abstrakt) práce v českém jazyce.}, % abstrakt v ceskem jazyce
-  abstract.en={Výtah (abstrakt) práce v anglickém jazyce.}, % abstrakt v anglickem jazyce
+  abstract.cs={Výtah (abstrakt) práce v~českém jazyce.}, % abstrakt v ceskem jazyce
+  abstract.en={Výtah (abstrakt) práce v~anglickém jazyce.}, % abstrakt v anglickem jazyce
   %Prohlaseni
   declaration={Prohlašuji, že jsem tuto bakalářskou práci vypracoval samostatně pod vedením pana ...},
   %Podekovani (nepovinne)
   acknowledgment={Zde je možné uvést poděkování vedoucímu práce a těm, kteří
-  poskytli odbornou pomoc a Nejakému Fridovi z Facebooku za prevod šablony do utf8.} % nepovinne
+  poskytli odbornou pomoc a Nejakému Fridovi z~Facebooku za prevod šablony do utf8.} % nepovinne
 }
 
 %Abstrakt (cesky, anglicky)
