@@ -30,7 +30,7 @@ symbolem tvoří nekonečnou hierarchii.
 \begin{Def} Hluboký zásobníkový automat konečného indexu je dle \cite{Meduna:DeepPDA} definován jako uspořádaná osmice $M = (Q,\Sigma,\Gamma, R, s, S, F, n)$, 
 kde $Q$ je konečná množina stavů, $\Sigma$ vstupní abeceda, $\Gamma$ zásobníková abeceda, přičemž $\Sigma \subset \Gamma$,
 $R$ je konečná množina pravidel, $s \in Q$ je počáteční stav, $S \in \Gamma$ počáteční symbol na zásobníku a $F \subset Q$ je množina
-koncových stavů. $R$ je konečná množina pravidel typu $(m, q, A, p, v) \in \{1,2,3,\dots,n\} \times Q \times \Gamma \times Q \times {\Gamma}^*$. Zapisují se ve tvaru $mqA \rightarrow pv$. Symbol $n \in \{1,2,3,\dots\}$ označuje maximální počet nevstupních symbolů, které mohou být uložené na zásobníku.
+koncových stavů. $R$ je konečná množina pravidel typu $(m, q, A, p, v) \in \{1,2,3,\dots,n\} \times Q \times \Gamma \times Q \times {\Gamma}^+$. Zapisují se ve tvaru $mqA \rightarrow pv$. Symbol $n \in \{1,2,3,\dots\}$ označuje maximální počet nevstupních symbolů, které mohou být uložené na zásobníku.
 Hloubka tohoto typu zásobníku není definovaná. Předpokládá se, že je rozšiřitelná tak, aby zásobník mohl přijmout až $n$ nevstupních symbolů.
 \end{Def}
 
@@ -131,16 +131,16 @@ Tím jsem ukázala, že výše zavedený typ zásobníkového automatu je ekviva
 
 \begin{Def}
 Nechť $M = (Q,\Sigma,\Gamma, R, s, S , F)$ je hluboký zásobníkový automat
-a $k$ je maximální hloubka expanze v $M$.
-Pak $M$ je v normální formě, pokud každé pravidlo z $R$ je tvaru:
+a $n$ je maximální hloubka expanze v $M$.
+Pak $M$ je v normální formě, pokud každé pravidlo z $R$ je v jednom ze tvarů:
 
 \begin{enumerate}
 \renewcommand{\labelenumi}{(\roman{enumi})}
-\item $mp\# \rightarrow qA$, kde $A \in (\Gamma - \Sigma)$, $m = k + 1$, $p$, $q \in Q$
-\item $mpA \rightarrow q\#$, kde $A \in (\Gamma - \Sigma)$, $1 \le m \le k$, $p$, $q \in Q$
-\item $mp\# \rightarrow q\#$, kde $1 \le m \le k$, $p$, $q \in Q$
-\item $mp\# \rightarrow q\#\#$, kde $1 \le m \le k$, $p$, $q \in Q$
-\item $mp\# \rightarrow qa$, kde $a \in {\Sigma}^+$, $1 \le m \le k$, $p$, $q \in Q$
+\item $mq\# \rightarrow pA$, kde $A \in (\Gamma - \Sigma)$, $m = n$, $p$, $q \in Q$
+\item $mqA \rightarrow p\#$, kde $A \in (\Gamma - \Sigma)$, $1 \le m < n$, $p$, $q \in Q$
+\item $mq\# \rightarrow p\#$, kde $1 \le m < n$, $p$, $q \in Q$
+\item $mq\# \rightarrow p\#\#$, kde $1 \le m < n$, $p$, $q \in Q$
+\item $mq\# \rightarrow pa$, kde $a \in {\Sigma}^+$, $1 \le m < n$, $p$, $q \in Q$
 
 \end{enumerate}
 
@@ -163,7 +163,9 @@ Převod hlubokého zásobníkového automatu do normální formy.
   \item \label{r1} ${\Sigma}_{NF} := \Sigma$
   \item ${\Gamma}_{NF} :=\{\#\} \cup \Sigma$
   \item $s_{NF} := <s,S>$
-  \item $k := \mathrm{max}(\{m \mid mpA \rightarrow qv \in R\}) $ \medskip
+  \item $S_{NF} := \#$ \medskip
+
+  \item $k := \mathrm{max}(\{m \mid mqA \rightarrow pv \in R\}) $ \medskip
 
   \item Pro každé $(q,u,A) \in Q \times (\Gamma - \Sigma)^* \times (\Gamma - \Sigma)$, kde $|u| \le k$ : \medskip
 
@@ -173,22 +175,25 @@ Převod hlubokého zásobníkového automatu do normální formy.
   \subitem Pokud $|u| < k$, přidej do $R_{NF}$ pravidlo typu (ii):
   \subitem $|uA| <q,u> A \rightarrow <q,uA> \#$. \medskip
 
-  \item Pro každé $r : mpA \rightarrow q X_1 X_2 X_3 \dots X_j \in R$, kde $1 \le i \le j$, $X_i \in \Gamma$, a 
+  \item Pro každé $r : mqA \rightarrow p X_1 X_2 X_3 \dots X_j \in R$, kde $1 \le i \le j$, $X_i \in \Gamma$, a 
         pro každou dvojici $(u,v) \in (\Gamma - \Sigma)^* \times (\Gamma - \Sigma)^*$, kde $|uv| < k$ : \medskip
 
   \subitem Pokud $|u| = m - 1$, $|v| \le k-m$, přidej do $R_{NF}$ pravidlo typu (iii) :
-  \subitem $m <q,uAv> \# \rightarrow <q,u (r : X_1 X_2 X_3 \dots X_j) v>\#$ . \medskip
+  \subitem $m <q,uAv> \# \rightarrow <p,u (r : X_1 X_2 X_3 \dots X_j) v>\#$ . \medskip
 
   \subitem Pro každé $(i,q') \in \{1,2,3,\dots,j\} \times Q$: \medskip
 
   \subsubitem Pokud $i < j$, přidej do $R_{NF}$ pravidlo typu (iv) :
-  \subsubitem $|u|+1 <q',u(r : X_i X_{i+1} \dots X_j)v> \# \rightarrow <q',u(r : X_i) (r: X_{i+1} \dots X_j)v> \# $. \medskip
+  \subsubitem $|u|+1 <q',u(r : X_i X_{i+1} \dots X_j)v> \# \rightarrow <q',u(r : X_i) (r: X_{i+1} \dots X_j)v> \#\# $. \medskip
 
   \subsubitem Pokud $X_i \in (\Gamma - \Sigma)$, přidej do $R_{NF}$ pravidlo typu (iii) :
   \subsubitem $|u|+1 <q',u (r : X_i) v> \# \rightarrow <q',u X_i v> \# $. \medskip
 
   \subsubitem Pokud $X_i \in \Sigma$, přidej do $R_{NF}$ pravidlo typu (v) :
-  \subsubitem $|u|+1 <q',u (r : X_i) v> \# \rightarrow <q',uv> X_i $. \medskip
+  \subsubitem $|u|+1 <q',u (r : X_i) v> \# \rightarrow <q',uv> X_i $. \bigskip
+
+  \item $Q_{NF} := \{p,q \mid mqA \rightarrow pv \in R_{NF}\} $
+  \item $F_{NF} := \{<q, \epsilon> \mid  q \in F \}$
 
 
 \end{list}
@@ -203,6 +208,17 @@ Převod hlubokého zásobníkového automatu do normální formy.
 
 % Definice
 
+\begin{Def}
+Zobecněný hluboký zásobníkový automat je uspořádaná sedmice $M = (Q,\Sigma,\Gamma, R, s, S, F)$, 
+kde $Q$ je konečná množina stavů, $\Sigma$ vstupní abeceda, $\Gamma$ zásobníková abeceda, přičemž $\Sigma \subset \Gamma$,
+$s \in Q$ je počáteční stav, $S \in \Gamma$ počáteční symbol na zásobníku a $F \subset Q$ je množina
+koncových stavů. $R$ je konečná množina pravidel typu $(q, A, p, v) \in Q \times \Gamma \times Q \times {\Gamma}^+$, které píšeme ve tvaru $qA \rightarrow pv$. 
+\end{Def}
+
+\begin{Def}
+Nechť $M = (Q,\Sigma,\Gamma, R, s, S, F)$ je zobecněný hluboký zásobníkový automat, $(w,q,uAz)$ a $(w,p,uvz)$ jeho dvě konfigurace a $qA \rightarrow pv \in R$ pravidlo. Pak lze provést přechod z $(w,q,uAz)$ do $(w,p,uvz)$, píšeme $(w,q,uAz) {\Rightarrow} (w,p,uvz)$, právě tehdy když platí: $\{X \mid qX \rightarrow p'v' \in R$, kde $X \in \mathrm{alph}(u) \cap (\Gamma - \Sigma)$, $p' \in Q$, $v' \in {\Gamma}^+ \} = \emptyset$.
+\end{Def}
+
 %=========================================================================
 \section{Ekvivalence se stavovými gramatikami}
 
@@ -215,11 +231,38 @@ Převod hlubokého zásobníkového automatu do normální formy.
 % odkaz na článek on state grammars, co s toho vyplývá
 % algoritmus
 
+\begin{Alg}
+Převod zobecněného hlubokého zásobníkového automatu s $\epsilon$-pravidly na ekvivalentní se třemi nevstupními symboly.
+
+\begin{list}{}{\setlength\parsep{0cm} \setlength\itemsep{0cm} \setlength\leftmargin{1em}}
+   \item Vstup: $M = (Q,\Sigma,\Gamma, R, s, S, F)$ 
+   \item Výstup: $M' = (Q', \Sigma', {\Gamma}', R', s',  S', F')$ \medskip
+  
+  \item ...
+
+\end{list}
+\end{Alg}
+
+
+
 %=========================================================================
 \section{Omezení počtu stavů}
 
 % odkaz na článek on state grammars
 % algoritmus
+
+\begin{Alg}
+Převod zobecněného hlubokého zásobníkového automatu s $\epsilon$-pravidly na ekvivalentní se třemi stavy.
+
+\begin{list}{}{\setlength\parsep{0cm} \setlength\itemsep{0cm} \setlength\leftmargin{1em}}
+   \item Vstup: $M = (Q,\Sigma,\Gamma, R, s, S, F)$ 
+   \item Výstup: $M' = (Q', \Sigma', {\Gamma}', R', s',  S', F')$ \medskip
+  
+  \item ...
+
+\end{list}
+\end{Alg}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\chapter{Aplikace \texttt{deeppda}}
