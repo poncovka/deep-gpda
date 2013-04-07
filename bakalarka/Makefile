@@ -4,9 +4,10 @@
 #===========================================
 # asi budete chtit prejmenovat:
 CO=projekt
+OBSAH=obsah
 REF=literatura
 
-all: clean $(CO).dvi
+all: clean $(CO).ps
 
 final: clean $(CO).ps
 	dvipdf $(CO)
@@ -15,6 +16,7 @@ pdf: $(CO).pdf
 
 vlnka:
 	vlna $(CO).tex
+	vlna $(OBSAH).tex
 	vlna $(REF).bib
 
 $(CO).ps: $(CO).dvi
