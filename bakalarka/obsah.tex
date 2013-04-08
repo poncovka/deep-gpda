@@ -129,6 +129,15 @@ Tím jsem ukázala, že výše zavedený typ zásobníkového automatu je ekviva
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Hluboký zásobníkový automat v~normální formě}
 
+
+% definice
+% algoritmus
+% ekvivalence
+
+%=========================================================================
+\section{Převod na normální formu}
+
+
 \begin{Def}
 Nechť $M = (Q,\Sigma,\Gamma, R, s, S , F)$ je hluboký zásobníkový automat
 a $n$ je maximální hloubka expanze v $M$.
@@ -146,12 +155,6 @@ Pak $M$ je v normální formě, pokud každé pravidlo z $R$ je v jednom ze tvar
 
 \end{Def}
 
-% definice
-% algoritmus
-% ekvivalence
-
-%=========================================================================
-\section{Převod na normální formu}
 
 \begin{Alg}
 Převod hlubokého zásobníkového automatu do normální formy.
@@ -160,7 +163,7 @@ Převod hlubokého zásobníkového automatu do normální formy.
    \item Vstup: $M = (Q,\Sigma,\Gamma, R, s, S, F)$ 
    \item Výstup: $M_{NF} = (Q_{NF}, \Sigma_{NF}, {\Gamma}_{NF}, R_{NF}, s_{NF},  S_{NF}, F_{NF})$ \medskip
   
-  \item \label{r1} ${\Sigma}_{NF} := \Sigma$
+  \item ${\Sigma}_{NF} := \Sigma$
   \item ${\Gamma}_{NF} :=\{\#\} \cup \Sigma$
   \item $s_{NF} := <s,S>$
   \item $S_{NF} := \#$ \medskip
@@ -199,6 +202,76 @@ Převod hlubokého zásobníkového automatu do normální formy.
 \end{list}
 \end{Alg}
 
+%=========================================================================
+\section{Převod na normální formu se zachováním hloubky automatu}
+
+
+\begin{Def}
+Nechť $M = (Q,\Sigma,\Gamma, R, s, S , F)$ je hluboký zásobníkový automat
+a $n$ je maximální hloubka expanze v $M$.
+Pak $M$ je v normální formě, pokud každé pravidlo z $R$ je v jednom ze tvarů:
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\roman{enumi})}
+\item $mq\# \rightarrow p\#A$, kde $A \in (\Gamma - \Sigma)$, $m = n$, $p$, $q \in Q$
+\item $mqA \rightarrow p\#$, kde $A \in (\Gamma - \Sigma)$, $1 \le m \le n$, $p$, $q \in Q$
+\item $mq\# \rightarrow p\#$, kde $1 \le m \le n$, $p$, $q \in Q$
+\item $mq\# \rightarrow p\#\#$, kde $1 \le m < n$, $p$, $q \in Q$
+\item $mq\# \rightarrow pa$, kde $a \in {\Sigma}^+$, $1 \le m \le n$, $p$, $q \in Q$
+
+\end{enumerate}
+
+\end{Def}
+
+
+\begin{Alg}
+Převod hlubokého zásobníkového automatu do normální formy 2.
+
+\begin{list}{}{\setlength\parsep{0cm} \setlength\itemsep{0cm} \setlength\leftmargin{1em}}
+   \item Vstup: $M = (Q,\Sigma,\Gamma, R, s, S, F)$ 
+   \item Výstup: $M_{NF} = (Q_{NF}, \Sigma_{NF}, {\Gamma}_{NF}, R_{NF}, s_{NF},  S_{NF}, F_{NF})$ \medskip
+  
+  \item \label{r1} ${\Sigma}_{NF} := \Sigma$
+  \item ${\Gamma}_{NF} :=\{\#\} \cup \Sigma$
+  \item $s_{NF} := <s,S>$
+  \item $S_{NF} := \#$ \medskip
+
+  \item $k := \mathrm{max}(\{m \mid mqA \rightarrow pv \in R\}) $ \medskip
+
+  \item Pro každé $(q,u,A) \in Q \times (\Gamma - \Sigma)^* \times (\Gamma - \Sigma)$, kde $|u| \le k$ : \medskip
+
+  \subitem Pokud $|u| = k$, přidej do $R_{NF}$ pravidlo typu (i) :
+  \subitem $k <q,uA> \# \rightarrow <q,u> \# A$. \medskip
+
+  \subitem Pokud $|u| < k$, přidej do $R_{NF}$ pravidlo typu (ii):
+  \subitem $|uA| <q,u> A \rightarrow <q,uA> \#$. \medskip
+
+  \item Pro každé $r : mqA \rightarrow p X_1 X_2 X_3 \dots X_j \in R$, kde $1 \le i \le j$, $X_i \in \Gamma$, a 
+        pro každou dvojici $(u,v) \in (\Gamma - \Sigma)^* \times (\Gamma - \Sigma)^*$, kde $|uv| < k$ : \medskip
+
+  \subitem Pokud $|u| = m - 1$, $|v| \le k-m$, přidej do $R_{NF}$ pravidlo typu (iii) :
+  \subitem $m <q,uAv> \# \rightarrow <p,u (r : X_1 X_2 X_3 \dots X_j) v>\#$ . \medskip
+
+  \subitem Pro každé $(i,q') \in \{1,2,3,\dots,j\} \times Q$: \medskip
+
+  \subsubitem Pokud $i < j$ a zároveň $|uv|+1 = k$, přidej do $R_{NF}$ pravidlo typu (iii) :
+  \subsubitem $|u|+1 <q',u(r : X_i X_{i+1} \dots X_j)v> \# \rightarrow <q',u(r : X_i) (r: X_{i+1} \dots X_j)v> \# $. \medskip
+
+  \subsubitem Pokud $i < j$ a zároveň $|uv|+1 < k$, přidej do $R_{NF}$ pravidlo typu (iv) :
+  \subsubitem $|u|+1 <q',u(r : X_i X_{i+1} \dots X_j)v> \# \rightarrow <q',u(r : X_i) (r: X_{i+1} \dots X_j)v> \#\# $. \medskip
+
+  \subsubitem Pokud $X_i \in (\Gamma - \Sigma)$, přidej do $R_{NF}$ pravidlo typu (iii) :
+  \subsubitem $|u|+1 <q',u (r : X_i) v> \# \rightarrow <q',u X_i v> \# $. \medskip
+
+  \subsubitem Pokud $X_i \in \Sigma$, přidej do $R_{NF}$ pravidlo typu (v) :
+  \subsubitem $|u|+1 <q',u (r : X_i) v> \# \rightarrow <q',uv> X_i $. \bigskip
+
+  \item $Q_{NF} := \{p,q \mid mqA \rightarrow pv \in R_{NF}\} $
+  \item $F_{NF} := \{<q, \epsilon> \mid  q \in F \}$
+
+
+\end{list}
+\end{Alg}
 
 %=========================================================================
 \section{Ekvivalence s~...}
@@ -256,9 +329,62 @@ Převod zobecněného hlubokého zásobníkového automatu s $\epsilon$-pravidly
 
 \begin{list}{}{\setlength\parsep{0cm} \setlength\itemsep{0cm} \setlength\leftmargin{1em}}
    \item Vstup: $M = (Q,\Sigma,\Gamma, R, s, S, F)$ 
-   \item Výstup: $M' = (Q', \Sigma', {\Gamma}', R', s',  S', F')$ \medskip
-  
-  \item ...
+   \item Výstup: $M_{R} = (Q_{R}, \Sigma_{R}, {\Gamma}_{R}, R_{R}, s_{R},  S_{R}, F_{R})$ \medskip
+    
+   \item ${\Sigma}_{R} := \Sigma$
+   \item $Q_{R} := \{s_\alpha, s_\beta, s_\gamma \}$
+   \item $R_{R} := \{R_{\alpha}, R_{\beta}, R_{\gamma} \}$
+   \item $s_{R} := s_{\gamma} $
+   \item $S_{R} := <start> $ \medskip
+
+   \item Nechť $Q = \{s_0, s_1, s_2, \dots,s_{|Q|}\}$, kde $s_0 = s$ je počáteční stav v $M$. Nechť $s_{|Q|+1} = s_0$.
+   \item Označme $Q_\alpha \subseteq Q$ jako množinu stavů s lichými indexy a $Q_\beta \subseteq Q$ jako množinu stavů se sudými indexy včetně nuly. \medskip
+
+   \item Pro každé $qA \rightarrow p b_0 B_1 b_1 B_2 b_2 \dots b_{j-1} B_{j} b_j \in R$, kde $q \in Q_\beta$, $p \in Q$, $j \in \{0,1,2,3,\dots,n\}$, $b_0,b_k \in {\Sigma}^*$ a $A, B_k \in (\Gamma - \Sigma)$ pro všechna $k \in \{1,2,\dots,j\}$. 
+         Nechť $k$ je absolutní hodnota rozdílu indexů stavů $p$ a $q$. 
+         Pak přidej do $R_\alpha$ pravidlo:
+
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\roman{enumi})}
+
+   \item  $s_\alpha <q, A> \rightarrow s_\alpha b_0 <q, B_1> b_1 <q, B_2> b_2 \dots b_{j-1} <q, B_j> b_j$ pokud $p = q$,
+   \item jinak $s_\alpha <q, A> \rightarrow s_\beta <k>_\beta b_0 <q, B_1> b_1 <q, B_2> b_2 \dots b_{j-1} <q, B_j> b_j$. 
+
+\suspend{enumerate}
+
+   \item Přidej do $R_\alpha$ pravidla:
+
+\resume{enumerate}
+\renewcommand{\labelenumi}{(\roman{enumi})}
+
+   \item $s_\alpha <s_i, X> \rightarrow s_\alpha <s_{i+1}, X>'$ pro každé $s_i \in Q_\alpha$ a každé $X \in (\Gamma - \Sigma)$,
+   \item $s_\alpha <s_i, \#> \rightarrow s_\beta <s_{i+1}, \#>_{exp}$ pro každé $s_i \in Q_\alpha$,
+   \item $s_\alpha <s_i, \#>_{exp} \rightarrow s_\gamma <s_{i}, \#>$ pro každé $s_i \in Q_\alpha$,
+   \item $s_\alpha <q, \#> \rightarrow s_\alpha \epsilon $ pro každé $q \in Q_\beta \cap F$,
+   \item $s_\alpha <1>_{\beta} \rightarrow s_\gamma \epsilon $,
+   \item $s_\alpha <j>_{\beta} \rightarrow s_\alpha <j - 1 >_\alpha $ pro každé $1 < j \le |Q|$.
+
+\suspend{enumerate}{\setlength\leftmargin{1em}}
+
+   \item Analogicky sestroj množinu $R_\beta.$ \medskip
+
+   \item Přidej do množiny $R_\gamma$ pravidla:
+
+\resume{enumerate}
+\renewcommand{\labelenumi}{(\roman{enumi})}
+
+   \item $s_\gamma <start> \rightarrow s_\alpha <s_0, S> <s_0, \#>$,
+   \item $s_\gamma <s, X>' \rightarrow s_\gamma <s, X> $ pro každé $s \in Q$ a každé $X \in (\Gamma - \Sigma)$,
+
+   \item $s_\gamma <s_i, \#> \rightarrow s_\alpha <s_i, \#>$ pro každé $s_i \in Q_\alpha$ a analogicky pro $Q_\beta$,
+%   \item $s_\gamma <s_i, \#> \rightarrow s_\beta <s_i, \#>$ pro každé $s_i \in Q_\beta$,
+   \item $s_\gamma <s_i, \#>_{exp} \rightarrow s_\beta <s_{i}, \#>$ pro každé $s_i \in Q_\alpha$ a analogicky pro $Q_\beta$.
+%   \item $s_\gamma <s_i, \#>_{exp} \rightarrow s_\alpha <s_{i}, \#>$ pro každé $s_i \in Q_\beta$,
+
+\end{enumerate}
+
+
 
 \end{list}
 \end{Alg}
