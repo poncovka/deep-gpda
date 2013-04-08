@@ -140,8 +140,8 @@ Tím jsem ukázala, že výše zavedený typ zásobníkového automatu je ekviva
 
 \begin{Def}
 Nechť $M = (Q,\Sigma,\Gamma, R, s, S , F)$ je hluboký zásobníkový automat
-a $n$ je maximální hloubka expanze v $M$.
-Pak $M$ je v normální formě, pokud každé pravidlo z $R$ je v jednom ze tvarů:
+a $n$ je maximální hloubka expanze v~$M$.
+Pak $M$ je v~normální formě, pokud každé pravidlo z~$R$ je v~jednom ze tvarů:
 
 \begin{enumerate}
 \renewcommand{\labelenumi}{(\roman{enumi})}
@@ -208,8 +208,8 @@ Převod hlubokého zásobníkového automatu do normální formy.
 
 \begin{Def}
 Nechť $M = (Q,\Sigma,\Gamma, R, s, S , F)$ je hluboký zásobníkový automat
-a $n$ je maximální hloubka expanze v $M$.
-Pak $M$ je v normální formě, pokud každé pravidlo z $R$ je v jednom ze tvarů:
+a $n$ je maximální hloubka expanze v~$M$.
+Pak $M$ je v~normální formě, pokud každé pravidlo z~$R$ je v~jednom ze tvarů:
 
 \begin{enumerate}
 \renewcommand{\labelenumi}{(\roman{enumi})}
@@ -289,7 +289,7 @@ koncových stavů. $R$ je konečná množina pravidel typu $(q, A, p, v) \in Q \
 \end{Def}
 
 \begin{Def}
-Nechť $M = (Q,\Sigma,\Gamma, R, s, S, F)$ je zobecněný hluboký zásobníkový automat, $(w,q,uAz)$ a $(w,p,uvz)$ jeho dvě konfigurace a $qA \rightarrow pv \in R$ pravidlo. Pak lze provést přechod z $(w,q,uAz)$ do $(w,p,uvz)$, píšeme $(w,q,uAz) {\Rightarrow} (w,p,uvz)$, právě tehdy když platí: $\{X \mid qX \rightarrow p'v' \in R$, kde $X \in \mathrm{alph}(u) \cap (\Gamma - \Sigma)$, $p' \in Q$, $v' \in {\Gamma}^+ \} = \emptyset$.
+Nechť $M = (Q,\Sigma,\Gamma, R, s, S, F)$ je zobecněný hluboký zásobníkový automat, $(w,q,uAz)$ a $(w,p,uvz)$ jeho dvě konfigurace a $qA \rightarrow pv \in R$ pravidlo. Pak lze provést přechod z~$(w,q,uAz)$ do $(w,p,uvz)$, píšeme $(w,q,uAz) {\Rightarrow} (w,p,uvz)$, právě tehdy když platí: $\{X \mid qX \rightarrow p'v' \in R$, kde $X \in \mathrm{alph}(u) \cap (\Gamma - \Sigma)$, $p' \in Q$, $v' \in {\Gamma}^+ \} = \emptyset$.
 \end{Def}
 
 %=========================================================================
@@ -305,7 +305,7 @@ Nechť $M = (Q,\Sigma,\Gamma, R, s, S, F)$ je zobecněný hluboký zásobníkov�
 % algoritmus
 
 \begin{Alg}
-Převod zobecněného hlubokého zásobníkového automatu s $\epsilon$-pravidly na ekvivalentní se třemi nevstupními symboly.
+Převod zobecněného hlubokého zásobníkového automatu s~$\epsilon$-pravidly na ekvivalentní se třemi nevstupními symboly.
 
 \begin{list}{}{\setlength\parsep{0cm} \setlength\itemsep{0cm} \setlength\leftmargin{1em}}
    \item Vstup: $M = (Q,\Sigma,\Gamma, R, s, S, F)$ 
@@ -325,20 +325,26 @@ Převod zobecněného hlubokého zásobníkového automatu s $\epsilon$-pravidly
 % algoritmus
 
 \begin{Alg}
-Převod zobecněného hlubokého zásobníkového automatu s $\epsilon$-pravidly na ekvivalentní se třemi stavy.
+Převod zobecněného hlubokého zásobníkového automatu s~$\epsilon$-pravidly na ekvivalentní s redukcí na tři stavy.
 
 \begin{list}{}{\setlength\parsep{0cm} \setlength\itemsep{0cm} \setlength\leftmargin{1em}}
    \item Vstup: $M = (Q,\Sigma,\Gamma, R, s, S, F)$ 
    \item Výstup: $M_{R} = (Q_{R}, \Sigma_{R}, {\Gamma}_{R}, R_{R}, s_{R},  S_{R}, F_{R})$ \medskip
     
    \item ${\Sigma}_{R} := \Sigma$
+   \item ${\Gamma}_{R} := \Sigma \cup {\Gamma}_{R}'$
    \item $Q_{R} := \{s_\alpha, s_\beta, s_\gamma \}$
-   \item $R_{R} := \{R_{\alpha}, R_{\beta}, R_{\gamma} \}$
+   \item $R_{R} := R_{\alpha} \cup R_{\beta} \cup R_{\gamma}$
    \item $s_{R} := s_{\gamma} $
-   \item $S_{R} := <start> $ \medskip
+   \item $S_{R} := <start> $
+   \item $F_{R} := \{s_{\alpha}, s_{\beta}\} $ \medskip
 
-   \item Nechť $Q = \{s_0, s_1, s_2, \dots,s_{|Q|}\}$, kde $s_0 = s$ je počáteční stav v $M$. Nechť $s_{|Q|+1} = s_0$.
-   \item Označme $Q_\alpha \subseteq Q$ jako množinu stavů s lichými indexy a $Q_\beta \subseteq Q$ jako množinu stavů se sudými indexy včetně nuly. \medskip
+   \item Pro každé $q \in Q$, $X \in (\Gamma - \Sigma)$, $j \in \{1,2,3,\dots,|Q|\}$ přidej do ${\Gamma}_{R}'$ symboly :
+   \item $<start>, <q, X>, <q, X>', <q, \#>, <q, \#>_{exp}, <j>_\alpha, <j>_\beta \}$.\medskip
+
+   \item Nechť $Q = \{s_0, s_1, s_2, \dots,s_{|Q|}\}$, kde $s_0 = s$ je počáteční stav v~$M$. Nechť $s_{|Q|+1} = s_0$.
+   \item Označme $Q_\alpha \subseteq Q$ jako množinu stavů s~lichými indexy a $Q_\beta \subseteq Q$ jako množinu stavů se sudými indexy včetně nuly.
+         Pak platí $Q_\alpha \cap Q_\beta = \emptyset$ a  $Q_\alpha \cup Q_\beta = Q$.\medskip
 
    \item Pro každé $qA \rightarrow p b_0 B_1 b_1 B_2 b_2 \dots b_{j-1} B_{j} b_j \in R$, kde $q \in Q_\beta$, $p \in Q$, $j \in \{0,1,2,3,\dots,n\}$, $b_0,b_k \in {\Sigma}^*$ a $A, B_k \in (\Gamma - \Sigma)$ pro všechna $k \in \{1,2,\dots,j\}$. 
          Nechť $k$ je absolutní hodnota rozdílu indexů stavů $p$ a $q$. 
@@ -376,15 +382,12 @@ Převod zobecněného hlubokého zásobníkového automatu s $\epsilon$-pravidly
 
    \item $s_\gamma <start> \rightarrow s_\alpha <s_0, S> <s_0, \#>$,
    \item $s_\gamma <s, X>' \rightarrow s_\gamma <s, X> $ pro každé $s \in Q$ a každé $X \in (\Gamma - \Sigma)$,
-
    \item $s_\gamma <s_i, \#> \rightarrow s_\alpha <s_i, \#>$ pro každé $s_i \in Q_\alpha$ a analogicky pro $Q_\beta$,
 %   \item $s_\gamma <s_i, \#> \rightarrow s_\beta <s_i, \#>$ pro každé $s_i \in Q_\beta$,
    \item $s_\gamma <s_i, \#>_{exp} \rightarrow s_\beta <s_{i}, \#>$ pro každé $s_i \in Q_\alpha$ a analogicky pro $Q_\beta$.
 %   \item $s_\gamma <s_i, \#>_{exp} \rightarrow s_\alpha <s_{i}, \#>$ pro každé $s_i \in Q_\beta$,
 
 \end{enumerate}
-
-
 
 \end{list}
 \end{Alg}
