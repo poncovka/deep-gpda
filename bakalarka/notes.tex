@@ -25,7 +25,78 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\section{Omezení počtu stavů}
 
+% odkaz na článek on state grammars
+% algoritmus
+
+\begin{Alg}
+Převod zobecněného hlubokého zásobníkového automatu s~$\epsilon$-pravidly na ekvivalentní s redukcí na tři stavy.
+
+\begin{list}{}{\setlength\parsep{0cm} \setlength\itemsep{0cm} \setlength\leftmargin{1em}}
+   \item Vstup: $M = (Q,\Sigma,\Gamma, R, s, S, F)$ 
+   \item Výstup: $M_{R} = (Q_{R}, \Sigma_{R}, {\Gamma}_{R}, R_{R}, s_{R},  S_{R}, F_{R})$ \medskip
+    
+   \item ${\Sigma}_{R} := \Sigma$
+   \item ${\Gamma}_{R} := \Sigma \cup {\Gamma}_{R}'$
+   \item $Q_{R} := \{s_\alpha, s_\beta, s_\gamma \}$
+   \item $R_{R} := R_{\alpha} \cup R_{\beta} \cup R_{\gamma}$
+   \item $s_{R} := s_{\gamma} $
+   \item $S_{R} := <start> $
+   \item $F_{R} := \{s_{\alpha}, s_{\beta}\} $ \medskip
+
+   \item Pro každé $q \in Q$, $X \in (\Gamma - \Sigma)$, $j \in \{1,2,3,\dots,|Q|\}$ přidej do ${\Gamma}_{R}'$ symboly :
+   \item $<start>, <q, X>, <q, X>', <q, \#>, <q, \#>_{exp}, <j>_\alpha, <j>_\beta \}$.\medskip
+
+   \item Nechť $Q = \{s_0, s_1, s_2, \dots,s_{|Q|}\}$, kde $s_0 = s$ je počáteční stav v~$M$. Nechť $s_{|Q|+1} = s_0$.
+   \item Označme $Q_\alpha \subseteq Q$ jako množinu stavů s~lichými indexy a $Q_\beta \subseteq Q$ jako množinu stavů se sudými indexy včetně nuly.
+         Pak platí $Q_\alpha \cap Q_\beta = \emptyset$ a  $Q_\alpha \cup Q_\beta = Q$.\medskip
+
+   \item Pro každé $qA \rightarrow p b_0 B_1 b_1 B_2 b_2 \dots b_{j-1} B_{j} b_j \in R$, kde $q \in Q_\beta$, $p \in Q$, $j \in \{0,1,2,3,\dots,n\}$, $b_0,b_k \in {\Sigma}^*$ a $A, B_k \in (\Gamma - \Sigma)$ pro všechna $k \in \{1,2,\dots,j\}$. 
+         Nechť $k$ je absolutní hodnota rozdílu indexů stavů $p$ a $q$. 
+         Pak přidej do $R_\alpha$ pravidlo:
+
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\roman{enumi})}
+
+   \item  $s_\alpha <q, A> \rightarrow s_\alpha b_0 <q, B_1> b_1 <q, B_2> b_2 \dots b_{j-1} <q, B_j> b_j$ pokud $p = q$,
+   \item jinak $s_\alpha <q, A> \rightarrow s_\beta <k>_\beta b_0 <q, B_1> b_1 <q, B_2> b_2 \dots b_{j-1} <q, B_j> b_j$. 
+
+\suspend{enumerate}
+
+   \item Přidej do $R_\alpha$ pravidla:
+
+\resume{enumerate}
+\renewcommand{\labelenumi}{(\roman{enumi})}
+
+   \item $s_\alpha <s_i, X> \rightarrow s_\alpha <s_{i+1}, X>'$ pro každé $s_i \in Q_\alpha$ a každé $X \in (\Gamma - \Sigma)$,
+   \item $s_\alpha <s_i, \#> \rightarrow s_\beta <s_{i+1}, \#>_{exp}$ pro každé $s_i \in Q_\alpha$,
+   \item $s_\alpha <s_i, \#>_{exp} \rightarrow s_\gamma <s_{i}, \#>$ pro každé $s_i \in Q_\alpha$,
+   \item $s_\alpha <q, \#> \rightarrow s_\alpha \epsilon $ pro každé $q \in Q_\beta \cap F$,
+   \item $s_\alpha <1>_{\beta} \rightarrow s_\gamma \epsilon $,
+   \item $s_\alpha <j>_{\beta} \rightarrow s_\alpha <j - 1 >_\alpha $ pro každé $1 < j \le |Q|$.
+
+\suspend{enumerate}{\setlength\leftmargin{1em}}
+
+   \item Analogicky sestroj množinu $R_\beta.$ \medskip
+
+   \item Přidej do množiny $R_\gamma$ pravidla:
+
+\resume{enumerate}
+\renewcommand{\labelenumi}{(\roman{enumi})}
+
+   \item $s_\gamma <start> \rightarrow s_\alpha <s_0, S> <s_0, \#>$,
+   \item $s_\gamma <s, X>' \rightarrow s_\gamma <s, X> $ pro každé $s \in Q$ a každé $X \in (\Gamma - \Sigma)$,
+   \item $s_\gamma <s_i, \#> \rightarrow s_\alpha <s_i, \#>$ pro každé $s_i \in Q_\alpha$ a analogicky pro $Q_\beta$,
+%   \item $s_\gamma <s_i, \#> \rightarrow s_\beta <s_i, \#>$ pro každé $s_i \in Q_\beta$,
+   \item $s_\gamma <s_i, \#>_{exp} \rightarrow s_\beta <s_{i}, \#>$ pro každé $s_i \in Q_\alpha$ a analogicky pro $Q_\beta$.
+%   \item $s_\gamma <s_i, \#>_{exp} \rightarrow s_\alpha <s_{i}, \#>$ pro každé $s_i \in Q_\beta$,
+
+\end{enumerate}
+
+\end{list}
+\end{Alg}
 
 
 
