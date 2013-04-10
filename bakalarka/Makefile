@@ -9,30 +9,33 @@ REF=literatura
 
 all: clean $(CO).ps
 
-final: clean $(CO).ps
-	dvipdf $(CO)
+final: clean $(CO).pdf counting
 
-pdf: $(CO).pdf
+counting: $(CO).pdf
+	./counter.sh
 
 vlnka:
 	vlna $(CO).tex
 	vlna $(OBSAH).tex
 	vlna $(REF).bib
 
+$(CO).pdf: $(CO).ps
+	dvipdf $(CO)
+
 $(CO).ps: $(CO).dvi
 	dvips $(CO)
 
-$(CO).pdf: clean
-	pdflatex $(CO)
+$(CO).dvi: clean $(CO).tex $(REF).bib
+	latex $(CO)
 	bibtex $(CO)
-	pdflatex $(CO)
-	pdflatex $(CO)
+	latex $(CO)
+	latex $(CO)
 
-$(CO).dvi: $(CO).tex $(REF).bib
-	latex $(CO)
+$pdflatex: clean
+	pdflatex $(CO)
 	bibtex $(CO)
-	latex $(CO)
-	latex $(CO)
+	pdflatex $(CO)
+	pdflatex $(CO)
 
 desky:
 #	latex desky
