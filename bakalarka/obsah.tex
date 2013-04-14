@@ -238,28 +238,55 @@ Převod zobecněného hlubokého zásobníkového automatu s~$\varepsilon$-pravi
    \item Vstup: $M = (Q,\Sigma,\Gamma, R, s, S, F)$ 
    \item Výstup: $M_{R} = (Q_{R}, \Sigma_{R}, {\Gamma}_{R}, R_{R}, s_{R},  S_{R}, F_{R})$ \medskip
   
-  \item Nechť $X = \{X_1, X_2, X_3, \dots, X_n\}$ pro $n \ge 1$ je množina nevstupních symbolů v $M$.
-         Pak definujme funkci $\varphi : X \rightarrow \{0,1\}^*$ tak, že $\varphi (X_i)=0^i 1$ pro $i = 1,2,3,\dots,n$. \medskip
+   \item ${\Sigma}_{R} := \Sigma$
+   \item ${\Gamma}_{R} := \Sigma \cup \{0,1,\#\}$
+   \item $R_{R} := R_{find} \cup R_{exp} \cup R_{copy}$
+   \item $s_{R} := <start> $
+   \item $S_{R} := \# $
+   \item $F_{R} := \{<end>\} $ \medskip
+
+\medskip
+
+  \item Nechť $X = \{X_1, X_2, X_3, \dots, X_n\}$ pro $n \ge 1$ je množina nevstupních symbolů v $M$ a $X_0$ značí symbol $\#$. Pak definujme funkci $\varphi : X \rightarrow \{0,1\}^*$ tak, že $\varphi (X_i)=0^i 1$ pro $i = 0,1,2,\dots,n$. \medskip
+
+   \item Přidej do $Q_R$ stavy:
+   \item $<start>$, $<q, 0^i>$, $<q, 0^i 1>$, $<q, 0^i>'$, $<q, 0^i 1>'$, $<end>$, kde $q \in Q$, $0 \le i \le n$.
+\medskip
 
    \item Pro každé $qA \rightarrow p b_0 B_1 b_1 B_2 b_2 \dots b_{j-1} B_{j} b_j \in R$, kde $p, q \in Q$, $j \ge 0$, $b_0,b_1,\dots,b_j \in {\Sigma}^*$ a $A, B_1,B_2,\dots,B_j \in (\Gamma - \Sigma)$, 
-          přidej $<q, \varphi (A)>$ do množiny $Q_{exp}$  a do $R_{exp}$ pravidlo: \medskip
+          přidej $<q, \varphi (A)>$ do množiny $Q_{exp}$  a do $R_{exp}$ pravidlo:
 
-    \subitem $<q, \varphi (A)> \# \rightarrow <p, \varepsilon>' b_0 \varphi(B_1) b_1 \varphi(B_2) b_2 \dots b_{j-1} \varphi(B_{j}) b_j \#$. \medskip 
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\roman{enumi})}
 
-  \item Přidej do $R_{find}$ pravidla: \medskip
+    \item $<start> \# \rightarrow <s, \varepsilon> \varphi(S)\varphi(\#)\#$,
+    \item $<q, \varphi (A)> \# \rightarrow <p, \varepsilon>' b_0 \varphi(B_1) b_1 \varphi(B_2) b_2 \dots b_{j-1} \varphi(B_{j}) b_j \#$.
 
-  \subitem $<s, 0^i> 0 \rightarrow <s, 0^{i+1}> \varepsilon $, kde $s \in Q$, $0 \le i \le n$,
-  \subitem $<s, 0^i> 1 \rightarrow <s, 0^i 1> \varepsilon $, kde $s \in Q$, $0 \le i \le n$,
-  \subitem $<s, 0^j 1> \# \rightarrow <s, \varepsilon> 0^j 1 \# $, kde $s \in Q$, $1 \le j \le n$, $<s, 0^j 1> \notin Q_{exp}$
-  \subitem $<s, 1 > \# \rightarrow <end> \varepsilon $, kde $s \in Q$.
+\suspend{enumerate}
 
-  \item Přidej do $R_{copy}$ pravidla: \medskip
+  \item Přidej do $R_{find}$ pravidla:
 
-  \subitem $<s, 0^i>' 0 \rightarrow <s, 0^{i+1}>' \varepsilon $, kde $s \in Q$, $0 \le i \le n$,
-  \subitem $<s, 0^i>' 1 \rightarrow <s, 0^i 1>' \varepsilon $, kde $s \in Q$, $0 \le i \le n$,
-  \subitem $<s, 0^j 1>' \# \rightarrow <s, \varepsilon>' 0^j 1 \# $, kde $s \in Q$, $1 \le j \le n$,
-  \subitem $<s, 1 >' \# \rightarrow <s,\varepsilon> 1 \# $, kde $s \in Q$.
+\resume{enumerate}
+\renewcommand{\labelenumi}{(\roman{enumi})}
 
+  \item $<q, 0^i> 0 \rightarrow <q, 0^{i+1}> \varepsilon $, kde $q \in Q$, $0 \le i \le n$,
+  \item $<q, 0^i> 1 \rightarrow <q, 0^i 1> \varepsilon $, kde $q \in Q$, $0 \le i \le n$,
+  \item $<q, 0^j 1> \# \rightarrow <q, \varepsilon> 0^j 1 \# $, kde $q \in Q$, $1 \le j \le n$, $<q, 0^j 1> \notin Q_{exp}$
+  \item $<q, 1 > \# \rightarrow <end> \varepsilon $, kde $q \in Q$.
+
+\suspend{enumerate}
+
+  \item Přidej do $R_{copy}$ pravidla:
+
+\resume{enumerate}
+\renewcommand{\labelenumi}{(\roman{enumi})}
+
+  \item $<q, 0^i>' 0 \rightarrow <q, 0^{i+1}>' \varepsilon $, kde $q \in Q$, $0 \le i \le n$,
+  \item $<q, 0^i>' 1 \rightarrow <q, 0^i 1>' \varepsilon $, kde $q \in Q$, $0 \le i \le n$,
+  \item $<q, 0^j 1>' \# \rightarrow <q, \varepsilon>' 0^j 1 \# $, kde $q \in Q$, $1 \le j \le n$,
+  \item $<q, 1 >' \# \rightarrow <q,\varepsilon> 1 \# $, kde $q \in Q$.
+
+\end{enumerate}
 
 \end{list}
 \end{Alg}
@@ -304,7 +331,7 @@ Převod zobecněného hlubokého zásobníkového automatu s~$\varepsilon$-pravi
 
    \item Přidej do $R_\beta$ pravidla:
 
-\resume{enumerate}{\setlength\leftmargin{1em}}
+\resume{enumerate}
 \renewcommand{\labelenumi}{(\roman{enumi})}
 
    \item $s_\beta <s_i, X> \rightarrow s_\beta <s_{i+1}, X>'$ pro každé $s_i \in Q$ a každé $X \in (\Gamma - \Sigma)$,
