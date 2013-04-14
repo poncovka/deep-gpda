@@ -6,9 +6,7 @@
 \chapter{Úvod}
 %TODO Doplnit až na závěr
 
-V~této práci se věnuji hlubokým zásobníkovým automatům konečného indexu. Snažím se omezit počet nevstupních symbolů na zásobníku a zkoumám sílu tohoto typu automatu.
-Dále se zabývám ekvivalencí s~programovými gramatikami, což vede k~otázce, zda rodina jazyků přijímaná hlubokými zásobníkovými automaty konečného indexu s~jedním nevstupním 
-symbolem tvoří nekonečnou hierarchii. 
+
 
 %=========================================================================
 %\subsubsection{Hluboký zásobníkový automat}
@@ -27,10 +25,15 @@ symbolem tvoří nekonečnou hierarchii.
 \chapter{Použité pojmy a definice}
 % TODO Definice hlubokého zásobníkového automatu, programové gramatiky, maticové gramatiky. Zavedení konvencí.
 
-\begin{Def} Hluboký zásobníkový automat konečného indexu je dle \cite{Meduna:DeepPDA} definován jako uspořádaná osmice $M = (Q,\Sigma,\Gamma, R, s, S, F, n)$, 
-kde $Q$ je konečná množina stavů, $\Sigma$ vstupní abeceda, $\Gamma$ zásobníková abeceda, přičemž $\Sigma \subset \Gamma$,
-$R$ je konečná množina pravidel, $s \in Q$ je počáteční stav, $S \in \Gamma$ počáteční symbol na zásobníku a $F \subset Q$ je množina
-koncových stavů. $R$ je konečná množina pravidel typu $(m, q, A, p, v) \in \{1,2,3,\dots,n\} \times Q \times \Gamma \times Q \times {\Gamma}^+$. Zapisují se ve tvaru $mqA \rightarrow pv$. Symbol $n \in \{1,2,3,\dots\}$ označuje maximální počet nevstupních symbolů, které mohou být uložené na zásobníku.
+\begin{Def} Hluboký zásobníkový automat konečného indexu je dle \cite{Meduna:DeepPDA} definován jako uspořádaná osmice $M = (Q,\Sigma,\Gamma, R, s, S, F, n)$, kde 
+$Q$ je konečná množina stavů, 
+$\Sigma$ vstupní abeceda, 
+$\Gamma$ zásobníková abeceda, přičemž $\Sigma \subset \Gamma$,
+$R$ je konečná množina pravidel, 
+$s \in Q$ je počáteční stav, 
+$S \in \Gamma$ počáteční symbol na zásobníku a 
+$F \subset Q$ je množina koncových stavů. 
+$R$ je konečná množina pravidel typu $(m, q, A, p, v) \in \{1,2,3,\dots,n\} \times Q \times (\Gamma-\Sigma) \times Q \times {\Gamma}^+$. Zapisují se ve tvaru $mqA \rightarrow pv$. Symbol $n \in \{1,2,3,\dots\}$ označuje maximální počet nevstupních symbolů, které mohou být uložené na zásobníku.
 Hloubka tohoto typu zásobníku není definovaná. Předpokládá se, že je rozšiřitelná tak, aby zásobník mohl přijmout až $n$ nevstupních symbolů.
 \end{Def}
 
@@ -41,10 +44,10 @@ Hloubka tohoto typu zásobníku není definovaná. Předpokládá se, že je roz
 
 
 %=========================================================================
-\section{Omezení počtu nevstupních symbolů}
+\section{Omezení počtu nevstupních symbolů}\label{section_deep_pda_nonterm}
 % TODO Srovnání síly nového automatu s druhým typem - algoritmus
 
-Omezím-li počet nevstupních symbolů zásobníkového automatu $M$ na jeden, mohu zavést nový automat $M_\#$ a porovnat jejich sílu. Převod automatu $M$ na  $M_\#$ popisuji algoritmem \ref{alg_PDA}. Simulaci provádím pomocí stavů, do kterých ukládám informace o~původním stavu a aktuálním obsahu zásobníku. To je možné díky konečnému počtu nevstupních symbolů na zásobníku, neboť jinak by takové řešení vedlo k~nekonečnému počtu stavů.
+Omezím-li počet nevstupních symbolů zásobníkového automatu $M$ na jeden, mohu zavést nový automat $M_\#$ a zkoumat jeho sílu. Převod automatu $M$ na  $M_\#$ popisuji algoritmem \ref{alg_PDA}. Pro účely simulace zavádím nové stavy, kde uchovávám informace o stavu automatu a nahrazeném obsahu zásobníku. To je možné díky konečnému počtu nevstupních symbolů na zásobníku, neboť jinak by takové řešení vedlo k~nekonečnému počtu stavů. Každé pravidlo pak lze snadno převést na jeho ekvivalent nahrazením nevstupních symbolů symbolem $\#$ a jejich uložením do stavu.
 
 \begin{Alg} \label{alg_PDA}
 Převod hlubokého zásobníkového automatu konečného indexu na ekvivalentní s~jedním nevstupním symbolem.
@@ -70,7 +73,7 @@ Převod hlubokého zásobníkového automatu konečného indexu na ekvivalentní
 \end{list}
 \end{Alg}
 
-Je zřejmé, že každý hluboký zásobníkový automat konečného indexu s~jedním nevstupním symbolem splňuje definici pro obecný hluboký zásobníkový automat konečného indexu. Tudíž spolu s~algoritmem \ref{alg_PDA} je prokázána ekvivalence těchto automatů.
+Je zřejmé, že každý hluboký zásobníkový automat konečného indexu s~jedním nevstupním symbolem splňuje definici pro obecný hluboký zásobníkový automat konečného indexu. Tudíž spolu s~algoritmem \ref{alg_PDA} jsem ukázala ekvivalenci těchto automatů.
 
 %=========================================================================
 \section{Ekvivalence s~programovými gramatikami konečného indexu}
@@ -78,12 +81,12 @@ Je zřejmé, že každý hluboký zásobníkový automat konečného indexu s~je
 
 %TODO příklad převedení
 
-Je dokázáno, že hluboké zásobníkové automaty konečného indexu jsou ekvivalentní s~maticovými gramatikami konečného indexu, tudíž třídy jazyků, které zásobníkový automat přijímá, tvoří nekonečnou hierarchii. \cite{Meduna:DeepPDA} Vzhledem k~výsledkům v~kapitole \ref{kap_PDA} je zřejmé, že tato vlastnost automatu zůstane i při omezení počtu nevstupních symbolů. Konstrukci důkazu tohoto tvrzení ukážu na ekvivalenci s~programovými gramatikami, přičemž je očividné, že maticové a programové gramatiky generují stejný jazyk.
+V~\cite{Meduna:DeepPDA} je dokázáno, že hluboké zásobníkové automaty konečného indexu jsou ekvivalentní s~maticovými gramatikami konečného indexu, tudíž třídy jazyků, které zásobníkový automat přijímá, tvoří nekonečnou hierarchii. Vzhledem k~výsledkům v~kapitole \ref{section_deep_pda_nonterm} lze očekávat, že tato vlastnost automatu zůstane i při omezení počtu nevstupních symbolů. Konstrukci důkazu tohoto tvrzení ukážu na ekvivalenci s~programovými gramatikami, přičemž je očividné, že maticové a programové gramatiky konečného indexu generují stejný jazyk (viz \cite{Dassow:RegulatedRewriting}).
 
-Pro hluboký zásobníkový automat platí, že jestliže přijme slovo $w$, pak existuje taková komputace tohoto slova, která provádí pouze pop operace po první pop operaci. \cite{Meduna:DeepPDA} Toto tvrzení využiji v~následujícím důkazu, neboť zásobníkový automat, na kterém probíhají jen expanze funguje jako gramatika. Stačí proto ukázat, že automat je schopen na svém zásobníku simulovat všechny derivace gramatiky a opačně.
+Pro hluboký zásobníkový automat dle \cite{Meduna:DeepPDA} platí, že jestliže přijme nějaké slovo $w$, pak existuje taková komputace tohoto slova, která provádí pouze pop operace po první pop operaci. Toto tvrzení využiji v~následujícím důkazu, neboť zásobníkový automat, na kterém probíhají jen expanze funguje jako gramatika. Stačí proto ukázat, že automat je schopen na svém zásobníku simulovat všechny derivace gramatiky a opačně.
 
-
-Algoritmus \ref{alg_PG} popisuje způsob, jak převést programovou gramatiku konečného indexu na hluboký zásobníkový automat konečného indexu s~jedním nevstupním symbolem. Stav automatu se v~tomto případě skládá ze dvou položek: označení pravidla, které se bude simulovat v~dalším kroku, a řetězce neterminálů, které jsou na zásobníku nahrazené symbolem $\#$. Automat přejde do koncového stavu, pokud jeho zásobník neobsahuje žádné neterminály.
+Pomocí algoritmu \ref{alg_PG} popisuji způsob, jakým lze převést programovou gramatiku konečného indexu na hluboký zásobníkový automat konečného indexu s~jedním nevstupním symbolem. Stav automatu se v~tomto případě skládá ze dvou položek: označení pravidla, které se bude simulovat v~dalším kroku, a řetězce neterminálů, které jsou na zásobníku nahrazené symbolem $\#$. Automat přejde do koncového stavu, pokud jeho zásobník neobsahuje žádné neterminály.
+ %%%
 
 \begin{Alg} \label{alg_PG}
 Převod programové gramatiky konečného indexu na ekvivalentní hluboký zásobníkový automat konečného indexu s~jedním nevstupním symbolem.
@@ -128,16 +131,16 @@ Tím jsem ukázala, že výše zavedený typ zásobníkového automatu je ekviva
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Hluboký zásobníkový automat v~normální formě}
 
+V této kapitole zavádím normální formu hlubokého zásobníkového automatu a ukazuji způsob, jakým lze automat na tuto formu převést. Vycházím z myšlenky automatu s jedním nevstupním symbolem, kterému jsem se věnovala doposud. Hluboký zásobníkový automat je ale zobecněním konečného a nemá omezení pro počet nevstupních symbolů na zásobníku. Z toho důvodu není možné na něj aplikovat algoritmus \ref{alg_PDA}, neboť by to vedlo k nekonečnému počtu stavů a pravidel. Je ale možné pracovat podobným způsobem s tzv. prefixem zásobníku, kdy nejvrchnějších $n$ nevstupních symbolů nahrazuji symbolem $\#$. Celkový počet nevstupních symbolů jsem tak nijak nezredukovala, ale docílila jsem zjednodušeného zápisu pravidel.
 
 % definice
 % algoritmus
 % ekvivalence
 
 %=========================================================================
-\section{Převod na normální formu}
+\section{Definice normální formy}
 
-
-\begin{Def}
+\begin{Def}\label{def_NF}
 Nechť $M = (Q,\Sigma,\Gamma, R, s, S , F)$ je hluboký zásobníkový automat
 a $n$ je maximální hloubka expanze v~$M$.
 Pak $M$ je v~normální formě, pokud každé pravidlo z~$R$ je v~jednom ze tvarů:
@@ -153,9 +156,18 @@ Pak $M$ je v~normální formě, pokud každé pravidlo z~$R$ je v~jednom ze tvar
 \end{enumerate}
 
 \end{Def}
+\medskip
+Hluboký zásobníkový automat v normální formě dle definice \ref{def_NF} pracuje s prefixem $n$ nevstupních symbolů. Přepis symbolů v prefixu na symbol $\#$ umožňuje pravidlo typu (i), změnu stavu pravidlo (ii), přepis na symbol vstupní abecedy pravidlo typu (iii) a expandovat lze pravidlem typu (iv). Nechť pravidlo typu (iv) je možné aplikovat jen na nejspodnější symbol $\#$, pak na zásobníku je v každém kroku derivace řetězec z množiny $ ( \Sigma^* \{ \# \} )^k  \Gamma^*$, kde $0 \le k \le n$. 
 
+\section{Převod na normální formu}
 
-\begin{Alg}
+Při sestavování algoritmu pro převod hlubokého zásobníkového automatu do normální formy jsem musela řešit zejména omezené možnosti expanze. Původní stav automatu a nevstupní symboly z prefixu opět uchovávám ve stavech. Pokud bych ale připustila expanzi na libovolný počet nevstupních symbolů, ztratila bych ze stavu informaci o nahrazených nevstupních symbolech, které by se ocitly za prefixem, nebo bych zvětšovala velikost prefixu a počet pomocných stavů by tak narostl do nekonečna. Tento problém jsem vyřešila tzv. postupnou expanzí. Pravá strana pravidla je reprezentovaná jedním nevstupním symbolem. Ten je možné expandovat na právě dva nevstupní symboly: první symbol v řetězci a zbytek řetězce. Jednoduchou rekurzí tohoto postupu lze dosáhnout úplné expanze.
+
+Expanze na dva nevstupní symboly je již udržitelná, ale stále se může stát, že poslední symbol $\#$ bude odsunut o jednu pozici za prefix. Nabízí se povolit pravidlo pro přepis tohoto symbolu na původní nevstupní symbol, ale tím bych zvýšila hloubku automatu. Místo toho spojuji krok expanze a krok přepisu posledního $\#$ symbolu na původní symbol do jednoho pravidla typu (iv). Expanze tak nemá vliv na $\#$ symboly v prefixu.
+
+V algoritmu \ref{alg_NF} popisuji konstrukci hlubokého zásobníkového automatu v normální formě. S ohledem na postupnou expanzi zavádím nové nevstupní symboly, jejichž součástí je rovněž původní pravidlo pro expanzi. Nelze určit dopředu, kdy se jednotlivé kroky expanze provedou, proto je nutné je umožnit provést ve všech stavech automatu a na všech pozicích v prefixu. 
+
+\begin{Alg}\label{alg_NF}
 Převod hlubokého zásobníkového automatu do normální formy.
 
 \begin{list}{}{\setlength\parsep{0cm} \setlength\itemsep{0cm} \setlength\leftmargin{1em}}
@@ -201,7 +213,7 @@ Převod hlubokého zásobníkového automatu do normální formy.
 \end{Alg}
 
 %=========================================================================
-\section{Ekvivalence s~...}
+%\section{Ekvivalence s~...}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Zobecněný hluboký zásobníkový automat}
@@ -212,7 +224,7 @@ Převod hlubokého zásobníkového automatu do normální formy.
 Zobecněný hluboký zásobníkový automat je uspořádaná sedmice $M = (Q,\Sigma,\Gamma, R, s, S, F)$, 
 kde $Q$ je konečná množina stavů, $\Sigma$ vstupní abeceda, $\Gamma$ zásobníková abeceda, přičemž $\Sigma \subset \Gamma$,
 $s \in Q$ je počáteční stav, $S \in \Gamma$ počáteční symbol na zásobníku a $F \subset Q$ je množina
-koncových stavů. $R$ je konečná množina pravidel typu $(q, A, p, v) \in Q \times \Gamma \times Q \times {\Gamma}^+$, které píšeme ve tvaru $qA \rightarrow pv$. 
+koncových stavů. $R$ je konečná množina pravidel typu $(q, A, p, v) \in Q \times (\Gamma - \Sigma) \times Q \times {\Gamma}^+$, které píšeme ve tvaru $qA \rightarrow pv$. 
 \end{Def}
 
 \begin{Def}
@@ -220,7 +232,7 @@ Nechť $M = (Q,\Sigma,\Gamma, R, s, S, F)$ je zobecněný hluboký zásobníkov�
 \end{Def}
 
 %=========================================================================
-\section{Ekvivalence se stavovými gramatikami}
+ \section{Ekvivalence se stavovými gramatikami} \label{sec_ekv_state_grammars}
 
 % ekvivalence se stavovými gramatikami, povolení epsilon pravidel, co s toho vyplývá
 % algoritmus a důkaz
@@ -231,7 +243,13 @@ Nechť $M = (Q,\Sigma,\Gamma, R, s, S, F)$ je zobecněný hluboký zásobníkov�
 % odkaz na článek on state grammars, co s toho vyplývá
 % algoritmus
 
-\begin{Alg}
+Ve článku \ref{DOPLNIT} je dokázáno, že každá stavová gramatika s~$\varepsilon$-pravidly lze má svůj ekvivalentní protějšek se třemi nevstupními symboly. S ohledem na výsledek kapitoly \ref{sec_ekv_state_grammars} je na místě prozkoumat, zda lze takové redukce dosáhnout i u zobecněných hlubokých automatů.
+
+V algoritmu \ref{alg_gen_deep_pda_nonterm} demonstruji redukci nevstupních symbolů na symboly 0, 1 a \#. Hlavní myšlenka spočívá v reprezentaci všech zásobníkových symbolů pomocí nul a jedniček. Symbol \# označuje fyzické dno zásobníku a umožňuje přesouvat symboly z vrcholu na jeho konec. Zároveň k symbolu \# zavádím binární ekvivalent, který označuje logické dno zásobníku. 
+
+Princip simulace spočívá v rozpoznání symbolu na vrcholu zásobníku pomocí pravidel z množiny $R_{find}$ a jeho přesun na dno zásobníku, případně expanze pravidlem z $R_{exp}$. Pokud dojde k expanzi, aplikují se pravidla s množiny $R_{copy}$, které přesunou zbývající symboly na dno. Pokud pro žádný nevstupní symbol v zásobníku expanze neproběhne, automat nahradí binární reprezentace vstupních symbolů samotnými symboly pomocí pravidel z množiny $R_{\Sigma}$, smaže pomocné nevstupní symboly a přejde do koncového stavu.
+
+\begin{Alg}\label{alg_gen_deep_pda_nonterm}
 Převod zobecněného hlubokého zásobníkového automatu s~$\varepsilon$-pravidly na ekvivalentní se třemi nevstupními symboly.
 
 \begin{list}{}{\setlength\parsep{0cm} \setlength\itemsep{0cm} \setlength\leftmargin{1em}}
@@ -240,7 +258,7 @@ Převod zobecněného hlubokého zásobníkového automatu s~$\varepsilon$-pravi
   
    \item ${\Sigma}_{R} := \Sigma$
    \item ${\Gamma}_{R} := \Sigma \cup \{0,1,\#\}$
-   \item $R_{R} := R_{find} \cup R_{exp} \cup R_{copy}$
+   \item $R_{R} := R_{find} \cup R_{exp} \cup R_{copy} \cup R_{\Sigma}$
    \item $s_{R} := <start> $
    \item $S_{R} := \# $
    \item $F_{R} := \{<end>\} $ \medskip
@@ -272,7 +290,7 @@ Převod zobecněného hlubokého zásobníkového automatu s~$\varepsilon$-pravi
   \item $<q, 0^i> 0 \rightarrow <q, 0^{i+1}> \varepsilon $, kde $q \in Q$, $0 \le i \le n$,
   \item $<q, 0^i> 1 \rightarrow <q, 0^i 1> \varepsilon $, kde $q \in Q$, $0 \le i \le n$,
   \item $<q, 0^j 1> \# \rightarrow <q, \varepsilon> 0^j 1 \# $, kde $q \in Q$, $1 \le j \le n$, $<q, 0^j 1> \notin Q_{exp}$
-  \item $<q, 1 > \# \rightarrow <end> \varepsilon $, kde $q \in Q$.
+  \item $<q, 1 > \# \rightarrow <q, \varepsilon>'' 1 \# $, kde $q \in Q$.
 
 \suspend{enumerate}
 
@@ -284,6 +302,19 @@ Převod zobecněného hlubokého zásobníkového automatu s~$\varepsilon$-pravi
   \item $<q, 0^i>' 0 \rightarrow <q, 0^{i+1}>' \varepsilon $, kde $q \in Q$, $0 \le i \le n$,
   \item $<q, 0^i>' 1 \rightarrow <q, 0^i 1>' \varepsilon $, kde $q \in Q$, $0 \le i \le n$,
   \item $<q, 0^j 1>' \# \rightarrow <q, \varepsilon>' 0^j 1 \# $, kde $q \in Q$, $1 \le j \le n$,
+  \item $<q, 1 >' \# \rightarrow <q,\varepsilon> 1 \# $, kde $q \in Q$.
+
+\suspend{enumerate}
+
+  \item Přidej do $R_{\Sigma}$ pravidla:
+
+\resume{enumerate}
+\renewcommand{\labelenumi}{(\roman{enumi})}
+
+  \item $<q, 0^i>'' 0 \rightarrow <q, 0^{i+1}>'' \varepsilon $, kde $q \in Q$, $0 \le i \le n$,
+  \item $<q, 0^i>'' 1 \rightarrow <q, 0^i 1>'' \varepsilon $, kde $q \in Q$, $0 \le i \le n$,
+  \item $<q, \varphi(X) >'' \# \rightarrow <q, \varepsilon>'' X \# $, kde $X \in \Sigma$, $q \in Q$, $1 \le j \le n$,
+  \item $<q, \varphi(X) >'' \# \rightarrow <q, \varepsilon>'' \varphi(X) \# $, kde $X \in (\Gamma - \Sigma)$, $q \in Q$, $1 \le j \le n$,
   \item $<q, 1 >' \# \rightarrow <q,\varepsilon> 1 \# $, kde $q \in Q$.
 
 \end{enumerate}
