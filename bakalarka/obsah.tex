@@ -144,11 +144,11 @@ Pak $M$ je v~normální formě, pokud každé pravidlo z~$R$ je v~jednom ze tvar
 
 \begin{enumerate}
 \renewcommand{\labelenumi}{(\roman{enumi})}
-\item $mq\# \rightarrow pA$, kde $A \in (\Gamma - \Sigma)$, $m = n$, $p$, $q \in Q$
-\item $mqA \rightarrow p\#$, kde $A \in (\Gamma - \Sigma)$, $1 \le m < n$, $p$, $q \in Q$
-\item $mq\# \rightarrow p\#$, kde $1 \le m < n$, $p$, $q \in Q$
-\item $mq\# \rightarrow p\#\#$, kde $1 \le m < n$, $p$, $q \in Q$
-\item $mq\# \rightarrow pa$, kde $a \in {\Sigma}^+$, $1 \le m < n$, $p$, $q \in Q$
+
+\item $mqA \rightarrow p\#$, kde $A \in (\Gamma - \Sigma)$, $1 \le m \le n$, $p$, $q \in Q$,
+\item $mq\# \rightarrow p\#$, kde $1 \le m \le n$, $p$, $q \in Q$,
+\item $mq\# \rightarrow p\#A$, kde $A \in (\Gamma - \Sigma)$, $1 \le m \le n$, $p$, $q \in Q$,
+\item $mq\# \rightarrow pa$, kde $a \in {\Sigma}^+$, $1 \le m \le n$, $p$, $q \in Q$.
 
 \end{enumerate}
 
@@ -169,100 +169,28 @@ Převod hlubokého zásobníkového automatu do normální formy.
 
   \item $k := \mathrm{max}(\{m \mid mqA \rightarrow pv \in R\}) $ \medskip
 
-  \item Pro každé $(q,u,A) \in Q \times (\Gamma - \Sigma)^* \times (\Gamma - \Sigma)$, kde $|u| \le k$ : \medskip
+  \item Pro každé $(q,u,A) \in Q \times (\Gamma - \Sigma)^* \times (\Gamma - \Sigma)$, kde $|u| < k$: \medskip
 
-  \subitem Pokud $|u| = k$, přidej do $R_{NF}$ pravidlo typu (i) :
-  \subitem $k+1 <q,uA> \# \rightarrow <q,u> A$. \medskip
-
-  \subitem Pokud $|u| < k$, přidej do $R_{NF}$ pravidlo typu (ii):
-  \subitem $|uA| <q,u> A \rightarrow <q,uA> \#$. \medskip
+  \subitem přidej do $R_{NF}$ pravidlo typu (i) $|uA| <q,u> A \rightarrow <q,uA> \#$. \medskip
 
   \item Pro každé $r : mqA \rightarrow p X_1 X_2 X_3 \dots X_j \in R$, kde $1 \le i \le j$, $X_i \in \Gamma$, a 
-        pro každou dvojici $(u,v) \in (\Gamma - \Sigma)^* \times (\Gamma - \Sigma)^*$, kde $|uv| < k$ : \medskip
+         pro každou dvojici $(u,v) \in (\Gamma - \Sigma)^* \times (\Gamma - \Sigma)^*$, kde $|uv| < k$ : \medskip
 
-  \subitem Pokud $|u| = m - 1$, $|v| \le k-m$, přidej do $R_{NF}$ pravidlo typu (iii) :
+  \subitem Pokud $|u| = m - 1$, $|v| \le k-m$, přidej do $R_{NF}$ pravidlo typu (ii) :
   \subitem $m <q,uAv> \# \rightarrow <p,u (r : X_1 X_2 X_3 \dots X_j) v>\#$ . \medskip
 
-  \subitem Pro každé $(i,q') \in \{1,2,3,\dots,j\} \times Q$: \medskip
+  \subitem Pro každé $(X_i,q') \in \{X_1, X_2, X_3, \dots, X_j\} \times Q$: \medskip
 
-  \subsubitem Pokud $i < j$, přidej do $R_{NF}$ pravidlo typu (iv) :
-  \subsubitem $|u|+1 <q',u(r : X_i X_{i+1} \dots X_j)v> \# \rightarrow <q',u(r : X_i) (r: X_{i+1} \dots X_j)v> \#\# $. \medskip
+  \subsubitem Pokud $i < j$, přidej do $R_{NF}$ pravidlo typu (iii) :
 
-  \subsubitem Pokud $X_i \in (\Gamma - \Sigma)$, přidej do $R_{NF}$ pravidlo typu (iii) :
+  \subsubitem $|uv|+1 <q',u(r : X_i X_{i+1} \dots X_j)v> \# \rightarrow <q',u(r : X_i) (r: X_{i+1} \dots X_j)v'>\# V' $
+  \subsubitem pro $v \ne \epsilon$, kde $v = V_1 V_2 V_3 \dots V_{l-1} V_l$, $v' = V_1 V_2 V_3 \dots V_{l-1}$ a $V'=V_l$, jinak
+  \subsubitem $|u|+1 <q',u(r : X_i X_{i+1} \dots X_j)> \# \rightarrow <q',u(r : X_i)>\# (r: X_{i+1} \dots X_j)$.\medskip
+
+  \subsubitem Pokud $X_i \in (\Gamma - \Sigma)$, přidej do $R_{NF}$ pravidlo typu (ii) :
   \subsubitem $|u|+1 <q',u (r : X_i) v> \# \rightarrow <q',u X_i v> \# $. \medskip
 
-  \subsubitem Pokud $X_i \in \Sigma$, přidej do $R_{NF}$ pravidlo typu (v) :
-  \subsubitem $|u|+1 <q',u (r : X_i) v> \# \rightarrow <q',uv> X_i $. \bigskip
-
-  \item $Q_{NF} := \{p,q \mid mqA \rightarrow pv \in R_{NF}\} $
-  \item $F_{NF} := \{<q, \epsilon> \mid  q \in F \}$
-
-
-\end{list}
-\end{Alg}
-
-%=========================================================================
-\section{Převod na normální formu se zachováním hloubky automatu}
-
-
-\begin{Def}
-Nechť $M = (Q,\Sigma,\Gamma, R, s, S , F)$ je hluboký zásobníkový automat
-a $n$ je maximální hloubka expanze v~$M$.
-Pak $M$ je v~normální formě, pokud každé pravidlo z~$R$ je v~jednom ze tvarů:
-
-\begin{enumerate}
-\renewcommand{\labelenumi}{(\roman{enumi})}
-\item $mq\# \rightarrow p\#A$, kde $A \in (\Gamma - \Sigma)$, $m = n$, $p$, $q \in Q$
-\item $mqA \rightarrow p\#$, kde $A \in (\Gamma - \Sigma)$, $1 \le m \le n$, $p$, $q \in Q$
-\item $mq\# \rightarrow p\#$, kde $1 \le m \le n$, $p$, $q \in Q$
-\item $mq\# \rightarrow p\#\#$, kde $1 \le m < n$, $p$, $q \in Q$
-\item $mq\# \rightarrow pa$, kde $a \in {\Sigma}^+$, $1 \le m \le n$, $p$, $q \in Q$
-
-\end{enumerate}
-
-\end{Def}
-
-
-\begin{Alg}
-Převod hlubokého zásobníkového automatu do normální formy 2.
-
-\begin{list}{}{\setlength\parsep{0cm} \setlength\itemsep{0cm} \setlength\leftmargin{1em}}
-   \item Vstup: $M = (Q,\Sigma,\Gamma, R, s, S, F)$ 
-   \item Výstup: $M_{NF} = (Q_{NF}, \Sigma_{NF}, {\Gamma}_{NF}, R_{NF}, s_{NF},  S_{NF}, F_{NF})$ \medskip
-  
-  \item \label{r1} ${\Sigma}_{NF} := \Sigma$
-  \item ${\Gamma}_{NF} :=\{\#\} \cup \Sigma$
-  \item $s_{NF} := <s,S>$
-  \item $S_{NF} := \#$ \medskip
-
-  \item $k := \mathrm{max}(\{m \mid mqA \rightarrow pv \in R\}) $ \medskip
-
-  \item Pro každé $(q,u,A) \in Q \times (\Gamma - \Sigma)^* \times (\Gamma - \Sigma)$, kde $|u| \le k$ : \medskip
-
-  \subitem Pokud $|u| = k$, přidej do $R_{NF}$ pravidlo typu (i) :
-  \subitem $k <q,uA> \# \rightarrow <q,u> \# A$. \medskip
-
-  \subitem Pokud $|u| < k$, přidej do $R_{NF}$ pravidlo typu (ii):
-  \subitem $|uA| <q,u> A \rightarrow <q,uA> \#$. \medskip
-
-  \item Pro každé $r : mqA \rightarrow p X_1 X_2 X_3 \dots X_j \in R$, kde $1 \le i \le j$, $X_i \in \Gamma$, a 
-        pro každou dvojici $(u,v) \in (\Gamma - \Sigma)^* \times (\Gamma - \Sigma)^*$, kde $|uv| < k$ : \medskip
-
-  \subitem Pokud $|u| = m - 1$, $|v| \le k-m$, přidej do $R_{NF}$ pravidlo typu (iii) :
-  \subitem $m <q,uAv> \# \rightarrow <p,u (r : X_1 X_2 X_3 \dots X_j) v>\#$ . \medskip
-
-  \subitem Pro každé $(i,q') \in \{1,2,3,\dots,j\} \times Q$: \medskip
-
-  \subsubitem Pokud $i < j$ a zároveň $|uv|+1 = k$, přidej do $R_{NF}$ pravidlo typu (iii) :
-  \subsubitem $|u|+1 <q',u(r : X_i X_{i+1} \dots X_j)v> \# \rightarrow <q',u(r : X_i) (r: X_{i+1} \dots X_j)v> \# $. \medskip
-
-  \subsubitem Pokud $i < j$ a zároveň $|uv|+1 < k$, přidej do $R_{NF}$ pravidlo typu (iv) :
-  \subsubitem $|u|+1 <q',u(r : X_i X_{i+1} \dots X_j)v> \# \rightarrow <q',u(r : X_i) (r: X_{i+1} \dots X_j)v> \#\# $. \medskip
-
-  \subsubitem Pokud $X_i \in (\Gamma - \Sigma)$, přidej do $R_{NF}$ pravidlo typu (iii) :
-  \subsubitem $|u|+1 <q',u (r : X_i) v> \# \rightarrow <q',u X_i v> \# $. \medskip
-
-  \subsubitem Pokud $X_i \in \Sigma$, přidej do $R_{NF}$ pravidlo typu (v) :
+  \subsubitem Pokud $X_i \in \Sigma$, přidej do $R_{NF}$ pravidlo typu (iv) :
   \subsubitem $|u|+1 <q',u (r : X_i) v> \# \rightarrow <q',uv> X_i $. \bigskip
 
   \item $Q_{NF} := \{p,q \mid mqA \rightarrow pv \in R_{NF}\} $
