@@ -100,14 +100,14 @@ Převod programové gramatiky konečného indexu na ekvivalentní hluboký záso
   \item Pro každé $p: S \rightarrow v, g(p) \in P$: 
   \subitem přidej do $R$ pravidlo $<\sigma>_1 \# \rightarrow <p, S> \#$ a do $Q$ stav $<p, S>$. \medskip
 
-  \item Pro každé $q \in (Q \cup \{\epsilon\})$: 
-  \subitem přidej do $F$ stav $<q, \epsilon>$. \medskip
+  \item Pro každé $q \in (Q \cup \{\varepsilon\})$: 
+  \subitem přidej do $F$ stav $<q, \varepsilon>$. \medskip
 
   \item Pro každé $p: A \rightarrow v, g(p) \in P$,  kde $v=b_0 B_1 b_1 B_2 b_2 \dots b_{j-1} B_{j} b_j$, $j \in \{0,1,2,3,\dots,n\}$, $b_0,b_i \in T^*$ a $B_i \in N$ pro všechna $i \in \{1,2,\dots,j\}$ : \medskip
   \subitem Pro každé $(k,u,z) \in \{1,2,3,\dots,n-j+1\} \times N^* \times N^*$, kde $|u| = k-1$, $|z|  \le n-k$ : \medskip
   \subsubitem Pokud $g(p) = \emptyset$ :
-  \subsubitem přidej do $Q$ stavy $<p,uAz>$, $<\epsilon, u B_1 B_2 \dots B_{j-1} B_{j} z>$,
-  \subsubitem přidej do $R$ pravidlo $<p,uAz>_k \# \rightarrow <\epsilon, u B_1 B_2 \dots B_{j-1} B_{j} z> b_0 \# b_1 \# b_2 \dots b_{j-1} \# b_j$.\medskip
+  \subsubitem přidej do $Q$ stavy $<p,uAz>$, $<\varepsilon, u B_1 B_2 \dots B_{j-1} B_{j} z>$,
+  \subsubitem přidej do $R$ pravidlo $<p,uAz>_k \# \rightarrow <\varepsilon, u B_1 B_2 \dots B_{j-1} B_{j} z> b_0 \# b_1 \# b_2 \dots b_{j-1} \# b_j$.\medskip
   \subsubitem Jinak pro každé $q \in g(p)$:
   \subsubitem přidej do $Q$ stavy $<p,uAz>$, $<q, u B_1 B_2 \dots B_{j-1} B_{j} z>$,
   \subsubitem přidej do $R$ pravidlo $<p,uAz>_k \# \rightarrow <q, u B_1 B_2 \dots B_{j-1} B_{j} z> b_0 \# b_1 \# b_2 \dots b_{j-1} \# b_j$.
@@ -147,8 +147,8 @@ Pak $M$ je v~normální formě, pokud každé pravidlo z~$R$ je v~jednom ze tvar
 
 \item $mqA \rightarrow p\#$, kde $A \in (\Gamma - \Sigma)$, $1 \le m \le n$, $p$, $q \in Q$,
 \item $mq\# \rightarrow p\#$, kde $1 \le m \le n$, $p$, $q \in Q$,
-\item $mq\# \rightarrow p\#A$, kde $A \in (\Gamma - \Sigma)$, $1 \le m \le n$, $p$, $q \in Q$,
-\item $mq\# \rightarrow pa$, kde $a \in {\Sigma}^+$, $1 \le m \le n$, $p$, $q \in Q$.
+\item $mq\# \rightarrow pa$, kde $a \in {\Sigma}^+$, $1 \le m \le n$, $p$, $q \in Q$,
+\item $mq\# \rightarrow p\#A$, kde $A \in (\Gamma - \Sigma)$, $1 \le m \le n$, $p$, $q \in Q$.
 
 \end{enumerate}
 
@@ -181,20 +181,20 @@ Převod hlubokého zásobníkového automatu do normální formy.
 
   \subitem Pro každé $(X_i,q') \in \{X_1, X_2, X_3, \dots, X_j\} \times Q$: \medskip
 
-  \subsubitem Pokud $i < j$, přidej do $R_{NF}$ pravidlo typu (iii) :
-
-  \subsubitem $|uv|+1 <q',u(r : X_i X_{i+1} \dots X_j)v> \# \rightarrow <q',u(r : X_i) (r: X_{i+1} \dots X_j)v'>\# V' $
-  \subsubitem pro $v \ne \epsilon$, kde $v = V_1 V_2 V_3 \dots V_{l-1} V_l$, $v' = V_1 V_2 V_3 \dots V_{l-1}$ a $V'=V_l$, jinak
-  \subsubitem $|u|+1 <q',u(r : X_i X_{i+1} \dots X_j)> \# \rightarrow <q',u(r : X_i)>\# (r: X_{i+1} \dots X_j)$.\medskip
-
   \subsubitem Pokud $X_i \in (\Gamma - \Sigma)$, přidej do $R_{NF}$ pravidlo typu (ii) :
   \subsubitem $|u|+1 <q',u (r : X_i) v> \# \rightarrow <q',u X_i v> \# $. \medskip
 
-  \subsubitem Pokud $X_i \in \Sigma$, přidej do $R_{NF}$ pravidlo typu (iv) :
-  \subsubitem $|u|+1 <q',u (r : X_i) v> \# \rightarrow <q',uv> X_i $. \bigskip
+  \subsubitem Pokud $X_i \in \Sigma$, přidej do $R_{NF}$ pravidlo typu (iii) :
+  \subsubitem $|u|+1 <q',u (r : X_i) v> \# \rightarrow <q',uv> X_i $.\medskip
+
+  \subsubitem Pokud $i < j$, přidej do $R_{NF}$ pravidlo typu (iv) :
+
+  \subsubitem $|uv|+1 <q',u(r : X_i X_{i+1} \dots X_j)v> \# \rightarrow <q',u(r : X_i) (r: X_{i+1} \dots X_j)v'>\# V' $
+  \subsubitem pro $v \ne \varepsilon$, kde $v = V_1 V_2 V_3 \dots V_{l-1} V_l$, $v' = V_1 V_2 V_3 \dots V_{l-1}$ a $V'=V_l$, jinak
+  \subsubitem $|u|+1 <q',u(r : X_i X_{i+1} \dots X_j)> \# \rightarrow <q',u(r : X_i)>\# (r: X_{i+1} \dots X_j)$.\bigskip
 
   \item $Q_{NF} := \{p,q \mid mqA \rightarrow pv \in R_{NF}\} $
-  \item $F_{NF} := \{<q, \epsilon> \mid  q \in F \}$
+  \item $F_{NF} := \{<q, \varepsilon> \mid  q \in F \}$
 
 
 \end{list}
@@ -232,13 +232,34 @@ Nechť $M = (Q,\Sigma,\Gamma, R, s, S, F)$ je zobecněný hluboký zásobníkov�
 % algoritmus
 
 \begin{Alg}
-Převod zobecněného hlubokého zásobníkového automatu s~$\epsilon$-pravidly na ekvivalentní se třemi nevstupními symboly.
+Převod zobecněného hlubokého zásobníkového automatu s~$\varepsilon$-pravidly na ekvivalentní se třemi nevstupními symboly.
 
 \begin{list}{}{\setlength\parsep{0cm} \setlength\itemsep{0cm} \setlength\leftmargin{1em}}
    \item Vstup: $M = (Q,\Sigma,\Gamma, R, s, S, F)$ 
-   \item Výstup: $M' = (Q', \Sigma', {\Gamma}', R', s',  S', F')$ \medskip
+   \item Výstup: $M_{R} = (Q_{R}, \Sigma_{R}, {\Gamma}_{R}, R_{R}, s_{R},  S_{R}, F_{R})$ \medskip
   
-  \item ...
+  \item Nechť $X = \{X_1, X_2, X_3, \dots, X_n\}$ pro $n \ge 1$ je množina nevstupních symbolů v $M$.
+         Pak definujme funkci $\varphi : X \rightarrow \{0,1\}^*$ tak, že $\varphi (X_i)=0^i 1$ pro $i = 1,2,3,\dots,n$. \medskip
+
+   \item Pro každé $qA \rightarrow p b_0 B_1 b_1 B_2 b_2 \dots b_{j-1} B_{j} b_j \in R$, kde $p, q \in Q$, $j \ge 0$, $b_0,b_1,\dots,b_j \in {\Sigma}^*$ a $A, B_1,B_2,\dots,B_j \in (\Gamma - \Sigma)$, 
+          přidej $<q, \varphi (A)>$ do množiny $Q_{exp}$  a do $R_{exp}$ pravidlo: \medskip
+
+    \subitem $<q, \varphi (A)> \# \rightarrow <p, \varepsilon>' b_0 \varphi(B_1) b_1 \varphi(B_2) b_2 \dots b_{j-1} \varphi(B_{j}) b_j \#$. \medskip 
+
+  \item Přidej do $R_{find}$ pravidla: \medskip
+
+  \subitem $<s, 0^i> 0 \rightarrow <s, 0^{i+1}> \varepsilon $, kde $s \in Q$, $0 \le i \le n$,
+  \subitem $<s, 0^i> 1 \rightarrow <s, 0^i 1> \varepsilon $, kde $s \in Q$, $0 \le i \le n$,
+  \subitem $<s, 0^j 1> \# \rightarrow <s, \varepsilon> 0^j 1 \# $, kde $s \in Q$, $1 \le j \le n$, $<s, 0^j 1> \notin Q_{exp}$
+  \subitem $<s, 1 > \# \rightarrow <end> \varepsilon $, kde $s \in Q$.
+
+  \item Přidej do $R_{copy}$ pravidla: \medskip
+
+  \subitem $<s, 0^i>' 0 \rightarrow <s, 0^{i+1}>' \varepsilon $, kde $s \in Q$, $0 \le i \le n$,
+  \subitem $<s, 0^i>' 1 \rightarrow <s, 0^i 1>' \varepsilon $, kde $s \in Q$, $0 \le i \le n$,
+  \subitem $<s, 0^j 1>' \# \rightarrow <s, \varepsilon>' 0^j 1 \# $, kde $s \in Q$, $1 \le j \le n$,
+  \subitem $<s, 1 >' \# \rightarrow <s,\varepsilon> 1 \# $, kde $s \in Q$.
+
 
 \end{list}
 \end{Alg}
@@ -252,7 +273,7 @@ Převod zobecněného hlubokého zásobníkového automatu s~$\epsilon$-pravidly
 % algoritmus
 
 \begin{Alg}
-Převod zobecněného hlubokého zásobníkového automatu s~$\epsilon$-pravidly na ekvivalentní s redukcí na tři stavy.
+Převod zobecněného hlubokého zásobníkového automatu s~$\varepsilon$-pravidly na ekvivalentní s redukcí na tři stavy.
 
 \begin{list}{}{\setlength\parsep{0cm} \setlength\itemsep{0cm} \setlength\leftmargin{1em}}
    \item Vstup: $M = (Q,\Sigma,\Gamma, R, s, S, F)$ 
@@ -287,7 +308,7 @@ Převod zobecněného hlubokého zásobníkového automatu s~$\epsilon$-pravidly
 \renewcommand{\labelenumi}{(\roman{enumi})}
 
    \item $s_\beta <s_i, X> \rightarrow s_\beta <s_{i+1}, X>'$ pro každé $s_i \in Q$ a každé $X \in (\Gamma - \Sigma)$,
-   \item $s_\beta <s_i, \#> \rightarrow s_\alpha <s_{i+1}, \#>_{next}$ pro každé $s_i \in Q$.
+   \item $s_\beta <s_i, \#> \rightarrow s_\alpha <s_{i+1}, \#>_{set}$ pro každé $s_i \in Q$.
 
 \suspend{enumerate}
 
@@ -297,9 +318,9 @@ Převod zobecněného hlubokého zásobníkového automatu s~$\epsilon$-pravidly
 \renewcommand{\labelenumi}{(\roman{enumi})}
 
    \item $s_\alpha <j> \rightarrow s_\gamma <j - 1 > $ pro každé $j \in \{2,3,\dots,|Q|\}$,
-   \item $s_\alpha <1> \rightarrow s_\alpha \epsilon $,
-   \item $s_\alpha <s_i, \#>_{next} \rightarrow s_\gamma <s_{i}, \#>_{end}$ pro každé $s_i \in Q$,
-   \item $s_\alpha <q, \#> \rightarrow s_\alpha \epsilon $ pro každé $q \in F$.
+   \item $s_\alpha <1> \rightarrow s_\alpha \varepsilon $,
+   \item $s_\alpha <s_i, \#>_{set} \rightarrow s_\gamma <s_{i}, \#>_{exp}$ pro každé $s_i \in Q$,
+   \item $s_\alpha <q, \#> \rightarrow s_\alpha \varepsilon $ pro každé $q \in F$.
 
 \suspend{enumerate}{\setlength\leftmargin{1em}}
 
@@ -309,13 +330,13 @@ Převod zobecněného hlubokého zásobníkového automatu s~$\epsilon$-pravidly
 \renewcommand{\labelenumi}{(\roman{enumi})}
 
    \item $s_\gamma <s_i, X>' \rightarrow s_\gamma <s_i, X> $ pro každé $s_i \in Q$ a každé $X \in (\Gamma - \Sigma)$,
-   \item $s_\gamma <s_i, \#>_{next} \rightarrow s_\beta <s_i, \#>$ pro každé $s_i \in Q$,
-   \item $s_\gamma <s_i, \#>_{end} \rightarrow s_\alpha <s_{i}, \#>$ pro každé $s_i \in Q$.
+   \item $s_\gamma <s_i, \#>_{set} \rightarrow s_\beta <s_i, \#>$ pro každé $s_i \in Q$,
+   \item $s_\gamma <s_i, \#>_{exp} \rightarrow s_\alpha <s_{i}, \#>$ pro každé $s_i \in Q$.
 
 \end{enumerate}
 
    \item Pro každé $q \in Q$, $X \in (\Gamma - \Sigma)$, $j \in \{1,2,3,\dots,|Q|\}$ přidej do ${\Gamma}_{R}'$ symboly :
-   \item $<start>, <j>, <q, X>, <q, X>', <q, \#>, <q, \#>_{next}, <q, \#>_{end}$.\medskip
+   \item $<start>, <j>, <q, X>, <q, X>', <q, \#>, <q, \#>_{set}, <q, \#>_{exp}$.\medskip
 
 \end{list}
 \end{Alg}
