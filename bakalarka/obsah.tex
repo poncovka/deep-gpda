@@ -247,7 +247,7 @@ Ve článku \ref{DOPLNIT} je dokázáno, že každá stavová gramatika s~$\vare
 
 V algoritmu \ref{alg_gen_deep_pda_nonterm} demonstruji redukci nevstupních symbolů na symboly 0, 1 a \#. Hlavní myšlenka spočívá v reprezentaci všech zásobníkových symbolů pomocí nul a jedniček. Symbol \# označuje fyzické dno zásobníku a umožňuje přesouvat symboly z vrcholu na jeho konec. Zároveň k symbolu \# zavádím binární ekvivalent, který označuje logické dno zásobníku. 
 
-Princip simulace spočívá v rozpoznání symbolu na vrcholu zásobníku pomocí pravidel z množiny $R_{find}$ a jeho přesun na dno zásobníku, případně expanze pravidlem z $R_{exp}$. Pokud dojde k expanzi, aplikují se pravidla s množiny $R_{copy}$, které přesunou zbývající symboly na dno. Pokud pro žádný nevstupní symbol v zásobníku expanze neproběhne, automat nahradí binární reprezentace vstupních symbolů samotnými symboly pomocí pravidel z množiny $R_{\Sigma}$, smaže pomocné nevstupní symboly a přejde do koncového stavu.
+Princip simulace spočívá v rozpoznání symbolu na vrcholu zásobníku pomocí pravidel z množiny $R_{find}$ a jeho přesun na dno zásobníku, případně expanze pravidlem z $R_{exp}$. Pokud dojde k expanzi, aplikují se pravidla s množiny $R_{move}$, které přesunou zbývající symboly na dno. Pokud pro žádný nevstupní symbol v zásobníku expanze neproběhne, automat nahradí binární reprezentace vstupních symbolů samotnými symboly pomocí pravidel z množiny $R_{end}$, smaže pomocné nevstupní symboly a přejde do koncového stavu.
 
 \begin{Alg}\label{alg_gen_deep_pda_nonterm}
 Převod zobecněného hlubokého zásobníkového automatu s~$\varepsilon$-pravidly na ekvivalentní se třemi nevstupními symboly.
@@ -258,7 +258,7 @@ Převod zobecněného hlubokého zásobníkového automatu s~$\varepsilon$-pravi
   
    \item ${\Sigma}_{R} := \Sigma$
    \item ${\Gamma}_{R} := \Sigma \cup \{0,1,\#\}$
-   \item $R_{R} := R_{find} \cup R_{exp} \cup R_{copy} \cup R_{\Sigma}$
+   \item $R_{R} := R_{find} \cup R_{next} \cup R_{exp} \cup R_{move} \cup R_{end}$
    \item $s_{R} := <start> $
    \item $S_{R} := \# $
    \item $F_{R} := \{<end>\} $ \medskip
@@ -335,7 +335,11 @@ Převod zobecněného hlubokého zásobníkového automatu s~$\varepsilon$-pravi
 % odkaz na článek on state grammars
 % algoritmus
 
-\begin{Alg}
+Pro každou stavovou gramatiku dle \ref{DOPLNIT} platí, že existuje ekvivalentní stavová gramatika taková, že má právě tři stavy. V algoritmu \ref{alg_gen_deep_pda_state} ukazuji, že totéž platí pro zobecněné hluboké zásobníkové automaty.
+
+
+
+\begin{Alg}\label{alg_gen_deep_pda_state}
 Převod zobecněného hlubokého zásobníkového automatu s~$\varepsilon$-pravidly na ekvivalentní s redukcí na tři stavy.
 
 \begin{list}{}{\setlength\parsep{0cm} \setlength\itemsep{0cm} \setlength\leftmargin{1em}}
@@ -351,6 +355,9 @@ Převod zobecněného hlubokého zásobníkového automatu s~$\varepsilon$-pravi
    \item $F_{R} := \{s_{\alpha}\} $ \medskip
 
    \item Nechť $Q = \{s_0, s_1, s_2, \dots,s_{|Q|}\}$, kde $s_0 = s$ je počáteční stav v~$M$. Nechť $s_{|Q|+1} = s_0$.\medskip
+
+   \item Pro každé $q \in Q$, $X \in (\Gamma - \Sigma)$, $j \in \{1,2,3,\dots,|Q|\}$ přidej do ${\Gamma}_{R}'$ symboly :
+   \item $<start>, <j>, <q, X>, <q, X>', <q, \#>, <q, \#>_{set}, <q, \#>_{exp}$.\medskip
 
    \item Pro každé $qA \rightarrow p b_0 B_1 b_1 B_2 b_2 \dots b_{j-1} B_{j} b_j \in R$, kde $p, q \in Q$, $j \ge 0$, $b_0,b_1,\dots,b_j \in {\Sigma}^*$ a $A, B_1,B_2,\dots,B_j \in (\Gamma - \Sigma)$. 
          Nechť $k$ je absolutní hodnota rozdílu indexů stavů $p$ a $q$. 
@@ -397,9 +404,6 @@ Převod zobecněného hlubokého zásobníkového automatu s~$\varepsilon$-pravi
    \item $s_\gamma <s_i, \#>_{exp} \rightarrow s_\alpha <s_{i}, \#>$ pro každé $s_i \in Q$.
 
 \end{enumerate}
-
-   \item Pro každé $q \in Q$, $X \in (\Gamma - \Sigma)$, $j \in \{1,2,3,\dots,|Q|\}$ přidej do ${\Gamma}_{R}'$ symboly :
-   \item $<start>, <j>, <q, X>, <q, X>', <q, \#>, <q, \#>_{set}, <q, \#>_{exp}$.\medskip
 
 \end{list}
 \end{Alg}
