@@ -265,57 +265,62 @@ Převod zobecněného hlubokého zásobníkového automatu s~$\varepsilon$-pravi
 
 \medskip
 
-  \item Nechť $X = \{X_1, X_2, X_3, \dots, X_n\}$ pro $n \ge 1$ je množina nevstupních symbolů v $M$ a $X_0$ značí symbol $\#$. Pak definujme funkci $\varphi : X \rightarrow \{0,1\}^*$ tak, že $\varphi (X_i)=0^i 1$ pro $i = 0,1,2,\dots,n$. \medskip
+  \item Nechť $\Gamma = \{X_1, X_2, X_3, \dots, X_n\}$ pro $n \ge 1$ je množina všech zásobníkových symbolů v $M$ a $X_0$ značí symbol $\#$. Pak definujme funkci $\varphi : \Gamma \cup \{\#\} \rightarrow \{0,1\}^*$ tak, že $\varphi (X_i)=0^i 1$ pro $i = 0,1,2,\dots,n$. \medskip
 
-   \item Přidej do $Q_R$ stavy:
-   \item $<start>$, $<q, 0^i>$, $<q, 0^i 1>$, $<q, 0^i>'$, $<q, 0^i 1>'$, $<end>$, kde $q \in Q$, $0 \le i \le n$.
-\medskip
+  \item Přidej do $Q_R$ pro každé $q \in Q$, $0 \le i \le n$ stavy:
+  \item $<start>$, $<q, 0^i>$, $<q, 0^i 1>$, $<q, 0^i>'$, $<q, 0^i 1>'$, $<q, 0^i>''$, $<q, 0^i 1>''$, $<end>$.\medskip
 
-   \item Pro každé $qA \rightarrow p b_0 B_1 b_1 B_2 b_2 \dots b_{j-1} B_{j} b_j \in R$, kde $p, q \in Q$, $j \ge 0$, $b_0,b_1,\dots,b_j \in {\Sigma}^*$ a $A, B_1,B_2,\dots,B_j \in (\Gamma - \Sigma)$, 
-          přidej $<q, \varphi (A)>$ do množiny $Q_{exp}$  a do $R_{exp}$ pravidlo:
+  \item Pro každé $qA \rightarrow p B_0 B_1 \dots B_{j-1} B_{j} \in R$, kde $p, q \in Q$, $j \ge 0$, $B_0,B_1,\dots,B_j \in \Gamma$ a $A \in (\Gamma - \Sigma)$, 
+          přidej $<q, \varphi (A)>$ do množiny $Q_{exp}$  a do $R_{exp}$ pravidla:
 
 \begin{enumerate}
 \renewcommand{\labelenumi}{(\roman{enumi})}
 
-    \item $<start> \# \rightarrow <s, \varepsilon> \varphi(S)\varphi(\#)\#$,
-    \item $<q, \varphi (A)> \# \rightarrow <p, \varepsilon>' b_0 \varphi(B_1) b_1 \varphi(B_2) b_2 \dots b_{j-1} \varphi(B_{j}) b_j \#$.
+  \item $<start> \# \rightarrow <s, \varepsilon> \varphi(S)\varphi(\#)\#$,
+  \item $<q, \varphi (A)> \# \rightarrow <p, \varepsilon>' \varphi(B_0)\varphi(B_1)\varphi(B_2) \dots \varphi(B_{j-1}) \varphi(B_{j}) \#$.
 
 \suspend{enumerate}
 
-  \item Přidej do $R_{find}$ pravidla:
+  \item Pro každé $q \in Q$, $0 \le i \le n$ přidej do $R_{find}$ pravidla:
 
 \resume{enumerate}
 \renewcommand{\labelenumi}{(\roman{enumi})}
 
-  \item $<q, 0^i> 0 \rightarrow <q, 0^{i+1}> \varepsilon $, kde $q \in Q$, $0 \le i \le n$,
-  \item $<q, 0^i> 1 \rightarrow <q, 0^i 1> \varepsilon $, kde $q \in Q$, $0 \le i \le n$,
-  \item $<q, 0^j 1> \# \rightarrow <q, \varepsilon> 0^j 1 \# $, kde $q \in Q$, $1 \le j \le n$, $<q, 0^j 1> \notin Q_{exp}$
-  \item $<q, 1 > \# \rightarrow <q, \varepsilon>'' 1 \# $, kde $q \in Q$.
+  \item $<q, 0^i> 0 \rightarrow <q, 0^{i+1}> \varepsilon $, $<q, 0^i> 1 \rightarrow <q, 0^i 1> \varepsilon $,
+  \item $<q, 0^i>' 0 \rightarrow <q, 0^{i+1}>' \varepsilon $, $<q, 0^i>' 1 \rightarrow <q, 0^i 1>' \varepsilon $
+  \item $<q, 0^i>'' 0 \rightarrow <q, 0^{i+1}>'' \varepsilon $, $<q, 0^i>'' 1 \rightarrow <q, 0^i 1>'' \varepsilon $.
 
 \suspend{enumerate}
 
-  \item Přidej do $R_{copy}$ pravidla:
+
+  \item Přidej do $R_{next}$ pravidla:
 
 \resume{enumerate}
 \renewcommand{\labelenumi}{(\roman{enumi})}
 
-  \item $<q, 0^i>' 0 \rightarrow <q, 0^{i+1}>' \varepsilon $, kde $q \in Q$, $0 \le i \le n$,
-  \item $<q, 0^i>' 1 \rightarrow <q, 0^i 1>' \varepsilon $, kde $q \in Q$, $0 \le i \le n$,
-  \item $<q, 0^j 1>' \# \rightarrow <q, \varepsilon>' 0^j 1 \# $, kde $q \in Q$, $1 \le j \le n$,
-  \item $<q, 1 >' \# \rightarrow <q,\varepsilon> 1 \# $, kde $q \in Q$.
+  \item $<q, \varphi(X)> \# \rightarrow <q, \varepsilon> \varphi(X) \# $, kde $X \in \Gamma$, $q \in Q$, $<q, \varphi(X)> \notin Q_{exp}$,
+  \item $<q, \varphi(\#) > \# \rightarrow <q, \varepsilon>'' \varphi(\#) \# $, kde $q \in Q$.
 
 \suspend{enumerate}
 
-  \item Přidej do $R_{\Sigma}$ pravidla:
+  \item Přidej do $R_{move}$ pravidla:
 
 \resume{enumerate}
 \renewcommand{\labelenumi}{(\roman{enumi})}
 
-  \item $<q, 0^i>'' 0 \rightarrow <q, 0^{i+1}>'' \varepsilon $, kde $q \in Q$, $0 \le i \le n$,
-  \item $<q, 0^i>'' 1 \rightarrow <q, 0^i 1>'' \varepsilon $, kde $q \in Q$, $0 \le i \le n$,
-  \item $<q, \varphi(X) >'' \# \rightarrow <q, \varepsilon>'' X \# $, kde $X \in \Sigma$, $q \in Q$, $1 \le j \le n$,
-  \item $<q, \varphi(X) >'' \# \rightarrow <q, \varepsilon>'' \varphi(X) \# $, kde $X \in (\Gamma - \Sigma)$, $q \in Q$, $1 \le j \le n$,
-  \item $<q, 1 >' \# \rightarrow <q,\varepsilon> 1 \# $, kde $q \in Q$.
+  \item $<q, \varphi(X)>' \# \rightarrow <q, \varepsilon>' \varphi(X) \# $, kde $X \in \Gamma$, $q \in Q$,
+  \item $<q, \varphi(\#) >' \# \rightarrow <q, \varepsilon> \varphi(\#) \# $, kde $q \in Q$.
+
+\suspend{enumerate}
+
+  \item Přidej do $R_{end}$ pravidla:
+
+\resume{enumerate}
+\renewcommand{\labelenumi}{(\roman{enumi})}
+
+  \item $<q, \varphi(X) >'' \# \rightarrow <q, \varepsilon>'' X \# $, kde $X \in \Sigma$, $q \in Q$,
+  \item $<q, \varphi(X) >'' \# \rightarrow <q, \varepsilon>'' \varphi(X) \# $, kde $X \in (\Gamma - \Sigma)$, $q \in Q$,
+  \item $<q, \varphi(\#) >'' \# \rightarrow <end> \epsilon $, kde $q \in Q$.
 
 \end{enumerate}
 
