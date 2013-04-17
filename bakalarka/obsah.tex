@@ -24,10 +24,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Pojmy a definice}
 
-V této kapitole zavádím a definuji pojmy, ze kterých vycházím v dalších částech své práce. Ve stručnosti se zabývám problematikou řízených gramatik a definuji programové, maticové a stavové gramatiky. Dále uvádím definici hlubokého zásobníkového automatu a jeho modifikace s konečným indexem. Nakonec zařazuji jazyky přijímané těmito automaty spolu s jazyky generovanými řízenými gramatikami do kontextu označovaném jako hierarchie mezi kontextovými a bezkontextovými jazyky.
+V~této kapitole zavádím a definuji pojmy, ze kterých vycházím v~dalších částech své práce. Ve stručnosti se zabývám problematikou řízených gramatik a definuji programové, maticové a stavové gramatiky. Dále uvádím definici hlubokého zásobníkového automatu a jeho modifikace s~konečným indexem. Nakonec zařazuji jazyky přijímané těmito automaty spolu s~jazyky generovanými řízenými gramatikami do kontextu označovaném jako hierarchie mezi kontextovými a bezkontextovými jazyky.
 
 %=========================================================================
-\section{Základní pojmy z teorie formálních jazyků}
+\section{Základní pojmy z~teorie formálních jazyků}
 
 
 %=========================================================================
@@ -46,24 +46,24 @@ V této kapitole zavádím a definuji pojmy, ze kterých vycházím v dalších 
   $F \subseteq Q$ je množina koncových stavů.
 
 %% Definice konfigurace, derivace
-Konfigurace automatu $M$ je prvek z množiny $(Q \times \Sigma^* \times \Gamma^*)$. 
+Konfigurace automatu $M$ je prvek z~množiny $(Q \times \Sigma^* \times \Gamma^*)$. 
 Nechť $X$, $Y$ jsou dvě konfigurace. 
-$M$ provede operaci pop z $X$ do $Y$, píšeme $X$  ${}_p{\Rightarrow}$  $Y$ $[mqA \rightarrow pv]$, zjednodušeně $X$  ${}_p{\Rightarrow}$  $Y$, pokud $X = (q, au, az)$, $Y = (q, u, z)$, kde $q \in Q$, $a \in \Sigma$, $u \in \Sigma^*$, $z \in \Gamma^*$.  
-$M$ expanduje svůj zásobník z $X$ do $Y$, píšeme $X$  ${}_e{\Rightarrow}$  $Y$ $[mqA \rightarrow pv]$, zjednodušeně $X$  ${}_e{\Rightarrow}$  $Y$, pokud $X = (q, w, uAz)$, $Y = (p, w, uvz)$, $mqA \rightarrow pv \in R$ a platí $\mathrm{occur}(u,\Gamma - \Sigma) = m - 1 $, kde $p$, $q \in Q$, $w \in \Sigma^*$, $A \in \Gamma$, $u$, $v$, $z \in \Gamma^*$. 
-$M$ provede přechod z $X$ do $Y$, píšeme $X$  ${\Rightarrow}$  $Y$ $[mqA \rightarrow pv]$, zjednodušeně $X$  ${\Rightarrow}$  $Y$,, pokud provede expanzi, nebo operaci pop.
+$M$ provede operaci pop z~$X$ do $Y$, píšeme $X$  ${}_p{\Rightarrow}$  $Y$ $[mqA \rightarrow pv]$, zjednodušeně $X$  ${}_p{\Rightarrow}$  $Y$, pokud $X = (q, au, az)$, $Y = (q, u, z)$, kde $q \in Q$, $a \in \Sigma$, $u \in \Sigma^*$, $z \in \Gamma^*$.  
+$M$ expanduje svůj zásobník z~$X$ do $Y$, píšeme $X$  ${}_e{\Rightarrow}$  $Y$ $[mqA \rightarrow pv]$, zjednodušeně $X$  ${}_e{\Rightarrow}$  $Y$, pokud $X = (q, w, uAz)$, $Y = (p, w, uvz)$, $mqA \rightarrow pv \in R$ a platí $\mathrm{occur}(u,\Gamma - \Sigma) = m - 1 $, kde $p$, $q \in Q$, $w \in \Sigma^*$, $A \in \Gamma$, $u$, $v$, $z \in \Gamma^*$. 
+$M$ provede přechod z~$X$ do $Y$, píšeme $X$  ${\Rightarrow}$  $Y$ $[mqA \rightarrow pv]$, zjednodušeně $X$  ${\Rightarrow}$  $Y$,, pokud provede expanzi, nebo operaci pop.
 
 %% sekvence přechodů
-Nechť $X$ je konfigurace. $M$ provede nula přechodů z $X$ do $X$, píšeme $X \Rightarrow^0 X [\epsilon]$, zjednodušeně $X \Rightarrow^0 X$. Nechť $X_0, X_1, X_2,\dots,X_n $ je sekvence přechodů konfigurací pro $n \ge 1$  a $X_{i-1} \Rightarrow X_i [r_i]$, kde $r_i \in R$, $i \in \{1, 2, 3,\dots, k\}$, tedy platí: $X_0 \Rightarrow X_1 [r_1] \Rightarrow X_2 [r_2] \dots \Rightarrow X_n [r_n]$. Pak $M$ provede $n$ přechodů z $X_0$ do $X_n$. Píšeme $X_{0} \Rightarrow^n X_n [r_1 \dots r_n]$, zjednodušeně $X_{0} \Rightarrow^n X_n$. Pokud $X_{0} \Rightarrow^n X_n [r_1 \dots r_n]$ pro nějaké $n \ge 1$, pak $X_{0} \Rightarrow^+ X_n [r_1 \dots r_n]$. Pokud $X_{0} \Rightarrow^n X_n [r_1 \dots r_n]$ pro nějaké $n \ge 0$, pak $X_{0} \Rightarrow^* X_n [r_1 \dots r_n]$. Totéž platí pro operace pop a expanze.
+Nechť $X$ je konfigurace. $M$ provede nula přechodů z~$X$ do $X$, píšeme $X \Rightarrow^0 X [\epsilon]$, zjednodušeně $X \Rightarrow^0 X$. Nechť $X_0, X_1, X_2,\dots,X_n $ je sekvence přechodů konfigurací pro $n \ge 1$  a $X_{i-1} \Rightarrow X_i [r_i]$, kde $r_i \in R$, $i \in \{1, 2, 3,\dots, k\}$, tedy platí: $X_0 \Rightarrow X_1 [r_1] \Rightarrow X_2 [r_2] \dots \Rightarrow X_n [r_n]$. Pak $M$ provede $n$ přechodů z~$X_0$ do $X_n$. Píšeme $X_{0} \Rightarrow^n X_n [r_1 \dots r_n]$, zjednodušeně $X_{0} \Rightarrow^n X_n$. Pokud $X_{0} \Rightarrow^n X_n [r_1 \dots r_n]$ pro nějaké $n \ge 1$, pak $X_{0} \Rightarrow^+ X_n [r_1 \dots r_n]$. Pokud $X_{0} \Rightarrow^n X_n [r_1 \dots r_n]$ pro nějaké $n \ge 0$, pak $X_{0} \Rightarrow^* X_n [r_1 \dots r_n]$. Totéž platí pro operace pop a expanze.
 
 % Hloubka a jazyk
-Říkáme, že pravidlo $mqA \rightarrow pv \in R$ je hloubky $m$. Pokud existuje nejmenší přirozené číslo $n$ takové, že každé pravidlo v $M$ je hloubky menší nebo rovno $n$, říkáme, že $M$ je hloubky $n$. Nechť M je hloubky n, pak jazyk přijímaný automatem ${}_nM$ je $L({}_nM) = \{ w \in \Sigma^* \mid (s,w,S) \Rightarrow^* (f, \epsilon, \epsilon)$, kde $f \in F \}$.
+Říkáme, že pravidlo $mqA \rightarrow pv \in R$ je hloubky $m$. Pokud existuje nejmenší přirozené číslo $n$ takové, že každé pravidlo v~$M$ je hloubky menší nebo rovno $n$, říkáme, že $M$ je hloubky $n$. Nechť M je hloubky n, pak jazyk přijímaný automatem ${}_nM$ je $L({}_nM) = \{ w \in \Sigma^* \mid (s,w,S) \Rightarrow^* (f, \epsilon, \epsilon)$, kde $f \in F \}$.
 
 
 \end{Def}
 
 % DEFINICE: FINITELY EXPANDABLE DEEP PDA
 
-\begin{Def} Podle \cite{Meduna:FinitelyDeepPDA} je \emph{hluboký zásobníkový automat konečného indexu} uspořádaná osmice $M = (Q,\Sigma,\Gamma, R, s, S, F, n)$, jehož definice vychází z~hlubokého zásobníkového automatu. Symbol $n \in \{1,2,3,\dots\}$ označuje maximální počet nevstupních symbolů, které mohou být uložené na zásobníku. Expanze $X$  ${}_e{\Rightarrow}$  $Y$ může proběhnout jen v případě, že v konfiguraci $Y$ bude na zásobníku $n$ a méně nevstupních symbolů.  O~hloubce zásobníku tohoto typu automatu se předpokládá, že je rozšiřitelná tak, aby zásobník mohl přijmout až $n$ nevstupních symbolů.
+\begin{Def} Podle \cite{Meduna:FinitelyDeepPDA} je \emph{hluboký zásobníkový automat konečného indexu} uspořádaná osmice $M = (Q,\Sigma,\Gamma, R, s, S, F, n)$, jehož definice vychází z~hlubokého zásobníkového automatu. Symbol $n \in \{1,2,3,\dots\}$ označuje maximální počet nevstupních symbolů, které mohou být uložené na zásobníku. Expanze $X$  ${}_e{\Rightarrow}$  $Y$ může proběhnout jen v~případě, že v~konfiguraci $Y$ bude na zásobníku $n$ a méně nevstupních symbolů.  O~hloubce zásobníku tohoto typu automatu se předpokládá, že je rozšiřitelná tak, aby zásobník mohl přijmout až $n$ nevstupních symbolů.
 
 
 %% Definovat krok, derivaci a jazyk
@@ -75,22 +75,46 @@ Nechť $X$ je konfigurace. $M$ provede nula přechodů z $X$ do $X$, píšeme $X
 \section{Řízené gramatiky}
 
 % DEFINICE: BEZKONTEXTOVE GRAMATIKY
-\begin{Def}
-Bezkontextová gramatika \ref{Meduna:Theory} 
+\begin{Def}\label{def_bezkontext_gram}
+
+\emph{Bezkontextová gramatika} \cite{Krivka:RewritingSystems} je čtveřice $G = (V,T,P,S)$, kde $V = T \cup N$ je úplná abeceda, $T$ je abeceda terminálů, $N$ je abeceda neterminálů, $S \in N$ je počáteční symbol. $P$ je konečná množina pravidel tvaru $A \rightarrow v$, kde $A \in N$, $v \in V^*$.
+
+Nechť $A \rightarrow v \in P$, $A \in N$, $v$, $x$, $y \in V^*$, pak bezkontextová gramatika $G$ provede derivační krok z~$xAy$ do $xvy$, píšeme $xAy \Rightarrow xvy [A \rightarrow v]$, zjednodušeně $xAy \Rightarrow xvy$. 
+Nechť $r_1, r_2, \dots r_m \in P$ pro $m \ge 0$, pak $G$ může provést sekvenci kroků dle těchto pravidel, zápisem $x {\Rightarrow}^m y [r_1 r_2 \dots r_m]$. Píšeme ${\Rightarrow}^+$ pro libovolné $m > 0$ a ${\Rightarrow}^*$ pro $m \ge 0$. 
+
+Gramatika $G$ generuje jazyk $L(G)$, pro který platí, že $L(G) = \{w \in T^* | S {\Rightarrow}^* w\}$. Jazyk $L$ je bezkontextový, právě když $L = L(G)$.
+
 \end{Def}
 
 % DEFINICE: PROGRAMOVA GRAMATIKA
 \begin{Def}
+\emph{Programová gramatika} \cite{Krivka:RewritingSystems} je čtveřice $G = (V,T,P,S)$, která vychází definice bezkontextové gramatiky. $P$ je konečná množina pravidel tvaru $r \colon A \rightarrow v, g(r)$, kde $r$ je označení pravidla, $A \rightarrow v$ je pravidlo bezkontextové gramatiky a $g(r)$ je množina značení těch pravidel, která mohou být provedena v~dalším derivačním kroku po aplikaci pravidla $r$.
 \end{Def}
 
-
-% DEFINICE: MATICOVA GRAMATIKA
 \begin{Def}
+\emph{Programová gramatika konečného indexu $n$} \cite{Krivka:RewritingSystems} je programová gramatika $G = (V,T,P,S)$, pro jejíž každou větnou formu $w \in L(G)$ existuje taková posloupnost derivačních kroků, která v~žádném kroku neobsahuje více než $n$ neterminálů.
 \end{Def}
-
 
 % DEFINICE: STAVOVA GRAMATIKA
 \begin{Def}
+\emph{Stavová gramatika} je dle \cite{Kasai} šestice $G=(V,W,T,S,s,P)$ vycházející z~definice bezkontextové gramatiky. $V = T \cup N$ je úplná abeceda, $W$ je konečná množina stavů, $T$ je abeceda terminálů, $N$ je abeceda neterminálů, $S \in N$ je počáteční symbol, $s \in W$ je počáteční stav a $P$ je konečná relace $(W \times N) \times (W \times V^+)$; pravidla píšeme $(q,A) \rightarrow (p,v)$.
+
+Nechť $(q,A) \rightarrow (p,v) \in P$, $p$, $q \in W$, $A \in N$, $v$, $x$, $y \in V^*$, pak stavová gramatika $G$ provede derivační krok z~$xAy$ do $xvy$, píšeme $(q, xAy) \Rightarrow (p, xvy) [(q,A) \rightarrow (p,v)]$, zjednodušeně $xAy \Rightarrow xvy$, právě tehdy když $\{Z \mid (q,Z) \rightarrow (p',v') \in P$, $Z \in \mathrm{alph}(x) \cap N$, $p' \in W$, $v' \in V^* \} = \emptyset$. 
+
+Gramatika $G$ generuje jazyk $L(G) = \{w \in T^* | (s, S) {\Rightarrow}^* (p, w), p,q \in W \}$.
+
+
+\end{Def}
+
+\begin{Def}
+\emph{Stavová gramatika konečného indexu $n$} je stavová gramatika $G=(V,W,T,S,s,P)$, pro kterou platí, že derivační krok $(q, xAy) \Rightarrow (p, xvy)$ za pomoci pravidla $(q,A) \rightarrow (p,v) \in P$, kde $p$, $q \in W$, $A \in N$, $v$, $x$, $y \in V^*$, lze provést právě tehdy, když je počet neterminálů v~řetězci $xA$ menší nebo roven $n$. Píšeme $(q, xAy) {}_n\Rightarrow (p, xvy)$. 
+
+Gramatika $G$ generuje jazyk $L(G) = \{w \in T^* | (s, S) {}_n{\Rightarrow}^* (p, w), p,q \in W \}$.
+
+\end{Def}
+
+\begin{Def}
+\emph{Stavová gramatika s~$\epsilon$-pravidly} je podle \cite{Meduna:StateGrammars} stavová gramatika $G=(V,W,T,S,s,P)$ rozšířená o~vymazávací pravidla typu $(q,A) \rightarrow (p,\epsilon)$, kde $p$, $q \in W$, $A \in N$.
 \end{Def}
 
 

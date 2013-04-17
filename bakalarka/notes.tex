@@ -10,23 +10,6 @@ symbolem tvoří nekonečnou hierarchii.
 %Pozn. Je třeba si uvědomit, že hluboký zásobníkový automat konečného indexu a gramatika konečního indexu se mají jinak definovanou svoji konečnost. Zatímco u hlubokého zásobníkového automatu nemůže nikdy dojít k tomu, že na zásobníku bude více než n nevstupních symbolů, gramatiky konečného indexu mohou expandovat řetězec s více než n neterminály. Pro každý řetězec terminálů však existuje taková sekvence derivačních kroků, která v žádném kroku neobsahuje více než n neterminálů.
 
 
-%\begin{Def}
-%Bezkontextová gramatika je dle \cite{doplnit} čtveřice $G = (V,T,P,S)$, kde V je úplná abeceda, T \subset V je abeceda terminálů. Nechť N = (V - T) je abeceda neterminálů, pak S \in N je počáteční symbol. P je konečná množina pravidel, která zapisujeme ve tvaru q: A \rightarrow v, kde A \in N, v \in V^* a q je označení pravidla.
-
-%Nechť q: A \rightarrow v \in P, x,y \in V^*, pak bezkontextová gramatika G provede derivační krok z xAy do xvy podle pravidla q; píšeme xAy \Rightarrow xvy [q] nebo zjednodušeně xAy \Rightarrow xvy. Nechť q_1, q_2, \dots q_m \in P, m \ge 0, pak G může provést sekvenci kroků dle těchto pravidel; zápisem x {\Rigtarrow}^m y [q_1 q_2 \dots q_m]. Píšeme {\Rigtarrow}^+ pro libovolné m > 0 a {\Rigtarrow}^* pro m \ge 0. Gramatika G generuje jazyk L(G), pro kteý platí, že L(G) = {w \in T^* | S {\Rigtarrow}^* w}. Jazyk L je bezkontektový, právě když L = L(G).
-
-%\end{Def}
-
-%\begin{Def}
-%Programová gramatika je čtveřice $G = (V,T,P,S)$, která vychází z bezkontektové gramatiky. P je konečná množina pravidel tvaru q:A \rigtarrow v, g(p), kde q:A \rigtarrow definujeme stejně jako v bezkotextové gramatice a q(p) je množina značení těch pravidel, která mohou být provedena v dalším derivačním kroku.
-
-%TODO zavést sekvence derivačních kroků
-%\end{Def}
-
-% zavést index gramatiky
-
-% zavést maticovou gramatiku
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=========================================================================
