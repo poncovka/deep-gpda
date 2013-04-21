@@ -1,0 +1,28 @@
+# Test
+# Prazdny pda
+
+(
+# Q mnozina stavu
+{},
+
+# Sigma mnozina vstupnich symbolu
+{},
+
+# Gamma mnozina zasobnikovych symbolu
+{},
+
+# R mnozina pravidel
+{},
+
+# s pocatecni stav
+,
+
+# S pocatecni symbol
+,
+
+# F mnozina koncovych symbolu
+{}
+
+)
+
+# konec
