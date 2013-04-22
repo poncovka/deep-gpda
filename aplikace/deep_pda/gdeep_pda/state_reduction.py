@@ -15,3 +15,6 @@ class StateReduction:
         Constructor
         '''
         
+    def run(self, pda_in):
+        pass
+        

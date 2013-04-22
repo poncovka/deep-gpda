@@ -6,7 +6,7 @@ Nacte z retezce zasobnikovy automat.
 import re
 
 from library import check, error
-from pda import GDeepPDA
+from pda import GDP
 
 class GDPParser:
     '''
@@ -17,7 +17,6 @@ class GDPParser:
         '''
         Constructor
         '''
-
         # regularni vyrazy popisujici definici pda
 
         self.pda_pattern = re.compile (r'''
@@ -86,18 +85,16 @@ class GDPParser:
                     start += 1
                     comma = False
                 else :
-                    error("EPDA")
+                    error("EPDA")        
             
-            # v retezci ocekavame polozku        
-            else:
-                # aplikuje regularni vyraz na retezec
-                result = self.match(pattern, string[start:])                
-                # posune se ukazatel na retezec
-                start += result.end()
-                # nova polozka se ulozi
-                items.add(result.groups()[0])
-                # nastavi se indikator oddelovace
-                comma = True
+            # aplikuje regularni vyraz na retezec
+            result = self.match(pattern, string[start:])                
+            # posune se ukazatel na retezec
+            start += result.end()
+            # nova polozka se ulozi
+            items.add(result.groups()[0])
+            # nastavi se indikator oddelovace
+            comma = True
             
         # vrati prvky skupiny
         return items
@@ -181,7 +178,7 @@ class GDPParser:
         string = re.sub("(#.*)", " ", string)
 
         # vytvoreni noveho automatu
-        pda = GDeepPDA()
+        pda = GDP()
         
         # parsovani automatu
         result = self.match(self.pda_pattern, string)

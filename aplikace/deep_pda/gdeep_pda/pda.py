@@ -4,9 +4,9 @@ Created on 21.4.2013
 @author: Vendula Poncova
 '''
 
-from library import check, error, error_more
+from library import check, error_more
 
-class GDeepPDA:
+class GDP:
     '''
     Trida reprezentuje zobecneny hluboky zasobnikovy automat,
     GDP je zkratka pro Generalized Deep PDA.
@@ -37,7 +37,7 @@ class GDeepPDA:
                 "" + str(self.S) + "\n"
                 "" + str(self.F) + "\n)")
 
-    def checkGDP(self):
+    def validate(self):
         
         check("Kontrola spravnosti GDP automatu")
         
@@ -57,21 +57,21 @@ class GDeepPDA:
             error_more("Pocatecni symbol neni v mnozine nevstupnich symbolu.")
         if not self.F.issubset(self.Q) :
             error_more("Mnozina koncovych stavu neni podmnozinou stavu.")
+        if '' in self.Gamma :
+            error_more("Prazdny retezec nemuze byt soucasti abecedy.")
             
         # pravidla
         for (q, A, p ,v) in self.R :
             
             if q not in self.Q or p not in self.Q:
-               error_more("V pravidle se vyskytuje nedefinovany stav.")
+                error_more("V pravidle se vyskytuje nedefinovany stav.")
             if A not in self.Gamma.difference(self.Sigma):
-               error_more("Na leve strane pravidla neni nevstupni symbol.")
+                error_more("Na leve strane pravidla neni nevstupni symbol.")
                
             for symbol in v :
                 if symbol not in self.Gamma:
                     error_more("Na prave strane pravidla je nedefinovany symbol.")     
             
-        
-
 
     def serialize(self):
         '''

@@ -12,7 +12,7 @@ debug = True
 errors = {"EPARAM": ("Spatne zadane parametry.", 1), 
           "EREAD": ("Chyba pri cteni ze souboru.", 2), 
           "EWRITE": ("Chyba pri zapise do souboru.", 3), 
-          "EPDA": ("Chyba v definici pda.", 4),
+          "EPDA": ("Chyba ve formatu vstupniho souboru.", 4),
           "ERROR": ("Doslo k chybe.", 5)
           }
 
