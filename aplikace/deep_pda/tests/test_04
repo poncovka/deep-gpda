@@ -1,0 +1,36 @@
+# Test
+# PDA prijima jazyk a^n b^n c^n, test problematickych symbolu
+
+(
+# Q mnozina stavu
+{s1, s2, s3, s4, s5, '<stav, epsilon>''' },
+
+# Sigma mnozina vstupnich symbolu
+{ á,ů,ž, '{ahoj', ',/>.>', '}', '(-)', '<apostrof>'' abcd' },
+
+# Gamma mnozina zasobnikovych symbolu
+{Agáta,Bedřich,Cecílie},
+
+# R mnozina pravidel
+{
+s1 Agáta -> s2 a Agáta b Bedřich c Cecílie,
+s2 Agáta -> s3 a Agáta,
+s3 Bedřich -> s4 b Bedřich,
+s4 Cecílie -> s2 c Cecílie,
+s2 Agáta -> s5 ,
+s5 Bedřich -> s5 '' '' '',
+s5 Cecílie -> s5 ''
+},
+
+# s pocatecni stav
+s1,
+
+# S pocatecni symbol
+A,
+
+# F mnozina koncovych stavu
+{s5}
+
+)
+
+# konec
