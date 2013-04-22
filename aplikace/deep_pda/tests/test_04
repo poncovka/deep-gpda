@@ -6,10 +6,10 @@
 {s1, s2, s3, s4, s5, '<stav, epsilon>''' },
 
 # Sigma mnozina vstupnich symbolu
-{ á,ů,ž, '{ahoj', ',/>.>', '}', '(-)', '<apostrof>'' abcd' },
+{ á,ů,ž, '{ahoj', ',/>.>', '}', '(-)', '<apostrof>'' abcd' ,a,b,c},
 
 # Gamma mnozina zasobnikovych symbolu
-{Agáta,Bedřich,Cecílie},
+{Agáta,Bedřich,Cecílie, á,ů,ž, '{ahoj', ',/>.>', '}', '(-)', '<apostrof>'' abcd' ,a,b,c},
 
 # R mnozina pravidel
 {
@@ -26,7 +26,7 @@ s5 Cecílie -> s5 ''
 s1,
 
 # S pocatecni symbol
-A,
+Agáta,
 
 # F mnozina koncovych stavu
 {s5}

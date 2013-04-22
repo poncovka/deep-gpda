@@ -9,16 +9,16 @@
 {á,ů,ž},
 
 # Gamma mnozina zasobnikovych symbolu
-{A,B,C},
+{A,B,C, á,ů,ž},
 
 # R mnozina pravidel
 {
-s1 A -> s2 a A b B c C,
-s2 A -> s3 a A,
-s3 B -> s4 b B,
-s4 C -> s2 c C,
+s1 A -> s2 á A ů B ž C,
+s2 A -> s3 á A,
+s3 B -> s4 ů B,
+s4 C -> s2 ž C,
 s2 A -> s5,
-s5 B -> s5 \epsilon,
+s5 B -> s5 '' '' '',
 s5 C -> s5 ''
 },
 

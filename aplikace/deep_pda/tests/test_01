@@ -9,7 +9,7 @@
 {a,b,c},
 
 # Gamma mnozina zasobnikovych symbolu
-{A,B,C},
+{A,B,C,a,b,c},
 
 # R mnozina pravidel
 {
@@ -18,7 +18,7 @@ s2 A -> s3 a A,
 s3 B -> s4 b B,
 s4 C -> s2 c C,
 s2 A -> s5,
-s5 B -> s5 \epsilon,
+s5 B -> s5 '' '' '',
 s5 C -> s5 ''
 },
 

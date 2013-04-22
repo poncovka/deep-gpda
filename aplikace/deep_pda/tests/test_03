@@ -9,16 +9,16 @@
 {á,ů,ž},
 
 # Gamma mnozina zasobnikovych symbolu
-{Agáta,Bedřich,Cecílie},
+{Agáta,Bedřich,Cecílie, á,ů,ž},
 
 # R mnozina pravidel
 {
-s1 Agáta -> s2 a Agáta b Bedřich c Cecílie,
-s2 Agáta -> s3 a Agáta,
-s3 Bedřich -> s4 b Bedřich,
-s4 Cecílie -> s2 c Cecílie,
+s1 Agáta -> s2 á Agáta ů Bedřich ž Cecílie,
+s2 Agáta -> s3 á Agáta,
+s3 Bedřich -> s4 ů Bedřich,
+s4 Cecílie -> s2 ž Cecílie,
 s2 Agáta -> s5,
-s5 Bedřich -> s5 \epsilon,
+s5 Bedřich -> s5 '' '' '',
 s5 Cecílie -> s5 ''
 },
 
@@ -26,7 +26,7 @@ s5 Cecílie -> s5 ''
 s1,
 
 # S pocatecni symbol
-A,
+Agáta,
 
 # F mnozina koncovych stavu
 {s5}
