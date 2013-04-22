@@ -110,8 +110,8 @@ class GDP:
                   "{"   + ", ".join(Si) +     "},\n"
                   "{"   + ", ".join(Ga) +     "},\n"
                   "{\n"   + ",\n".join(R) + "\n},\n"
-                  "" + self.s + ",\n"
-                  "" + self.S + ",\n"
+                  "" + str(self.s) + ",\n"
+                  "" + str(self.S) + ",\n"
                   "{"   + ", ".join(F)  +     "}\n" 
                   ")\n"
                   )
