@@ -6,10 +6,17 @@
 CO=projekt
 OBSAH=obsah
 REF=literatura
+PREZENTACE=prezentace
 
 all: clean $(CO).ps
 
 final: clean $(CO).pdf counting
+
+prezentace:
+	latex $(PREZENTACE)
+	dvipdf $(PREZENTACE)
+#	dvips -t a4 $(PREZENTACE).dvi
+#	ps2pdf -sPAPERSIZE=a4 $(PREZENTACE).ps
 
 counting: $(CO).pdf
 	./counter.sh
