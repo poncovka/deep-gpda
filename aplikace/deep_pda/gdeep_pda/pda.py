@@ -6,6 +6,25 @@ Created on 21.4.2013
 
 from library import check, error_more
 
+class GDP_rule:
+    '''
+    Trida reprezentujici pravidlo typu:
+      q A -> p v, 
+    kde p,q jsou stavy, A je nevstupni
+    symbol a v je retezec.
+    '''
+    
+    def __init__(self):
+        
+        self.q = None
+        self.A = None
+        self.p = None
+        self.v = None
+        
+    def get(self):
+        return (self.q, self.A, self.p, self.v)
+
+
 class GDP:
     '''
     Trida reprezentuje zobecneny hluboky zasobnikovy automat,
@@ -37,6 +56,16 @@ class GDP:
                 "" + str(self.S) + "\n"
                 "" + str(self.F) + "\n)")
 
+    def set(self, Q, Sigma, Gamma, R, s, S, F):
+        
+        self.Q = Q
+        self.Sigma = Sigma
+        self.Gamma = Gamma
+        self.R = R
+        self.s = s
+        self.S = S
+        self.F = F
+
     def validate(self):
         
         check("Kontrola spravnosti GDP automatu")
@@ -62,6 +91,7 @@ class GDP:
             
         # pravidla
         for (q, A, p ,v) in self.R :
+            check((q,A,p,v))
             
             if q not in self.Q or p not in self.Q:
                 error_more("V pravidle se vyskytuje nedefinovany stav.")
@@ -102,7 +132,7 @@ class GDP:
             
             R.append(rule)
             
-        R.sort    
+        R.sort()    
         
         # vytvoreni a vraceni retezce
         string = ("(\n"

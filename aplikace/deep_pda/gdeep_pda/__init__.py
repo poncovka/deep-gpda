@@ -4,4 +4,3 @@ zobecnenych hlubokych zasobnikovych automatu.
 
 @author: Vendula Poncova
 '''
-
