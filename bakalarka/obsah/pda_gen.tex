@@ -1,0 +1,200 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Zobecněný hluboký zásobníkový automat a jeho redukce}
+
+% Definice
+
+\begin{Def}
+Zobecněný hluboký zásobníkový automat je uspořádaná sedmice $M = (Q,\Sigma,\Gamma, R, s, S, F)$, 
+kde $Q$ je konečná množina stavů, $\Sigma$ vstupní abeceda, $\Gamma$ zásobníková abeceda, přičemž $\Sigma \subset \Gamma$,
+$s \in Q$ je počáteční stav, $S \in \Gamma$ počáteční symbol na zásobníku a $F \subset Q$ je množina
+koncových stavů. $R$ je konečná množina pravidel typu $(q, A, p, v) \in Q \times (\Gamma - \Sigma) \times Q \times {\Gamma}^+$, které píšeme ve tvaru $qA \rightarrow pv$. 
+\end{Def}
+
+\begin{Def}
+Nechť $M = (Q,\Sigma,\Gamma, R, s, S, F)$ je zobecněný hluboký zásobníkový automat, $(w,q,uAz)$ a $(w,p,uvz)$ jeho dvě konfigurace a $qA \rightarrow pv \in R$ pravidlo. Pak lze provést přechod z~$(w,q,uAz)$ do $(w,p,uvz)$, píšeme $(w,q,uAz) {\Rightarrow} (w,p,uvz)$, právě tehdy když platí: $\{X \mid qX \rightarrow p'v' \in R$, kde $X \in \mathrm{alph}(u) \cap (\Gamma - \Sigma)$, $p' \in Q$, $v' \in {\Gamma}^+ \} = \emptyset$.
+\end{Def}
+
+%=========================================================================
+ \section{Ekvivalence se stavovými gramatikami} \label{sec_ekv_state_grammars}
+
+% ekvivalence se stavovými gramatikami, povolení epsilon pravidel, co s toho vyplývá
+% algoritmus a důkaz
+
+Zřejmé. Stavové gramatiky jsou left-most, hluboké automaty top-most, pravidla jsou ve stejném tvaru. Doplnit.
+
+%=========================================================================
+\section{Omezení počtu nevstupních symbolů}
+
+% odkaz na článek on state grammars, co s toho vyplývá
+% algoritmus
+
+Ve článku \ref{DOPLNIT} je dokázáno, že každá stavová gramatika s~$\varepsilon$-pravidly má svůj ekvivalentní protějšek se třemi nevstupními symboly. S~ohledem na výsledek kapitoly \ref{sec_ekv_state_grammars} je na místě prozkoumat, zda lze takové redukce dosáhnout i u~zobecněných hlubokých automatů.
+
+V~algoritmu \ref{alg_gen_deep_pda_nonterm} demonstruji redukci nevstupních symbolů na symboly 0, 1 a \#. Hlavní myšlenka spočívá v~reprezentaci všech zásobníkových symbolů pomocí nul a jedniček. Symbol \# označuje fyzické dno zásobníku a umožňuje přesouvat symboly z~vrcholu na jeho konec. Zároveň k~symbolu \# zavádím binární ekvivalent, který označuje logické dno zásobníku. 
+
+Princip simulace spočívá v~rozpoznání symbolu na vrcholu zásobníku pomocí pravidel z~množiny $R_{find}$ a jeho přesunu na dno zásobníku, případně expanzi pravidlem z~$R_{exp}$. Pokud dojde k~expanzi, aplikují se pravidla s~množiny $R_{move}$, které přesunou zbývající symboly na dno. Pokud pro žádný nevstupní symbol v~zásobníku expanze neproběhne, automat nahradí binární reprezentace vstupních symbolů samotnými symboly pomocí pravidel z~množiny $R_{end}$, smaže pomocné nevstupní symboly a přejde do koncového stavu.
+
+\begin{Alg}\label{alg_gen_deep_pda_nonterm}
+Převod zobecněného hlubokého zásobníkového automatu s~$\varepsilon$-pravidly na ekvivalentní se třemi nevstupními symboly.
+
+\begin{list}{}{\setlength\parsep{0cm} \setlength\itemsep{0cm} \setlength\leftmargin{1em}}
+   \item Vstup: $M = (Q,\Sigma,\Gamma, R, s, S, F)$ 
+   \item Výstup: $M_{R} = (Q_{R}, \Sigma_{R}, {\Gamma}_{R}, R_{R}, s_{R},  S_{R}, F_{R})$ \medskip
+  
+   \item ${\Sigma}_{R} := \Sigma$
+   \item ${\Gamma}_{R} := \Sigma \cup \{0,1,\#\}$
+   \item $R_{R} := R_{find} \cup R_{next} \cup R_{exp} \cup R_{move} \cup R_{end}$
+   \item $s_{R} := <start> $
+   \item $S_{R} := \# $
+   \item $F_{R} := \{<end>\} $ \medskip
+
+\medskip
+
+  \item Nechť $\Gamma = \{X_1, X_2, X_3, \dots, X_n\}$ pro $n \ge 1$ je množina všech zásobníkových symbolů v~$M$ a $X_0$ značí symbol $\#$. Pak definujme funkci $\varphi : \Gamma \cup \{\#\} \rightarrow \{0,1\}^*$ tak, že $\varphi (X_i)=0^i 1$ pro $i = 0,1,2,\dots,n$. \medskip
+
+  \item Přidej do $Q_R$ pro každé $q \in Q$, $0 \le i \le n$ stavy:
+  \item $<start>$, $<q, 0^i>$, $<q, 0^i 1>$, $<q, 0^i>'$, $<q, 0^i 1>'$, $<q, 0^i>''$, $<q, 0^i 1>''$, $<end>$.\medskip
+
+  \item Pro každé $qA \rightarrow p B_0 B_1 \dots B_{j-1} B_{j} \in R$, kde $p, q \in Q$, $j \ge 0$, $B_0,B_1,\dots,B_j \in \Gamma$ a $A \in (\Gamma - \Sigma)$, 
+          přidej $<q, \varphi (A)>$ do množiny $Q_{exp}$  a do $R_{exp}$ pravidla:
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\roman{enumi})}
+
+  \item $<start> \# \rightarrow <s, \varepsilon> \varphi(S)\varphi(\#)\#$,
+  \item $<q, \varphi (A)> \# \rightarrow <p, \varepsilon>' \varphi(B_0)\varphi(B_1)\varphi(B_2) \dots \varphi(B_{j-1}) \varphi(B_{j}) \#$.
+
+\suspend{enumerate}
+
+  \item Pro každé $q \in Q$, $0 \le i \le n$ přidej do $R_{find}$ pravidla:
+
+\resume{enumerate}
+\renewcommand{\labelenumi}{(\roman{enumi})}
+
+  \item $<q, 0^i> 0 \rightarrow <q, 0^{i+1}> \varepsilon $, $<q, 0^i> 1 \rightarrow <q, 0^i 1> \varepsilon $,
+  \item $<q, 0^i>' 0 \rightarrow <q, 0^{i+1}>' \varepsilon $, $<q, 0^i>' 1 \rightarrow <q, 0^i 1>' \varepsilon $
+  \item $<q, 0^i>'' 0 \rightarrow <q, 0^{i+1}>'' \varepsilon $, $<q, 0^i>'' 1 \rightarrow <q, 0^i 1>'' \varepsilon $.
+
+\suspend{enumerate}
+
+
+  \item Přidej do $R_{next}$ pravidla:
+
+\resume{enumerate}
+\renewcommand{\labelenumi}{(\roman{enumi})}
+
+  \item $<q, \varphi(X)> \# \rightarrow <q, \varepsilon> \varphi(X) \# $, kde $X \in \Gamma$, $q \in Q$, $<q, \varphi(X)> \notin Q_{exp}$,
+  \item $<q, \varphi(\#) > \# \rightarrow <q, \varepsilon>'' \varphi(\#) \# $, kde $q \in Q$.
+
+\suspend{enumerate}
+
+  \item Přidej do $R_{move}$ pravidla:
+
+\resume{enumerate}
+\renewcommand{\labelenumi}{(\roman{enumi})}
+
+  \item $<q, \varphi(X)>' \# \rightarrow <q, \varepsilon>' \varphi(X) \# $, kde $X \in \Gamma$, $q \in Q$,
+  \item $<q, \varphi(\#) >' \# \rightarrow <q, \varepsilon> \varphi(\#) \# $, kde $q \in Q$.
+
+\suspend{enumerate}
+
+  \item Přidej do $R_{end}$ pravidla:
+
+\resume{enumerate}
+\renewcommand{\labelenumi}{(\roman{enumi})}
+
+  \item $<q, \varphi(X) >'' \# \rightarrow <q, \varepsilon>'' X \# $, kde $X \in \Sigma$, $q \in Q$,
+  \item $<q, \varphi(X) >'' \# \rightarrow <q, \varepsilon>'' \varphi(X) \# $, kde $X \in (\Gamma - \Sigma)$, $q \in Q$,
+  \item $<q, \varphi(\#) >'' \# \rightarrow <end> \epsilon $, kde $q \in Q$.
+
+\end{enumerate}
+
+\end{list}
+\end{Alg}
+
+
+
+%=========================================================================
+\section{Omezení počtu stavů}
+
+% odkaz na článek on state grammars
+% algoritmus
+
+Pro každou stavovou gramatiku dle \ref{DOPLNIT} platí, že existuje ekvivalentní stavová gramatika taková, že má právě tři stavy. V~algoritmu \ref{alg_gen_deep_pda_state} ukazuji, že totéž platí pro zobecněné hluboké zásobníkové automaty.
+
+Pokud automat může být jen v~jednom ze tří stavů, je zřejmé, že informace o~stavu simulovaného automatu musí být součástí každého nevstupního symbolu. Musela jsem tedy najít způsob, jak aktualizovat hodnotu tohoto stavu ve všech nevstupních symbolech na novou. Zvolila jsem princip \uv{kruhového bufferu}. Pokud nad stavy definuji uspořádání, pak lze přepsat první stav na druhý, druhý na třetí,\dots, předposlední na poslední a poslední na první. Počet těchto přepisů určuje symbol čítače, jehož hodnota se po každé změně stavu ve všech nevstupních symbolech sníží o~1. Zobecněný hluboký zásobníkový automat expanduje nejvrchnější nevstupní symbol, který lze. Proto ke každému nevstupnímu symbolu s~upravených stavem přidávám apostrof. Pro takový symbol v~daném stavu neexistuje pravidlo a automat se přesune na další symbol až po konec zásobníku. Po snížení hodnoty čítače se ze symbolů na zásobníku odstraní apostrofy a v~případě, že je čítač vynulovaný, se provede expanze. Pokud expanze způsobí změnu stavu, vygeneruje se nový čítač a celý postup se opakuje.
+
+Funkčnost tohoto principu je závislá na rozdělení pravidel mezi tři stavy tak, aby automat v~žádném případě nemohl vykonat nežádaný krok. V~algoritmu \ref{alg_gen_deep_pda_state} řeším tento problém následovně: Množina $R_{\alpha}$ obsahuje pravidla pro expanzi, změnu hodnoty čítače a nastavení příznaku pro expanzi. Pravidla z~$R_{\beta}$ mění stav v~nevstupních symbolech a symboly značí apostrofem. Množina pravidel $R_{\gamma}$ odstraňuje apostrofy z~nevstupních symbolů a podle příznaku na konci zásobníku automat přejde do stavu pro expanzi, nebo pro aktualizaci stavů.
+
+\begin{Alg}\label{alg_gen_deep_pda_state}
+Převod zobecněného hlubokého zásobníkového automatu s~$\varepsilon$-pravidly na ekvivalentní s~redukcí na tři stavy.
+
+\begin{list}{}{\setlength\parsep{0cm} \setlength\itemsep{0cm} \setlength\leftmargin{1em}}
+   \item Vstup: $M = (Q,\Sigma,\Gamma, R, s, S, F)$ 
+   \item Výstup: $M_{R} = (Q_{R}, \Sigma_{R}, {\Gamma}_{R}, R_{R}, s_{R},  S_{R}, F_{R})$ \medskip
+
+   \item ${\Sigma}_{R} := \Sigma$
+   \item ${\Gamma}_{R} := \Sigma \cup {\Gamma}_{R}'$
+   \item $Q_{R} := \{s_\alpha, s_\beta, s_\gamma \}$
+   \item $R_{R} := R_{\alpha} \cup R_{\beta} \cup R_{\gamma}$
+   \item $s_{R} := s_{\alpha} $
+   \item $S_{R} := <start> $
+   \item $F_{R} := \{s_{\alpha}\} $ \medskip
+
+   \item Nechť $Q = \{s_0, s_1, s_2, \dots,s_{|Q|}\}$, kde $s_0 = s$ je počáteční stav v~$M$. Nechť $s_{|Q|+1} = s_0$.\medskip
+
+   \item Pro každé $q \in Q$, $X \in (\Gamma - \Sigma)$, $j \in \{1,2,3,\dots,|Q|\}$ přidej do ${\Gamma}_{R}'$ symboly :
+   \item $<start>, <j>, <q, X>, <q, X>', <q, \#>, <q, \#>_{set}, <q, \#>_{exp}$.\medskip
+
+   \item Pro každé $qA \rightarrow p b_0 B_1 b_1 B_2 b_2 \dots b_{j-1} B_{j} b_j \in R$, kde $p, q \in Q$, $j \ge 0$, $b_0,b_1,\dots,b_j \in {\Sigma}^*$ a $A, B_1,B_2,\dots,B_j \in (\Gamma - \Sigma)$. 
+         Nechť $k$ je absolutní hodnota rozdílu indexů stavů $p$ a $q$. 
+         Pak přidej do $R_\alpha$ pravidla:
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\roman{enumi})}
+
+   \item $s_\alpha <start> \rightarrow s_\alpha <s_0, S> <s_0, \#>$,
+   \item  $s_\alpha <q, A> \rightarrow s_\alpha b_0 <q, B_1> b_1 <q, B_2> b_2 \dots b_{j-1} <q, B_j> b_j$ pokud $p = q$,
+   \item  $s_\alpha <q, A> \rightarrow s_\beta <k> b_0 <q, B_1> b_1 <q, B_2> b_2 \dots b_{j-1} <q, B_j> b_j$ pro $p \ne q$. 
+
+\suspend{enumerate}
+
+   \item Přidej do $R_\beta$ pravidla:
+
+\resume{enumerate}
+\renewcommand{\labelenumi}{(\roman{enumi})}
+
+   \item $s_\beta <s_i, X> \rightarrow s_\beta <s_{i+1}, X>'$ pro každé $s_i \in Q$ a každé $X \in (\Gamma - \Sigma)$,
+   \item $s_\beta <s_i, \#> \rightarrow s_\alpha <s_{i+1}, \#>_{set}$ pro každé $s_i \in Q$.
+
+\suspend{enumerate}
+
+   \item Přidej do $R_\alpha$ pravidla:
+
+\resume{enumerate}{\setlength\leftmargin{1em}}
+\renewcommand{\labelenumi}{(\roman{enumi})}
+
+   \item $s_\alpha <j> \rightarrow s_\gamma <j - 1 > $ pro každé $j \in \{2,3,\dots,|Q|\}$,
+   \item $s_\alpha <1> \rightarrow s_\alpha \varepsilon $,
+   \item $s_\alpha <s_i, \#>_{set} \rightarrow s_\gamma <s_{i}, \#>_{exp}$ pro každé $s_i \in Q$,
+   \item $s_\alpha <q, \#> \rightarrow s_\alpha \varepsilon $ pro každé $q \in F$.
+
+\suspend{enumerate}{\setlength\leftmargin{1em}}
+
+   \item Přidej do množiny $R_\gamma$ pravidla:
+
+\resume{enumerate}
+\renewcommand{\labelenumi}{(\roman{enumi})}
+
+   \item $s_\gamma <s_i, X>' \rightarrow s_\gamma <s_i, X> $ pro každé $s_i \in Q$ a každé $X \in (\Gamma - \Sigma)$,
+   \item $s_\gamma <s_i, \#>_{set} \rightarrow s_\beta <s_i, \#>$ pro každé $s_i \in Q$,
+   \item $s_\gamma <s_i, \#>_{exp} \rightarrow s_\alpha <s_{i}, \#>$ pro každé $s_i \in Q$.
+
+\end{enumerate}
+
+\end{list}
+\end{Alg}
+
+
+%=========================================================================

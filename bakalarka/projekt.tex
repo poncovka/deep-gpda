@@ -63,6 +63,20 @@
 \fi
 \fi
 
+
+%---------------------------------------------------------------------------
+% Hluboké zásobníkové automaty konečného indexu
+% Deep Pushdown Automata of Finite Index
+
+% Vedoucí:
+%     Meduna Alexander, prof. RNDr., CSc., UIFS FIT VUT
+% Oponent:
+%     Horáček Petr, Ing., UIFS FIT VUT
+% Student:
+%     Poncová Vendula
+%---------------------------------------------------------------------------
+
+
 %Informace o praci/projektu
 %---------------------------------------------------------------------------
 \projectinfo{
@@ -71,32 +85,40 @@
   year=2013,             %rok
   date=\today,           %datum odevzdani
   %Nazev prace
-  title.cs={Název práce},  %nazev prace v cestine
-  title.en={Thesis title}, %nazev prace v anglictine
+  title.cs={Hluboké zásobníkové automaty\\konečného indexu},  %nazev prace v cestine
+  title.en={Deep Pushdown Automata of Finite Index}, %nazev prace v anglictine
   %Autor
-  author={Jméno Příjmení},   %jmeno prijmeni autora
+  author={Vendula Poncová},   %jmeno prijmeni autora
   %author.title.p=Bc., %titul pred jmenem (nepovinne)
   %author.title.a=PhD, %titul za jmenem (nepovinne)
   %Ustav
-  department=UPSY, % doplnte prislusnou zkratku: UPSY/UIFS/UITS/UPGM
+  department=UIFS, % doplnte prislusnou zkratku: UPSY/UIFS/UITS/UPGM
   %Skolitel
-  supervisor= Jméno Příjmení, %jmeno prijmeni skolitele
-  supervisor.title.p=Ing.,   %titul pred jmenem (nepovinne)
-  supervisor.title.a={Ph.D.},    %titul za jmenem (nepovinne)
+  supervisor= Alexander Meduna, %jmeno prijmeni skolitele
+  supervisor.title.p=prof. RNDr.,   %titul pred jmenem (nepovinne)
+  supervisor.title.a={CSc.},    %titul za jmenem (nepovinne)
   %Klicova slova, abstrakty, prohlaseni a podekovani je mozne definovat 
   %bud pomoci nasledujicich parametru nebo pomoci vyhrazenych maker (viz dale)
   %===========================================================================
   %Klicova slova
-  keywords.cs={Klíčová slova v~českém jazyce.}, %klicova slova v ceskem jazyce
-  keywords.en={Klíčová slova v~anglickém jazyce.}, %klicova slova v anglickem jazyce
+  keywords.cs={stavová gramatika, programová gramatika, hluboký zásobníkový automat, redukce stavů, redukce nevstupních symbolů, normální forma}, %klicova slova v ceskem jazyce
+  keywords.en={state grammar, programmed grammar, deep pushdown automata, reduction of states, reduction of non-input symbols, normal form}, %klicova slova v anglickem jazyce
   %Abstract
-  abstract.cs={Výtah (abstrakt) práce v~českém jazyce.}, % abstrakt v ceskem jazyce
-  abstract.en={Výtah (abstrakt) práce v~anglickém jazyce.}, % abstrakt v anglickem jazyce
+  abstract.cs={%
+Tato práce představuje několik modifikací hlubokých zásobníkových automatů s ohledem na redukci počtu stavů nebo nevstupních symbolů. 
+Je ukázáno, že síla hlubokých zásobníkových automatů s jedním nevstupním symbolem není ovlivněna, tudíž tyto automaty charakterizují nekonečnou hierarchii jazykových rodin vycházejících z programových gramatik konečného indexu. Na základě principu tohoto automatu je stanovena normální forma hlubokých zásobníkových automatů. 
+Nakonec zavádím zobecněný hluboký zásobníkový automat, který expanduje nejvrchnější možný nevstupní symbol na zásobníku. Tento automat spolu s jeho zredukovanými formami je ekvivalentní se stavovými gramatikami.
+}, % abstrakt v ceskem jazyce
+  abstract.en={%
+This thesis introduces several modifications of deep pushdown automata considering the reduced number of states or non-input symbols. 
+It is shown that the power of deep pushdown automata of finite index with one non-input symbol is not affected, thus these automata characterize an infinite hierarchy of language families resulting from programmed grammars of finite index. Based on a principle of these automata, it is established the normal form of deep pushdown automata. 
+Finally, I introduce generalized deep pushdown automata. They expand the topmost possible non-input symbol in the pushdown. These automata and their reduced forms are equivalent to state grammars.
+}, % abstrakt v anglickem jazyce
   %Prohlaseni
-  declaration={Prohlašuji, že jsem tuto bakalářskou práci vypracoval samostatně pod vedením pana ...},
+  declaration={Prohlašuji, že jsem tuto bakalářskou práci vypracovala samostatně pod vedením pana prof.
+RNDr. Alexandra Meduny, CSc. Uvedla jsem všechny literární prameny a publikace, ze kterých jsem čerpala. },
   %Podekovani (nepovinne)
-  acknowledgment={Zde je možné uvést poděkování vedoucímu práce a těm, kteří
-  poskytli odbornou pomoc a Nejakému Fridovi z~Facebooku za prevod šablony do utf8.} % nepovinne
+  acknowledgment={Tímto způsobem bych ráda poděkovala vedoucímu své práce, panu prof. RNDr. Alexandru Medunovi, CSc., za věnovaný čas a pomoc při řešení.} % nepovinne
 }
 
 %Abstrakt (cesky, anglicky)

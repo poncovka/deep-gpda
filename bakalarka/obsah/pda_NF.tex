@@ -1,0 +1,88 @@
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Hluboký zásobníkový automat v~normální formě}
+
+V~této kapitole zavádím normální formu hlubokého zásobníkového automatu a ukazuji způsob, jakým lze automat na tuto formu převést. Vycházím z~myšlenky automatu s~jedním nevstupním symbolem, kterému jsem se věnovala doposud. Hluboký zásobníkový automat je ale zobecněním konečného a nemá omezení pro počet nevstupních symbolů na zásobníku. Z~toho důvodu není možné na něj aplikovat algoritmus \ref{alg_PDA}, neboť by to vedlo k~nekonečnému počtu stavů a pravidel. Je ale možné pracovat podobným způsobem s~tzv. prefixem zásobníku, kdy nejvrchnějších $n$ nevstupních symbolů nahrazuji symbolem $\#$. Celkový počet nevstupních symbolů jsem tak nijak nezredukovala, ale docílila jsem zjednodušeného zápisu pravidel.
+
+% definice
+% algoritmus
+% ekvivalence
+
+%=========================================================================
+\section{Definice normální formy}
+
+\begin{Def}\label{def_NF}
+Nechť $M = (Q,\Sigma,\Gamma, R, s, S , F)$ je hluboký zásobníkový automat
+a $n$ je maximální hloubka expanze v~$M$.
+Pak $M$ je v~normální formě, pokud každé pravidlo z~$R$ je v~jednom ze tvarů:
+
+\begin{enumerate}
+\renewcommand{\labelenumi}{(\roman{enumi})}
+
+\item $mqA \rightarrow p\#$, kde $A \in (\Gamma - \Sigma)$, $1 \le m \le n$, $p$, $q \in Q$,
+\item $mq\# \rightarrow p\#$, kde $1 \le m \le n$, $p$, $q \in Q$,
+\item $mq\# \rightarrow pa$, kde $a \in {\Sigma}^+$, $1 \le m \le n$, $p$, $q \in Q$,
+\item $mq\# \rightarrow p\#A$, kde $A \in (\Gamma - \Sigma)$, $1 \le m \le n$, $p$, $q \in Q$.
+
+\end{enumerate}
+
+\end{Def}
+\medskip
+Hluboký zásobníkový automat v~normální formě dle definice \ref{def_NF} pracuje s~prefixem $n$ nevstupních symbolů. Přepis symbolů v~prefixu na symbol $\#$ umožňuje pravidlo typu (i), změnu stavu pravidlo (ii), přepis na symbol vstupní abecedy pravidlo typu (iii) a expandovat lze pravidlem typu (iv). Nechť pravidlo typu (iv) je možné aplikovat jen na nejspodnější symbol $\#$, pak na zásobníku je v~každém kroku derivace řetězec z~množiny $ ( \Sigma^* \{ \# \} )^k  \Gamma^*$, kde $0 \le k \le n$. 
+
+\section{Převod na normální formu}
+
+Při sestavování algoritmu pro převod hlubokého zásobníkového automatu do normální formy jsem musela řešit zejména omezené možnosti expanze. Původní stav automatu a nevstupní symboly z~prefixu opět uchovávám ve stavech. Pokud bych ale připustila expanzi na libovolný počet nevstupních symbolů, ztratila bych ze stavu informaci o~nahrazených nevstupních symbolech, které by se ocitly za prefixem, nebo bych zvětšovala velikost prefixu a počet pomocných stavů by tak narostl do nekonečna. Tento problém jsem vyřešila tzv. postupnou expanzí. Pravá strana pravidla je reprezentovaná jedním nevstupním symbolem. Ten je možné expandovat na právě dva nevstupní symboly: první symbol v~řetězci a zbytek řetězce. Jednoduchou rekurzí tohoto postupu lze dosáhnout úplné expanze.
+
+Expanze na dva nevstupní symboly je již udržitelná, ale stále se může stát, že poslední symbol $\#$ bude odsunut o~jednu pozici za prefix. Nabízí se povolit pravidlo pro přepis tohoto symbolu na původní nevstupní symbol, ale tím bych zvýšila hloubku automatu. Místo toho spojuji krok expanze a krok přepisu posledního $\#$ symbolu na původní symbol do jednoho pravidla typu (iv). Expanze tak nemá vliv na $\#$ symboly v~prefixu.
+
+V~algoritmu \ref{alg_NF} popisuji konstrukci hlubokého zásobníkového automatu v~normální formě. S~ohledem na postupnou expanzi zavádím nové nevstupní symboly, jejichž součástí je rovněž původní pravidlo pro expanzi. Nelze určit dopředu, kdy se jednotlivé kroky expanze provedou, proto je nutné je umožnit provést ve všech stavech automatu a na všech pozicích v~prefixu. 
+
+\begin{Alg}\label{alg_NF}
+Převod hlubokého zásobníkového automatu do normální formy.
+
+\begin{list}{}{\setlength\parsep{0cm} \setlength\itemsep{0cm} \setlength\leftmargin{1em}}
+   \item Vstup: $M = (Q,\Sigma,\Gamma, R, s, S, F)$ 
+   \item Výstup: $M_{NF} = (Q_{NF}, \Sigma_{NF}, {\Gamma}_{NF}, R_{NF}, s_{NF},  S_{NF}, F_{NF})$ \medskip
+  
+  \item ${\Sigma}_{NF} := \Sigma$
+  \item ${\Gamma}_{NF} :=\{\#\} \cup \Sigma$
+  \item $s_{NF} := <s,S>$
+  \item $S_{NF} := \#$ \medskip
+
+  \item $k := \mathrm{max}(\{m \mid mqA \rightarrow pv \in R\}) $ \medskip
+
+  \item Pro každé $(q,u,A) \in Q \times (\Gamma - \Sigma)^* \times (\Gamma - \Sigma)$, kde $|u| < k$: \medskip
+
+  \subitem přidej do $R_{NF}$ pravidlo typu (i) $|uA| <q,u> A \rightarrow <q,uA> \#$. \medskip
+
+  \item Pro každé $r : mqA \rightarrow p X_1 X_2 X_3 \dots X_j \in R$, kde $1 \le i \le j$, $X_i \in \Gamma$, a 
+         pro každou dvojici $(u,v) \in (\Gamma - \Sigma)^* \times (\Gamma - \Sigma)^*$, kde $|uv| < k$ : \medskip
+
+  \subitem Pokud $|u| = m - 1$, $|v| \le k-m$, přidej do $R_{NF}$ pravidlo typu (ii) :
+  \subitem $m <q,uAv> \# \rightarrow <p,u (r : X_1 X_2 X_3 \dots X_j) v>\#$ . \medskip
+
+  \subitem Pro každé $(X_i,q') \in \{X_1, X_2, X_3, \dots, X_j\} \times Q$: \medskip
+
+  \subsubitem Pokud $X_i \in (\Gamma - \Sigma)$, přidej do $R_{NF}$ pravidlo typu (ii) :
+  \subsubitem $|u|+1 <q',u (r : X_i) v> \# \rightarrow <q',u X_i v> \# $. \medskip
+
+  \subsubitem Pokud $X_i \in \Sigma$, přidej do $R_{NF}$ pravidlo typu (iii) :
+  \subsubitem $|u|+1 <q',u (r : X_i) v> \# \rightarrow <q',uv> X_i $.\medskip
+
+  \subsubitem Pokud $i < j$, přidej do $R_{NF}$ pravidlo typu (iv) :
+
+  \subsubitem $|uv|+1 <q',u(r : X_i X_{i+1} \dots X_j)v> \# \rightarrow <q',u(r : X_i) (r: X_{i+1} \dots X_j)v'>\# V' $
+  \subsubitem pro $v \ne \varepsilon$, kde $v = V_1 V_2 V_3 \dots V_{l-1} V_l$, $v' = V_1 V_2 V_3 \dots V_{l-1}$ a $V'=V_l$, jinak
+  \subsubitem $|u|+1 <q',u(r : X_i X_{i+1} \dots X_j)> \# \rightarrow <q',u(r : X_i)>\# (r: X_{i+1} \dots X_j)$.\bigskip
+
+  \item $Q_{NF} := \{p,q \mid mqA \rightarrow pv \in R_{NF}\} $
+  \item $F_{NF} := \{<q, \varepsilon> \mid  q \in F \}$
+
+
+\end{list}
+\end{Alg}
+
+%=========================================================================
+

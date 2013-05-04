@@ -19,7 +19,7 @@ prezentace:
 #	ps2pdf -sPAPERSIZE=a4 $(PREZENTACE).ps
 
 counting: $(CO).pdf
-	./counter.sh
+	bash counter.sh
 
 vlnka:
 	vlna $(CO).tex

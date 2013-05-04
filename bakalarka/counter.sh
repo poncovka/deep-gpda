@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 pdftotext projekt.pdf
 chars=$((`cat projekt.txt | wc -m`))
