@@ -1,7 +1,7 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Hluboký zásobníkový automat v~normální formě}
+\chapter{Hluboký zásobníkový automat v~normální formě} \label{kap_pda_NF}
 
 V~této kapitole zavádím normální formu hlubokého zásobníkového automatu a ukazuji způsob, jakým lze automat na tuto formu převést. Vycházím z~myšlenky automatu s~jedním nevstupním symbolem, kterému jsem se věnovala doposud. Hluboký zásobníkový automat je ale zobecněním konečného a nemá omezení pro počet nevstupních symbolů na zásobníku. Z~toho důvodu není možné na něj aplikovat algoritmus \ref{alg_PDA}, neboť by to vedlo k~nekonečnému počtu stavů a pravidel. Je ale možné pracovat podobným způsobem s~tzv. prefixem zásobníku, kdy nejvrchnějších $n$ nevstupních symbolů nahrazuji symbolem $\#$. Celkový počet nevstupních symbolů jsem tak nijak nezredukovala, ale docílila jsem zjednodušeného zápisu pravidel.
 
