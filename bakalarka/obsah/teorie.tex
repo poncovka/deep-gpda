@@ -34,7 +34,7 @@ Zásobníkový automat je modelem pro bezkontextové jazyky. Umožňuje přepiso
 \item  $Q$ je konečná množina stavů, 
 \item  $\Sigma$ vstupní abeceda, 
 \item  $\Gamma$ zásobníková abeceda, přičemž $\Sigma \subseteq \Gamma$ a $Q \cap \Gamma = \emptyset$,
-\item  $R$ je konečná množina pravidel typu $(m, q, A, p, v) \in (\{1,2,3,\dots\} \times Q \times (\Gamma-\Sigma)\times   Q \times {\Gamma}^+$), píšeme $mqA \rightarrow pv$,
+\item  $R$ je konečná množina pravidel typu $(m, q, A, p, v) \in (\{1,2,3,\dots\} \times Q \times (\Gamma-\Sigma)\times   Q \times {\Gamma}^+)$, píšeme $mqA \rightarrow pv$,
 \item  $s \in Q$ je počáteční stav, 
 \item  $S \in \Gamma$ počáteční zásobníkový symbol, 
 \item  $F \subseteq Q$ je množina koncových stavů.
@@ -100,7 +100,7 @@ Bezkontextová gramatika $G$ generuje jazyk $L(G)$, pro který platí $$L(G) = \
 \end{Def}
 
 % DEFINICE: STAVOVA GRAMATIKA
-\begin{Def}
+\begin{Def} \label{def_state_gram}
 \emph{Stavová gramatika} je dle \cite{Kasai:Hierarchy} šestice $G=(V,W,T,S,s,P)$, kde 
 \begin{description*}
 \item $V = T \cup N$ je úplná abeceda, 
@@ -123,13 +123,13 @@ $$L(G) = \{w \in T^* | (s, S) {\Rightarrow}^* (p, w), p,q \in W \}.$$
 \emph{Stavová gramatika konečného indexu $n$} \cite{Kasai:Hierarchy} je stavová gramatika $G=(V,W,T,S,s,P)$, pro kterou platí, že derivační krok $(q, xAy) \Rightarrow (p, xvy)$ za pomoci pravidla $(q,A) \rightarrow (p,v) \in P$, kde $p$, $q \in W$, $A \in N$, $v$, $x$, $y \in V^*$, lze provést právě tehdy, když je počet neterminálů v~řetězci $xA$ menší nebo roven $n$. Píšeme ${{}_n{\Rightarrow}}$. 
 \end{Def}
 
-\begin{Def}
+\begin{Def} \label{def_state_gram_epsilon}
 \emph{Stavová gramatika s~$\varepsilon$-pravidly} je podle \cite{Meduna:StateGrammars} stavová gramatika $G=(V,W,T,S,s,P)$ rozšířená o~vymazávací pravidla typu $(q,A) \rightarrow (p,\varepsilon)$, kde $p$, $q \in W$, $A \in N$.
 \end{Def}
 
 
 %=========================================================================
-\section{Hierarchie mezi kontextovými a bezkontextovými jazyky}
+\section{Hierarchie mezi kontextovými a bezkontextovými jazyky} \label{kap_teorie_hierarchie}
 
 % definovat rodiny jazyků příslušných modelů a zařadit je do kontextu, obrázek - viz. křivka?
 
@@ -149,7 +149,7 @@ Mocnosti definovaných modelů se v rámci Chomského hierarchie nacházejí př
 
 \end{description*}
 
-L${}_{fin}$(X) indikuje konečný index modelu X. Pro modely ${}_n$DP, M, P a S platí, že vycházejí z bezkontextové gramatiky a neobsahují $\varepsilon$-pravidla.
+L${}_{fin}$(X) indikuje konečný index modelu X. Pro modely M, P a S platí, že vycházejí z bezkontextové gramatiky a neobsahují $\varepsilon$-pravidla.
 
 Vztahy mezi jazykovými rodinami jsou znázorněné na diagramu \ref{obr_model_hiearchy}. Vycházela jsem z výsledků v pracích
 Meduny (\cite{Meduna:DeepPDA}, \cite{Meduna:FinitelyDeepPDA}, \cite{Meduna:StateGrammars}), 
