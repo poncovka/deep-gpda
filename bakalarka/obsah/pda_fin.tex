@@ -1,13 +1,18 @@
+% TODO
+% * obrazek znazornujici cinnost algoritmů
+% * priklad k druhe casti dukazu NEBO
+% * mam rozepsat druhou cast dukazu?
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Hluboký zásobníkový automat s~jedním nevstupním symbolem} \label{kap_deep_pda_fin}
-%TODO Úvod k omezení počtu nevstupních symbolů, zavedení nového typu automatu
 
+
+V této kapitole se zabývám otázkou, jaký je vliv počtu nevstupních symbolů na mocnost hlubokého zásobníkového automatu konečného indexu. V souvislosti s touto problematikou představuji hluboký zásobníkový automat s jedním nevstupním symbolem a porovnávám jej s programovými gramatikami konečného indexu.
 
 %=========================================================================
 \section{Omezení počtu nevstupních symbolů}\label{section_deep_pda_nonterm}
-% TODO Srovnání síly nového automatu s druhým typem - algoritmus
 
-Omezím-li počet nevstupních symbolů zásobníkového automatu $M$ na jeden, mohu zavést nový automat $M_\#$ a zkoumat jeho sílu. Převod automatu $M$ na  $M_\#$ popisuji algoritmem \ref{alg_PDA}. Pro účely simulace zavádím nové stavy, kde uchovávám informace o~stavu automatu a nahrazeném obsahu zásobníku. To je možné díky konečnému počtu nevstupních symbolů na zásobníku, neboť jinak by takové řešení vedlo k~nekonečnému počtu stavů. Každé pravidlo pak lze snadno převést na jeho ekvivalent nahrazením nevstupních symbolů symbolem $\#$ a jejich uložením do stavu.
+
+Omezím-li počet nevstupních symbolů hlubokého zásobníkového automatu konečného indexu $M$ na jeden, mohu definovat nový typ automatu $M_\#$. Jestliže chci zachovat sílu automatu $M$, musím být schopna jeho činnost simulovat pomocí $M_\#$. Pro tyto účely zavádím stavy, kde uchovávám informace o~stavu automatu $M$ a o nevstupních symbolech na zásobníku. To je možné díky konečnému počtu těchto symbolů na zásobníku, neboť jinak by takové řešení vedlo k~nekonečnému počtu stavů. Každé pravidlo pak lze pro každý možný obsah zásobníku převést na jeho ekvivalent nahrazením nevstupních symbolů symbolem $\#$ a jejich uložením do stavu. Převod automatu $M$ na  $M_\#$ popisuji algoritmem \ref{alg_PDA}.
 
 \begin{Alg} \label{alg_PDA}
 Převod hlubokého zásobníkového automatu konečného indexu na ekvivalentní s~jedním nevstupním symbolem.
@@ -21,7 +26,7 @@ Převod hlubokého zásobníkového automatu konečného indexu na ekvivalentní
   \item $s_\# := <s,\#>$
   \item $S_\# := \# $ \medskip
 
-  \item Pro každé $mqA \rightarrow pv \in R$, kde $v = b_0 B_1 b_1 B_2 b_2 \dots b_{j-1} B_{j} b_j$, $j \in \{0,1,2,3,\dots,n\}$, $b_0,b_i \in {\Sigma}^*$ a $B_i \in (\Gamma - \Sigma)$ pro všechna $i \in \{1,2,\dots,j\}$ : \smallskip
+  \item Pro každé $mqA \rightarrow pv \in R$, kde $v = b_0 B_1 b_1 B_2 b_2 \dots b_{j-1} B_{j} b_j$, $j \in \{0,1,2,\dots,n-1,n\}$, $b_0,b_i \in {\Sigma}^*$ a $B_i \in (\Gamma - \Sigma)$ pro všechna $i \in \{1,2,\dots,j\}$ : \smallskip
 
   \subitem A~pro každé $(u,z) \in (\Gamma - \Sigma)^* \times (\Gamma - \Sigma)^*$, kde $|u|=m-1$, $|z|\le n-m$ : \smallskip
 
@@ -33,19 +38,16 @@ Převod hlubokého zásobníkového automatu konečného indexu na ekvivalentní
 \end{list}
 \end{Alg}
 
-Je zřejmé, že každý hluboký zásobníkový automat konečného indexu s~jedním nevstupním symbolem splňuje definici pro obecný hluboký zásobníkový automat konečného indexu. Tudíž spolu s~algoritmem \ref{alg_PDA} jsem ukázala ekvivalenci těchto automatů.
+Je zřejmé, že každý hluboký zásobníkový automat konečného indexu s~jedním nevstupním symbolem splňuje definici pro obecný hluboký zásobníkový automat konečného indexu. Tudíž spolu s~algoritmem \ref{alg_PDA} jsem neformálně dokázala, že tyto automaty jsou ekvivalentní.
 
 %=========================================================================
 \section{Ekvivalence s~programovými gramatikami konečného indexu}
-% TODO Srovnání síly z programovými gramatikami - algoritmus
 
-%TODO příklad převedení
+V~\cite{Meduna:FinitelyDeepPDA} je dokázáno, že hluboké zásobníkové automaty konečného indexu jsou ekvivalentní s~maticovými gramatikami konečného indexu, tudíž třídy jazyků, které zásobníkový automat přijímá, tvoří nekonečnou hierarchii. Vzhledem k~výsledkům v~kapitole \ref{section_deep_pda_nonterm} lze očekávat, že tato vlastnost automatu zůstane i při omezení počtu nevstupních symbolů. Konstrukci důkazu tohoto tvrzení ukážu na ekvivalenci s~programovými gramatikami, přičemž platí, že maticové a programové gramatiky konečného indexu generují stejný jazyk \cite{Dassow:RegulatedRewriting}.
 
-V~\cite{Meduna:FinitelyDeepPDA} je dokázáno, že hluboké zásobníkové automaty konečného indexu jsou ekvivalentní s~maticovými gramatikami konečného indexu, tudíž třídy jazyků, které zásobníkový automat přijímá, tvoří nekonečnou hierarchii. Vzhledem k~výsledkům v~kapitole \ref{section_deep_pda_nonterm} lze očekávat, že tato vlastnost automatu zůstane i při omezení počtu nevstupních symbolů. Konstrukci důkazu tohoto tvrzení ukážu na ekvivalenci s~programovými gramatikami, přičemž je očividné, že maticové a programové gramatiky konečného indexu generují stejný jazyk (viz \cite{Dassow:RegulatedRewriting}).
+Pro hluboký zásobníkový automat dle \cite{Meduna:FinitelyDeepPDA} platí, že jestliže přijme nějaké slovo $w$, pak existuje taková sekvence přechodů přijímající slovo $w$, která provádí pouze pop operace po první pop operaci. Toto tvrzení využiji v~následujícím důkazu, neboť zásobníkový automat, na kterém probíhají jen expanze funguje jako gramatika. Stačí proto ukázat, že automat je schopen na svém zásobníku simulovat všechny derivace gramatiky a gramatika je schopná simulovat automat.
 
-Pro hluboký zásobníkový automat dle \cite{Meduna:FinitelyDeepPDA} platí, že jestliže přijme nějaké slovo $w$, pak existuje taková komputace tohoto slova, která provádí pouze pop operace po první pop operaci. Toto tvrzení využiji v~následujícím důkazu, neboť zásobníkový automat, na kterém probíhají jen expanze funguje jako gramatika. Stačí proto ukázat, že automat je schopen na svém zásobníku simulovat všechny derivace gramatiky a opačně.
-
-Pomocí algoritmu \ref{alg_PG} popisuji způsob, jakým lze převést programovou gramatiku konečného indexu na hluboký zásobníkový automat konečného indexu s~jedním nevstupním symbolem. Stav automatu se v~tomto případě skládá ze dvou položek: označení pravidla, které se bude simulovat v~dalším kroku, a řetězce neterminálů, které jsou na zásobníku nahrazené symbolem $\#$. Automat přejde do koncového stavu, pokud jeho zásobník neobsahuje žádné neterminály.
+V algoritmu \ref{alg_PG} popisuji konstrukci hlubokého zásobníkového automatu konečného indexu s~jedním nevstupním symbolem $M$ simulujícího programovou gramatiku konečného indexu $G$. Stav automatu se v~tomto případě skládá ze dvou položek: označení pravidla, které se bude simulovat v~dalším kroku, a řetězce neterminálů, které jsou na zásobníku nahrazené symbolem $\#$. Automat přejde do koncového stavu, pokud jeho zásobník neobsahuje žádné nevstupní symboly.
  %%%
 
 \begin{Alg} \label{alg_PG}
@@ -78,6 +80,9 @@ Převod programové gramatiky konečného indexu na ekvivalentní hluboký záso
 \end{list}
 \end{Alg}
 
+
+% TODO rozepsat?
+
 Konstrukce důkazu o~převodu hlubokého zásobníkového automatu konečného indexu s~jedním nevstupním symbolem na programovou gramatiku konečného indexu je dohledatelná ve článku \cite{Krivka:RewritingSystems}, který srovnává programové gramatiky s~\#-Rewriting Systems. Programová gramatika simuluje každý krok zásobníkového automatu sekvencí několika derivací. Neterminály obsahují informace o~stavu zásobníku, aktuální pozici výskytu symbolu \# a celkovém počtu všech \# v~aktuální konfiguraci. Vlastní simulace probíhá následovně:
 
 \begin{list}{}{\setlength\parsep{0cm} \setlength\itemsep{0cm} \setlength\leftmargin{1em}}
@@ -86,7 +91,7 @@ Konstrukce důkazu o~převodu hlubokého zásobníkového automatu konečného i
 \item 3. Odstranění pomocných stavů.
 \end{list}
 
-Tím jsem ukázala, že výše zavedený typ zásobníkového automatu je ekvivalentní s~programovými gramatikami. Z~toho vyplývá, že rodina jazyků přijímaná tímto zásobníkovým automatem tvoří nekonečnou hierarchii vycházející z~programových gramatik.
+Tím jsem ukázala, že výše zavedený typ zásobníkového automatu je ekvivalentní s~programovými gramatikami konečného indexu. Z~toho vyplývá, že rodina jazyků přijímaná tímto automatem tvoří nekonečnou hierarchii vycházející z~konečných programových gramatik.
 
 
 %=========================================================================
