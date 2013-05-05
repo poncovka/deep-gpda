@@ -1,39 +1,46 @@
-
+% TODO:
+% * ilustrujici obrazky
+% * priklady
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Zobecněný hluboký zásobníkový automat a jeho redukce} \label{kap_pda_gen}
 
-% Definice
+V předchozí kapitole jsem se věnovala automatu se zjednodušeným zápisem pravidel. Toho jsem dosáhla tak, že jsem vymezila několik povolených typů.
+Naskýtá se otázka, zda by nebylo výhodné zjednodušit přímo formu pravidla hlubokého zásobníkového automatu. Konkrétně by bylo možné vynechat hloubku expanze. Ta by tak nebyla definovaná v pravidle, ale specifikovaná v definici automatu. Tím bych dosáhla jistého zobecnění hlubokého zásobníkového automatu.
 
-\begin{Def}
-Zobecněný hluboký zásobníkový automat je uspořádaná sedmice $M = (Q,\Sigma,\Gamma, R, s, S, F)$, 
-kde $Q$ je konečná množina stavů, $\Sigma$ vstupní abeceda, $\Gamma$ zásobníková abeceda, přičemž $\Sigma \subset \Gamma$,
-$s \in Q$ je počáteční stav, $S \in \Gamma$ počáteční symbol na zásobníku a $F \subset Q$ je množina
-koncových stavů. $R$ je konečná množina pravidel typu $(q, A, p, v) \in Q \times (\Gamma - \Sigma) \times Q \times {\Gamma}^+$, které píšeme ve tvaru $qA \rightarrow pv$. 
+\section{Zobecněný hluboký zásobníkový automat}
+
+Zobecněný hluboký zásobníkový automat (Definice \ref{def_pda_gen}) vychází z hlubokého zásobníkového automatu, ale s hloubkou expanze pracuje jiným způsobem. Postupně prochází svým zásobníkem a aplikuje pravidlo typu $qA \rightarrow pv$ na nejvrchnější možný nevstupní symbol $A$. Dá se předpokládat, že tento model bude mít vyšší mocnost, neboť může expandovat symboly v libovolné hloubce.
+
+\begin{Def} \label{def_pda_gen}
+\emph{Zobecněný hluboký zásobníkový automat} je uspořádaná sedmice \\$M = (Q,\Sigma,\Gamma, R, s, S, F)$, 
+kde $Q$, $\Sigma$, $\Gamma$, $s$, $S$, $F$ jsou definované stejně jako u hlubokého zásobníkového automatu (Definice \ref{def_deep_pda}) a $R$ je konečná množina pravidel typu 
+$$(q, A, p, v) \in (Q \times (\Gamma-\Sigma) \times Q \times {\Gamma}^+)\textnormal{, píšeme }qA \rightarrow pv.$$
+Nechť $X$, $Y$ jsou dvě konfigurace $M$.  $M$ provede expanzi z~$X$ do $Y$, pokud 
+$X = (q, w, uAz)$, $Y = (p, w, uvz)$, $qA \rightarrow pv \in R$, kde $p$, $q \in Q$, $w \in \Sigma^*$, $A \in \Gamma$, $u$, $v$, $z \in \Gamma^*$,
+a platí:
+$$\{X \mid qX \rightarrow p'v' \in R\textnormal{, kde }X \in \mathrm{alph}(u) \cap (\Gamma - \Sigma)\textnormal{, }p' \in Q\textnormal{, }v' \in {\Gamma}^+ \} = \emptyset.$$
+
 \end{Def}
 
-\begin{Def}
-Nechť $M = (Q,\Sigma,\Gamma, R, s, S, F)$ je zobecněný hluboký zásobníkový automat, $(w,q,uAz)$ a $(w,p,uvz)$ jeho dvě konfigurace a $qA \rightarrow pv \in R$ pravidlo. Pak lze provést přechod z~$(w,q,uAz)$ do $(w,p,uvz)$, píšeme $(w,q,uAz) {\Rightarrow} (w,p,uvz)$, právě tehdy když platí: $\{X \mid qX \rightarrow p'v' \in R$, kde $X \in \mathrm{alph}(u) \cap (\Gamma - \Sigma)$, $p' \in Q$, $v' \in {\Gamma}^+ \} = \emptyset$.
+\begin{Def}\label{def_pda_gen_epsilon}
+\emph{Zobecněný hluboký zásobníkový automat s~$\varepsilon$-pravidly} je zobecněný hluboký zásobníkový automat $M = (Q,\Sigma,\Gamma, R, s, S, F)$ rozšířený o~vymazávací pravidla typu\\ $qA \rightarrow p\varepsilon$, kde $p$, $q \in Q$, $A \in (\Gamma - \Sigma)$.
 \end{Def}
 
 %=========================================================================
  \section{Ekvivalence se stavovými gramatikami} \label{sec_ekv_state_grammars}
 
-% ekvivalence se stavovými gramatikami, povolení epsilon pravidel, co s toho vyplývá
-% algoritmus a důkaz
+Když porovnám definici stavové gramatiky (\ref{def_state_gram}) s definicí zobecněného hlubokého zásobníkového automatu (\ref{def_pda_gen}) je zřejmé, že se jedná o ekvivalentní modely.
 
-Zřejmé. Stavové gramatiky jsou left-most, hluboké automaty top-most, pravidla jsou ve stejném tvaru. Doplnit.
+V souvislosti s kapitolou \ref{kap_teorie_hierarchie} lze o tomto automatu prohlásit, že rodina jazyků, které přijímá, je identická s rodinou kontextových jazyků. Dále z definic \ref{def_state_gram_epsilon} a \ref{def_pda_gen_epsilon} vyplývá, že zobecněný hluboký zásobníkový automat s~$\varepsilon$-pravidly přijímá rodinu jazyků, která je identická s rodinou  rekurzivně spočetných jazyků. Jinými slovy, tento automat má mocnost Turingova stroje.
 
 %=========================================================================
 \section{Omezení počtu nevstupních symbolů}
 
-% odkaz na článek on state grammars, co s toho vyplývá
-% algoritmus
-
-Ve článku \ref{DOPLNIT} je dokázáno, že každá stavová gramatika s~$\varepsilon$-pravidly má svůj ekvivalentní protějšek se třemi nevstupními symboly. S~ohledem na výsledek kapitoly \ref{sec_ekv_state_grammars} je na místě prozkoumat, zda lze takové redukce dosáhnout i u~zobecněných hlubokých automatů.
+Meduna \cite{Meduna:StateGrammars} dokázal, že každá stavová gramatika s~$\varepsilon$-pravidly má svůj ekvivalentní protějšek se třemi nevstupními symboly. S~ohledem na výsledek kapitoly \ref{sec_ekv_state_grammars} je na místě prozkoumat, zda lze téhož dosáhnout i u~zobecněných hlubokých automatů.
 
 V~algoritmu \ref{alg_gen_deep_pda_nonterm} demonstruji redukci nevstupních symbolů na symboly 0, 1 a \#. Hlavní myšlenka spočívá v~reprezentaci všech zásobníkových symbolů pomocí nul a jedniček. Symbol \# označuje fyzické dno zásobníku a umožňuje přesouvat symboly z~vrcholu na jeho konec. Zároveň k~symbolu \# zavádím binární ekvivalent, který označuje logické dno zásobníku. 
 
-Princip simulace spočívá v~rozpoznání symbolu na vrcholu zásobníku pomocí pravidel z~množiny $R_{find}$ a jeho přesunu na dno zásobníku, případně expanzi pravidlem z~$R_{exp}$. Pokud dojde k~expanzi, aplikují se pravidla s~množiny $R_{move}$, které přesunou zbývající symboly na dno. Pokud pro žádný nevstupní symbol v~zásobníku expanze neproběhne, automat nahradí binární reprezentace vstupních symbolů samotnými symboly pomocí pravidel z~množiny $R_{end}$, smaže pomocné nevstupní symboly a přejde do koncového stavu.
+Princip simulace spočívá v~rozpoznání symbolu na vrcholu zásobníku pomocí pravidel z~množiny $R_{find}$ a jeho přesunu na dno zásobníku, případně expanzi pravidlem z~$R_{exp}$. Pokud dojde k~expanzi, aplikují se pravidla s~množiny $R_{move}$, která přesunou zbývající symboly na dno, tak aby se zásobník dostal do výchozího stavu pro další krok. Pokud pro žádný nevstupní symbol na~zásobníku expanze neproběhne, automat nahradí binární reprezentace vstupních symbolů původními symboly pomocí pravidel z~množiny $R_{end}$, smaže pomocné nevstupní symboly a přejde do koncového stavu.
 
 \begin{Alg}\label{alg_gen_deep_pda_nonterm}
 Převod zobecněného hlubokého zásobníkového automatu s~$\varepsilon$-pravidly na ekvivalentní se třemi nevstupními symboly.
@@ -113,17 +120,19 @@ Převod zobecněného hlubokého zásobníkového automatu s~$\varepsilon$-pravi
 \end{list}
 \end{Alg}
 
+Z uvedeného algoritmu vyplývá, že redukce neovlivní mocnost hlubokého zásobníkového automatu s~$\varepsilon$-pravidly. Pro automat bez $\varepsilon$-pravidel nelze tento postup použít. Zůstává tedy otázkou, zda je též zredukovatelný na tři nevstupní symboly.
 
 
 %=========================================================================
 \section{Omezení počtu stavů}
 
-% odkaz na článek on state grammars
-% algoritmus
+Pro každou stavovou gramatiku s $\varepsilon$-pravidly dle \cite{Meduna:StateGrammars} platí, že existuje ekvivalentní stavová gramatika s právě třemi stavy. V~algoritmu \ref{alg_gen_deep_pda_state} ukazuji, že totéž platí pro zobecněné hluboké zásobníkové automaty.
 
-Pro každou stavovou gramatiku dle \ref{DOPLNIT} platí, že existuje ekvivalentní stavová gramatika taková, že má právě tři stavy. V~algoritmu \ref{alg_gen_deep_pda_state} ukazuji, že totéž platí pro zobecněné hluboké zásobníkové automaty.
+Pokud automat může být jen v~jednom ze tří stavů, je zřejmé, že informace o~stavu simulovaného automatu musí být součástí každého nevstupního symbolu. Musela jsem tedy najít způsob, jak přepsat stavy ve všech nevstupních symbolech na aktulání hodnotu. 
 
-Pokud automat může být jen v~jednom ze tří stavů, je zřejmé, že informace o~stavu simulovaného automatu musí být součástí každého nevstupního symbolu. Musela jsem tedy najít způsob, jak aktualizovat hodnotu tohoto stavu ve všech nevstupních symbolech na novou. Zvolila jsem princip \uv{kruhového bufferu}. Pokud nad stavy definuji uspořádání, pak lze přepsat první stav na druhý, druhý na třetí,\dots, předposlední na poslední a poslední na první. Počet těchto přepisů určuje symbol čítače, jehož hodnota se po každé změně stavu ve všech nevstupních symbolech sníží o~1. Zobecněný hluboký zásobníkový automat expanduje nejvrchnější nevstupní symbol, který lze. Proto ke každému nevstupnímu symbolu s~upravených stavem přidávám apostrof. Pro takový symbol v~daném stavu neexistuje pravidlo a automat se přesune na další symbol až po konec zásobníku. Po snížení hodnoty čítače se ze symbolů na zásobníku odstraní apostrofy a v~případě, že je čítač vynulovaný, se provede expanze. Pokud expanze způsobí změnu stavu, vygeneruje se nový čítač a celý postup se opakuje.
+Zvolila jsem princip \uv{kruhového přepisování}. Pokud nad možinou stavů definuji uspořádání, pak mohu přepsat první stav na druhý, druhý na třetí,\dots, předposlední na poslední a poslední na první. Po konečném počtu kroků jsem schopna se dostat na libovolný stav bez ohledu na jeho pořadí. Počet těchto kroků určuje symbol čítače, jehož hodnota se po každé změně stavu ve všech nevstupních symbolech sníží o~1. 
+
+Zobecněný hluboký zásobníkový automat expanduje nejvrchnější nevstupní symbol, který lze. Proto ke každému nevstupnímu symbolu s~upravených stavem přidávám apostrof. Pro takový symbol v~daném stavu neexistuje pravidlo a automat se přesune na další symbol až po konec zásobníku. Po snížení hodnoty čítače se ze symbolů na zásobníku odstraní apostrofy a v~případě, že je čítač vynulovaný, se provede expanze. Pokud expanze způsobí změnu stavu, vygeneruje se nový čítač a celý postup se opakuje.
 
 Funkčnost tohoto principu je závislá na rozdělení pravidel mezi tři stavy tak, aby automat v~žádném případě nemohl vykonat nežádaný krok. V~algoritmu \ref{alg_gen_deep_pda_state} řeším tento problém následovně: Množina $R_{\alpha}$ obsahuje pravidla pro expanzi, změnu hodnoty čítače a nastavení příznaku pro expanzi. Pravidla z~$R_{\beta}$ mění stav v~nevstupních symbolech a symboly značí apostrofem. Množina pravidel $R_{\gamma}$ odstraňuje apostrofy z~nevstupních symbolů a podle příznaku na konci zásobníku automat přejde do stavu pro expanzi, nebo pro aktualizaci stavů.
 
@@ -195,6 +204,8 @@ Převod zobecněného hlubokého zásobníkového automatu s~$\varepsilon$-pravi
 
 \end{list}
 \end{Alg}
+
+Každý zobecněný hluboký zásobníkový automat s~$\varepsilon$-pravidly lze převést na ekvivalentní se třemi stavy, jak vyplývá z algoritmu \ref{alg_gen_deep_pda_state}. Otázka, zda lze stejně zredukovat automat bez $\varepsilon$-pravidel zůstává otevřená.
 
 
 %=========================================================================
