@@ -1,7 +1,8 @@
 % TODO:
-% * ilustrujici obrazky
+% * ilustrujici obrazky pro modely?
+% * obrázek s chomského hierarchií
+% * obrázek se všemi důležitými modely
 % * Kasai
-% * dopsat hierarchii
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Pojmy a definice}
 
@@ -69,7 +70,7 @@ Nechť $X$ je konfigurace. $M$ provede \emph{nula přechodů} z~$X$ do $X$, pí�
 %=========================================================================
 \section{Řízené gramatiky}
 
-Řízené gramatiky vycházejí z definice bezkontextové gramatiky. Zachovává se základní tvar pravidla, ale mění se způsob derivace. Tímto způsobem lze zvýšit jejich sílu. Mezi řízené gramatiky patří například programové, maticové a stavové.  
+Řízené gramatiky vycházejí z definice bezkontextové gramatiky. Zachovává se základní tvar pravidla, ale mění se způsob derivace. Tímto způsobem lze zvýšit mocnost modelu bez zbytečného komplikování pravidel \cite{Krivka}. Mezi řízené gramatiky patří například programové, maticové a stavové.  
 
 % DEFINICE: BEZKONTEXTOVE GRAMATIKY
 \begin{Def}\label{def_bezkontext_gram}
@@ -100,7 +101,7 @@ Bezkontextová gramatika $G$ generuje jazyk $L(G)$, pro který platí $$L(G) = \
 
 % DEFINICE: STAVOVA GRAMATIKA
 \begin{Def}
-\emph{Stavová gramatika} je dle \cite{Kasai} šestice $G=(V,W,T,S,s,P)$, kde 
+\emph{Stavová gramatika} je dle \cite{Kasai:Hierarchy} šestice $G=(V,W,T,S,s,P)$, kde 
 \begin{description*}
 \item $V = T \cup N$ je úplná abeceda, 
 \item $W$ je konečná množina stavů, 
@@ -119,7 +120,7 @@ $$L(G) = \{w \in T^* | (s, S) {\Rightarrow}^* (p, w), p,q \in W \}.$$
 \end{Def}
 
 \begin{Def}
-\emph{Stavová gramatika konečného indexu $n$} \cite{?} je stavová gramatika $G=(V,W,T,S,s,P)$, pro kterou platí, že derivační krok $(q, xAy) \Rightarrow (p, xvy)$ za pomoci pravidla $(q,A) \rightarrow (p,v) \in P$, kde $p$, $q \in W$, $A \in N$, $v$, $x$, $y \in V^*$, lze provést právě tehdy, když je počet neterminálů v~řetězci $xA$ menší nebo roven $n$. Píšeme ${{}_n{\Rightarrow}}$. 
+\emph{Stavová gramatika konečného indexu $n$} \cite{Kasai:Hierarchy} je stavová gramatika $G=(V,W,T,S,s,P)$, pro kterou platí, že derivační krok $(q, xAy) \Rightarrow (p, xvy)$ za pomoci pravidla $(q,A) \rightarrow (p,v) \in P$, kde $p$, $q \in W$, $A \in N$, $v$, $x$, $y \in V^*$, lze provést právě tehdy, když je počet neterminálů v~řetězci $xA$ menší nebo roven $n$. Píšeme ${{}_n{\Rightarrow}}$. 
 \end{Def}
 
 \begin{Def}
@@ -131,6 +132,32 @@ $$L(G) = \{w \in T^* | (s, S) {\Rightarrow}^* (p, w), p,q \in W \}.$$
 \section{Hierarchie mezi kontextovými a bezkontextovými jazyky}
 
 % definovat rodiny jazyků příslušných modelů a zařadit je do kontextu, obrázek - viz. křivka?
+
+Mocnosti definovaných modelů se v rámci Chomského hierarchie nacházejí přibližně mezi kontextovými a bezkontextovými jazyky (obrázek \ref{obr_chom_hierarchy}). Pro bližší zkoumání vztahů mezi jazykovými rodinami zavedu následující označení:
+
+\begin{description*}
+\item{L(RE)} je rodina rekurzivně spočetných jazyků,
+\item{L(CF)} je rodina kontextových jazyků,
+\item{L(CS)} je rodina bezkontextových jazyků,
+\item{L(REG)} je rodina regulárních jazyků,
+
+\item{L(${}_n$DP)} je rodina jazyků přijímaných hlubokým zásobníkovým automatem hloubky $n \ge 1$,
+
+\item{L(M)} je rodina jazyků generovaných maticovými gramatikami,
+\item{L(P)} je rodina jazyků generovaných programovými gramatikami,
+\item{L(S)} je rodina jazyků generovaných stavovými gramatikami,
+
+\end{description*}
+
+L${}_{fin}$(X) indikuje konečný index modelu X. Pro modely ${}_n$DP, M, P a S platí, že vycházejí z bezkontextové gramatiky a neobsahují $\varepsilon$-pravidla.
+
+Vztahy mezi jazykovými rodinami jsou znázorněné na diagramu \ref{obr_model_hiearchy}. Vycházela jsem z výsledků v pracích
+Meduny (\cite{Meduna:DeepPDA}, \cite{Meduna:FinitelyDeepPDA}, \cite{Meduna:StateGrammars}), 
+Dassow (\cite{Dassow:RegulatedRewriting}) a 
+Kasai (\cite{Kasai:Hierarchy}).
+
+
+
 
 
 
