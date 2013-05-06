@@ -1,17 +1,17 @@
-# Test
-# PDA prijima jazyk a^n b^n c^n, test viceznakovych symbolu
+// Test
+// PDA prijima jazyk a^n b^n c^n, test viceznakovych symbolu
 
 (
-# Q mnozina stavu
+// Q mnozina stavu
 {s1, s2, s3, s4, s5},
 
-# Sigma mnozina vstupnich symbolu
+// Sigma mnozina vstupnich symbolu
 {á,ů,ž},
 
-# Gamma mnozina zasobnikovych symbolu
+// Gamma mnozina zasobnikovych symbolu
 {Agáta,Bedřich,Cecílie, á,ů,ž},
 
-# R mnozina pravidel
+// R mnozina pravidel
 {
 s1 Agáta -> s2 á Agáta ů Bedřich ž Cecílie,
 s2 Agáta -> s3 á Agáta,
@@ -22,15 +22,15 @@ s5 Bedřich -> s5 '' '' '',
 s5 Cecílie -> s5 ''
 },
 
-# s pocatecni stav
+// s pocatecni stav
 s1,
 
-# S pocatecni symbol
+// S pocatecni symbol
 Agáta,
 
-# F mnozina koncovych stavu
+// F mnozina koncovych stavu
 {s5}
 
 )
 
-# konec
+// konec

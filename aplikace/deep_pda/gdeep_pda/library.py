@@ -16,6 +16,11 @@ errors = {"EPARAM": ("Spatne zadane parametry.", 1),
           "ERROR": ("Doslo k chybe.", 5)
           }
 
+def enum(*sequential, **named):
+    
+    enums = dict(zip(sequential, range(len(sequential))), **named)
+    return type('Enum', (), enums)
+
 def check(string):
     '''Funkce pro kontrolni vypisy.'''
     
