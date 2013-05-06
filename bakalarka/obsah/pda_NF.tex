@@ -92,5 +92,54 @@ Převod hlubokého zásobníkového automatu do normální formy.
 
 Každý hluboký zásobníkový automat lze převést na ekvivalentní automat v normální formě. Zároveň je možné podobným způsobem modifikovat každý automat v normální formě tak, že ve stavech zaznamenávám symboly $\#$ vyskytující se v prefixu zásobníku a s jejich pomocí simuluji použití pravidel (i) a (iv). Pak omezení kladená na tato pravidla nejsou nutná a takový automat splňuje definici hlubokého zásobníkového automatu. Z toho vyplývá, že se jedná o ekvivalentní modely.
 
+
+\begin{Example}
+Ukázka aplikace pravidla $r: 2q B \rightarrow p DdEe$ upraveného podle algoritmu \ref{alg_NF} pro konfiguraci $(q, abc, AaBC)$ v hlubokém zásobníkovém automatu v normální formě.
+
+
+\begin{alignat*}{3}
+& 1:\text{  } & 2 <q, ABC> \#  &\rightarrow  <p, A(r: DdEe)C> \# \\
+& 2: & 3 <p, A(r: DdEe)C> \#  &\rightarrow  <p, A(r: D) (r: dEe)> \#C\\
+& 3: & 2 <p, A(r: D) (r: dEe)> \#  &\rightarrow  <p, AD(r: dEe)> \#\\
+& 4: & 3 <p, AD(r: dEe)> \#  &\rightarrow   <p, AD(r: d)> \#(r: Ee)\\
+& 5: & 3 <p, AD(r: d)> \#  &\rightarrow  <p, AD> d \\
+& 6: & 3 <p, AD> (r: Ee)  &\rightarrow   <p, AD(r: Ee)> \# \\
+& 7: & 3  <p, AD(r: Ee)> \#  &\rightarrow   <p, AD(r: E))> \#(r: e)\\
+& 8: & 3  <p, AD(r: E)> \#  &\rightarrow   <p, ADE)> \# 
+\end{alignat*}
+
+\begin{center}
+\begin{tabular}{lllllc}
+                & $( <q, ABC>$,              & $abc$, & $\#a\#\#$           $)$ & \\
+$\Rightarrow$   & $( <p, A(r: DdEe)C>$,      & $abc$, & $\#a\#\#$           $)$ & [1] \\
+$\Rightarrow$   & $( <p, A(r: D) (r: dEe)>$, & $abc$, & $\#a\#\#C$          $)$ & [2] \\
+$\Rightarrow$   & $( <p, AD(r: dEe)>$,       & $abc$, & $\#a\#\#C$          $)$ & [3] \\
+$\Rightarrow$   & $( <p, AD(r: d)>$,         & $abc$, & $\#a\#\#(r: Ee)C$   $)$ & [4] \\
+$\Rightarrow$   & $( <p, AD>$,               & $abc$, & $\#a\#d(r: Ee)C$    $)$ & [5] \\
+$\Rightarrow$   & $( <p, AD(r: Ee)>$,        & $abc$, & $\#a\#d\#C$         $)$ & [6] \\
+$\Rightarrow$   & $( <p, AD(r: E)>$,         & $abc$, & $\#a\#d\#(r: e)C$   $)$ & [7] \\
+$\Rightarrow$   & $( <p, ADE>$,         & $abc$, & $\#a\#d\#(r: e)C$        $)$ & [8] \\
+
+\end{tabular}
+\end{center}
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{Example}
+
+
+
+
+
 %=========================================================================
 

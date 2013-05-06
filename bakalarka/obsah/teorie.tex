@@ -47,6 +47,14 @@ $M$ přečte symbol na vstupní pásce a přejde z~$X$ do $Y$, tzv. \emph{pop op
 $M$ přepíše symbol na zásobníku a přejde z~$X$ do $Y$, tzv. \emph{expanze}, píšeme $X$  ${}_e{\Rightarrow}$  $Y$ $[mqA \rightarrow pv]$, zjednodušeně $X$  ${}_e{\Rightarrow}$  $Y$, pokud $X = (q, w, uAz)$, $Y = (p, w, uvz)$, $mqA \rightarrow pv \in R$ a platí $\mathrm{occur}(u,\Gamma - \Sigma) = m - 1 $, kde $p$, $q \in Q$, $w \in \Sigma^*$, $A \in \Gamma$, $u$, $v$, $z \in \Gamma^*$. 
 $M$ provede \emph{přechod} z~$X$ do $Y$, píšeme $X$  ${\Rightarrow}$  $Y$ $[mqA \rightarrow pv]$, zjednodušeně $X$  ${\Rightarrow}$  $Y$, pokud provede expanzi, nebo operaci pop.
 
+
+\begin{figure}[ht]
+\centering
+\includegraphics{img/bp_pda01.eps} \bigskip \\
+\caption{Aplikace pravidla $2 q B \rightarrow p DdEe$ v hlubokém zásobníkovém automatu .}
+\end{figure}
+
+
 %% sekvence přechodů
 Nechť $X$ je konfigurace. $M$ provede \emph{nula přechodů} z~$X$ do $X$, píšeme $X \Rightarrow^0 X [\varepsilon]$, zjednodušeně $X \Rightarrow^0 X$. Nechť $X_0, X_1, X_2,\dots,X_n $ je sekvence přechodů konfigurací pro $n \ge 1$  a $X_{i-1} \Rightarrow X_i [r_i]$, kde $r_i \in R$, pro každé $i \in \{1, 2, 3,\dots, n\}$, tedy platí $X_0 \Rightarrow X_1 [r_1] \Rightarrow X_2 [r_2] \dots \Rightarrow X_n [r_n]$. Pak $M$ provede \emph{$n$ přechodů} z~$X_0$ do $X_n$. Píšeme $X_{0} \Rightarrow^n X_n [r_1 \dots r_n]$, zjednodušeně $X_{0} \Rightarrow^n X_n$. Pokud $X_{0} \Rightarrow^n X_n [r_1 \dots r_n]$ pro nějaké $n \ge 1$, pak $X_{0} \Rightarrow^+ X_n [r_1 \dots r_n]$. Pokud $X_{0} \Rightarrow^n X_n [r_1 \dots r_n]$ pro nějaké $n \ge 0$, pak $X_{0} \Rightarrow^* X_n [r_1 \dots r_n]$.
 
@@ -59,25 +67,17 @@ Nechť $X$ je konfigurace. $M$ provede \emph{nula přechodů} z~$X$ do $X$, pí�
 
 \begin{figure}[ht]
 \centering
-\includegraphics{img/bp_pda01.eps} \bigskip \\
-\caption{Aplikace pravidla $2 q B \rightarrow p DdEe$ v hlubokém zásobníkovém automatu .}
+\includegraphics{img/bp_pda02.eps} \bigskip \\
+\caption{V hlubokém zásobníkovém automatu indexu 3 nelze pravidlo $2 q B \rightarrow p DdEe$ v aktuální konfiguraci aplikovat.}
 \end{figure}
 
 % DEFINICE: FINITELY EXPANDABLE DEEP PDA
 
 \begin{Def} Podle \cite{Meduna:FinitelyDeepPDA} je \emph{hluboký zásobníkový automat konečného indexu} uspořádaná osmice $M_n = (Q,\Sigma,\Gamma, R, s, S, F, n)$, jehož definice vychází z~hlubokého zásobníkového automatu. Symbol $n \in \{1,2,3,\dots\}$ označuje maximální počet nevstupních symbolů, které mohou být uložené na zásobníku. Expanze $X$  ${}_e{\Rightarrow}$  $Y$ může proběhnout jen v~případě, že v~konfiguraci $Y$ bude na zásobníku $n$ a méně nevstupních symbolů.  O~hloubce zásobníku tohoto typu automatu se předpokládá, že je rozšiřitelná tak, aby zásobník mohl přijmout až $n$ nevstupních symbolů.
 
-\begin{figure}[ht]
-\centering
-\includegraphics{img/bp_pda02.eps} \bigskip \\
-\caption{V hlubokém zásobníkovém automatu indexu 3 nelze pravidlo $2 q B \rightarrow p DdEe$ v aktuální konfiguraci aplikovat.}
-\end{figure}
-
-
 %% Definovat krok, derivaci a jazyk
 
 \end{Def}
-
 
 %=========================================================================
 \section{Řízené gramatiky}

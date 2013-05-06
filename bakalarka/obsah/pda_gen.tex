@@ -11,6 +11,12 @@ Naskýtá se otázka, zda by nebylo výhodné zjednodušit přímo formu pravidl
 
 Zobecněný hluboký zásobníkový automat (Definice \ref{def_pda_gen}) vychází z hlubokého zásobníkového automatu, ale s hloubkou expanze pracuje jiným způsobem. Postupně prochází svým zásobníkem a aplikuje pravidlo typu $qA \rightarrow pv$ na nejvrchnější možný nevstupní symbol $A$. Dá se předpokládat, že tento model bude mít vyšší mocnost, neboť může expandovat symboly v libovolné hloubce.
 
+\begin{figure}[ht]
+\centering
+\includegraphics{img/bp_pda01.eps} \bigskip \\
+\caption{Pravidlo $q B \rightarrow p DdEe$ lze ve zobecněném hlubokém zásobníkovém automatu v aktuální konfiguraci aplikovat právě tehdy, když neexistuje pravidlo s levou stranou $qA$.}
+\end{figure}
+
 \begin{Def} \label{def_pda_gen}
 \emph{Zobecněný hluboký zásobníkový automat} je uspořádaná sedmice \\$M = (Q,\Sigma,\Gamma, R, s, S, F)$, 
 kde $Q$, $\Sigma$, $\Gamma$, $s$, $S$, $F$ jsou definované stejně jako u hlubokého zásobníkového automatu (Definice \ref{def_deep_pda}) a $R$ je konečná množina pravidel typu 
@@ -25,6 +31,7 @@ $$\{X \mid qX \rightarrow p'v' \in R\textnormal{, kde }X \in \mathrm{alph}(u) \c
 \begin{Def}\label{def_pda_gen_epsilon}
 \emph{Zobecněný hluboký zásobníkový automat s~$\varepsilon$-pravidly} je zobecněný hluboký zásobníkový automat $M = (Q,\Sigma,\Gamma, R, s, S, F)$ rozšířený o~vymazávací pravidla typu\\ $qA \rightarrow p\varepsilon$, kde $p$, $q \in Q$, $A \in (\Gamma - \Sigma)$.
 \end{Def}
+
 
 %=========================================================================
  \section{Ekvivalence se stavovými gramatikami} \label{sec_ekv_state_grammars}
