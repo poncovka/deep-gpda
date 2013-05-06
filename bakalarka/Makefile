@@ -21,10 +21,11 @@ prezentace:
 counting: $(CO).pdf
 	bash counter.sh
 
-vlnka:
+vlnka: clean
 	vlna $(CO).tex
 	vlna $(OBSAH).tex
 	vlna $(REF).bib
+	vlna obsah/*
 
 $(CO).pdf: $(CO).ps
 	dvipdf $(CO)
@@ -53,7 +54,7 @@ desky:
 clean:
 	rm -f *.dvi *.log $(CO).blg $(CO).bbl $(CO).toc *.aux $(CO).out $(CO).lof
 	rm -f $(CO).pdf
-	rm -f *~
+	rm -f *~ obsah/*~
 
 pack:
 	tar czvf bp-xjmeno.tar.gz *.tex *.bib *.bst ./fig/* ./cls/* Makefile Changelog

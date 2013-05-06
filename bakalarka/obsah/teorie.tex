@@ -1,5 +1,4 @@
 % TODO:
-% * ilustrujici obrazky pro modely?
 % * obrázek s chomského hierarchií
 % * obrázek se všemi důležitými modely
 % * Kasai
@@ -11,14 +10,14 @@ V~této kapitole zavádím a definuji pojmy, ze kterých vycházím v~dalších 
 %=========================================================================
 \section{Základní pojmy}
 
-V této práci předpokládám základní znalosti z teorie formálních jazyků. Dále zavádím následující konvence.
+V~této práci předpokládám základní znalosti z~teorie formálních jazyků. Dále zavádím následující konvence.
 
 \emph{Abeceda} je konečná neprázdná množina symbolů. 
 \emph{Prázdný řetězec} se značí symbolem $\varepsilon$. 
 Nechť $\Sigma$ je abeceda, pak $\varepsilon$ je \emph{řetězec} nad abecedou $\Sigma$, a pokud $x$ je řetězec nad $\Sigma$ a $a \in \Sigma$, pak $xa$ je řetězec na abecedou $\Sigma$.  
 $\Sigma^*$ je množina všech řetězců nad $\Sigma$ a $\Sigma^+ = \Sigma^* - \{\varepsilon\}$. 
-Pro řetězec $v \in \Sigma$ platí, že $|v|$ označuje délku řetězce $v$ a $\mathrm{alph}(v)$ značí množinu symbolů vyskytujících se v řetězci $v$. Pokud V je množina symbolů, pak $\mathrm{occur}(v, V)$ značí počet výskytů symbolů z $V$ v řetězci $v$. 
-Nechť $I$ je podmnožina celých čísel, pak $\mathrm{max}(I)$ označuje největší číslo v $I$.
+Pro řetězec $v \in \Sigma$ platí, že $|v|$ označuje délku řetězce $v$ a $\mathrm{alph}(v)$ značí množinu symbolů vyskytujících se v~řetězci $v$. Pokud V~je množina symbolů, pak $\mathrm{occur}(v, V)$ značí počet výskytů symbolů z~$V$ v~řetězci $v$. 
+Nechť $I$ je podmnožina celých čísel, pak $\mathrm{max}(I)$ označuje největší číslo v~$I$.
 
 %=========================================================================
 \section{Hluboké zásobníkové automaty}
@@ -51,7 +50,7 @@ $M$ provede \emph{přechod} z~$X$ do $Y$, píšeme $X$  ${\Rightarrow}$  $Y$ $[m
 \begin{figure}[ht]
 \centering
 \includegraphics{img/bp_pda01.eps} \bigskip \\
-\caption{Aplikace pravidla $2 q B \rightarrow p DdEe$ v hlubokém zásobníkovém automatu .}
+\caption{Aplikace pravidla $2 q B \rightarrow p DdEe$ v~hlubokém zásobníkovém automatu .}
 \end{figure}
 
 
@@ -68,7 +67,7 @@ Nechť $X$ je konfigurace. $M$ provede \emph{nula přechodů} z~$X$ do $X$, pí�
 \begin{figure}[ht]
 \centering
 \includegraphics{img/bp_pda02.eps} \bigskip \\
-\caption{V hlubokém zásobníkovém automatu indexu 3 nelze pravidlo $2 q B \rightarrow p DdEe$ v aktuální konfiguraci aplikovat.}
+\caption{V~hlubokém zásobníkovém automatu indexu 3 nelze pravidlo $2 q B \rightarrow p DdEe$ v~aktuální konfiguraci aplikovat.}
 \end{figure}
 
 % DEFINICE: FINITELY EXPANDABLE DEEP PDA
@@ -82,7 +81,7 @@ Nechť $X$ je konfigurace. $M$ provede \emph{nula přechodů} z~$X$ do $X$, pí�
 %=========================================================================
 \section{Řízené gramatiky}
 
-Řízené gramatiky vycházejí z definice bezkontextové gramatiky. Zachovává se základní tvar pravidla, ale mění se způsob derivace. Tímto způsobem lze zvýšit mocnost modelu bez zbytečného komplikování pravidel \cite{Krivka}. Mezi řízené gramatiky patří například programové, maticové a stavové.  
+Řízené gramatiky vycházejí z~definice bezkontextové gramatiky. Zachovává se základní tvar pravidla, ale mění se způsob derivace. Tímto způsobem lze zvýšit mocnost modelu bez zbytečného komplikování pravidel \cite{Krivka}. Mezi řízené gramatiky patří například programové, maticové a stavové.  
 
 % DEFINICE: BEZKONTEXTOVE GRAMATIKY
 \begin{Def}\label{def_bezkontext_gram}
@@ -104,7 +103,7 @@ Bezkontextová gramatika $G$ generuje jazyk $L(G)$, pro který platí $$L(G) = \
 
 % DEFINICE: PROGRAMOVA GRAMATIKA
 \begin{Def}
-\emph{Programová gramatika} \cite{Krivka:RewritingSystems} je čtveřice $G = (V,T,P,S)$, kde $V$, $T$ a $S$ jsou definované stejně jako v bezkontextových gramatikách. $P$ je konečná množina pravidel tvaru $r \colon A \rightarrow v, g(r)$, kde $r$ je označení pravidla, $A \rightarrow v$ je pravidlo bezkontextové gramatiky a $g(r)$ je množina značení těch pravidel, která mohou být provedena v~dalším derivačním kroku po aplikaci pravidla $r$.
+\emph{Programová gramatika} \cite{Krivka:RewritingSystems} je čtveřice $G = (V,T,P,S)$, kde $V$, $T$ a $S$ jsou definované stejně jako v~bezkontextových gramatikách. $P$ je konečná množina pravidel tvaru $r \colon A \rightarrow v, g(r)$, kde $r$ je označení pravidla, $A \rightarrow v$ je pravidlo bezkontextové gramatiky a $g(r)$ je množina značení těch pravidel, která mohou být provedena v~dalším derivačním kroku po aplikaci pravidla $r$.
 \end{Def}
 
 \begin{Def}
@@ -145,7 +144,7 @@ $$L(G) = \{w \in T^* | (s, S) {\Rightarrow}^* (p, w), p,q \in W \}.$$
 
 % definovat rodiny jazyků příslušných modelů a zařadit je do kontextu, obrázek - viz. křivka?
 
-Mocnosti definovaných modelů se v rámci Chomského hierarchie nacházejí přibližně mezi kontextovými a bezkontextovými jazyky (obrázek \ref{obr_chom_hierarchy}). Pro bližší zkoumání vztahů mezi jazykovými rodinami zavedu následující označení:
+Mocnosti definovaných modelů se v~rámci Chomského hierarchie nacházejí přibližně mezi kontextovými a bezkontextovými jazyky (obrázek \ref{obr_chom_hierarchy}). Pro bližší zkoumání vztahů mezi jazykovými rodinami zavedu následující označení:
 
 \begin{description*}
 \item{L(\textbf{RE})} je rodina rekurzivně spočetných jazyků,
@@ -161,8 +160,8 @@ Mocnosti definovaných modelů se v rámci Chomského hierarchie nacházejí př
 
 \end{description*}
 
-L${}_{fin}$(X) indikuje konečný index modelu X. Pro modely \textbf{M}, \textbf{P} a \textbf{S} platí, že vycházejí z bezkontextové gramatiky a neobsahují $\varepsilon$-pravidla.
-Vztahy mezi jazykovými rodinami jsou znázorněné na diagramu \ref{obr_model_hiearchy}. Vycházela jsem z výsledků v pracích
+L${}_{fin}$(X) indikuje konečný index modelu X. Pro modely \textbf{M}, \textbf{P} a \textbf{S} platí, že vycházejí z~bezkontextové gramatiky a neobsahují $\varepsilon$-pravidla.
+Vztahy mezi jazykovými rodinami jsou znázorněné na diagramu \ref{obr_model_hiearchy}. Vycházela jsem z~výsledků v~pracích
 Meduny (\cite{Meduna:DeepPDA}, \cite{Meduna:FinitelyDeepPDA}, \cite{Meduna:StateGrammars}), 
 Dassow (\cite{Dassow:RegulatedRewriting}) a 
 Kasai (\cite{Kasai:Hierarchy}).

@@ -1,31 +1,30 @@
 % TODO:
-% * ilustrujici obrazky
-% * priklady
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Zobecněný hluboký zásobníkový automat a jeho redukce} \label{kap_pda_gen}
 
-V předchozí kapitole jsem se věnovala automatu se zjednodušeným zápisem pravidel. Toho jsem dosáhla tak, že jsem vymezila několik povolených typů.
-Naskýtá se otázka, zda by nebylo výhodné zjednodušit přímo formu pravidla hlubokého zásobníkového automatu. Konkrétně by bylo možné vynechat hloubku expanze. Ta by tak nebyla definovaná v pravidle, ale specifikovaná v definici automatu. Tím bych dosáhla jistého zobecnění hlubokého zásobníkového automatu.
+V~předchozí kapitole jsem se věnovala automatu se zjednodušeným zápisem pravidel. Toho jsem dosáhla tak, že jsem vymezila několik povolených typů.
+Naskýtá se otázka, zda by nebylo výhodné zjednodušit přímo formu pravidla hlubokého zásobníkového automatu. Konkrétně by bylo možné vynechat hloubku expanze. Ta by tak nebyla definovaná v~pravidle, ale specifikovaná v~definici automatu. Tím bych dosáhla jistého zobecnění hlubokého zásobníkového automatu.
 
 \section{Zobecněný hluboký zásobníkový automat}
 
-Zobecněný hluboký zásobníkový automat (Definice \ref{def_pda_gen}) vychází z hlubokého zásobníkového automatu, ale s hloubkou expanze pracuje jiným způsobem. Postupně prochází svým zásobníkem a aplikuje pravidlo typu $qA \rightarrow pv$ na nejvrchnější možný nevstupní symbol $A$. Dá se předpokládat, že tento model bude mít vyšší mocnost, neboť může expandovat symboly v libovolné hloubce.
+Zobecněný hluboký zásobníkový automat (Definice \ref{def_pda_gen}) vychází z~hlubokého zásobníkového automatu, ale s~hloubkou expanze pracuje jiným způsobem. Postupně prochází svým zásobníkem a aplikuje pravidlo typu $qA \rightarrow pv$ na nejvrchnější možný nevstupní symbol $A$. Dá se předpokládat, že tento model bude mít vyšší mocnost, neboť může expandovat symboly v~libovolné hloubce.
 
 \begin{figure}[ht]
 \centering
 \includegraphics{img/bp_pda05.eps} \bigskip \\
-\caption{Pravidlo $q B \rightarrow p DdEe$ lze ve zobecněném hlubokém zásobníkovém automatu v aktuální konfiguraci aplikovat právě tehdy, když neexistuje pravidlo s levou stranou $qA$.}
+\caption{Pravidlo $q B \rightarrow p DdEe$ lze ve zobecněném hlubokém zásobníkovém automatu v~aktuální konfiguraci aplikovat právě tehdy, když neexistuje pravidlo s~levou stranou $qA$.}
 \end{figure}
 
 \begin{Def} \label{def_pda_gen}
 \emph{Zobecněný hluboký zásobníkový automat} je uspořádaná sedmice \\$M = (Q,\Sigma,\Gamma, R, s, S, F)$, 
 kde $Q$, $\Sigma$, $\Gamma$, $s$, $S$, $F$ jsou definované stejně jako u hlubokého zásobníkového automatu (Definice \ref{def_deep_pda}) a $R$ je konečná množina pravidel typu 
-$$(q, A, p, v) \in (Q \times (\Gamma-\Sigma) \times Q \times {\Gamma}^+)\textnormal{, píšeme }qA \rightarrow pv.$$
-Nechť $X$, $Y$ jsou dvě konfigurace $M$.  $M$ provede expanzi z~$X$ do $Y$, pokud 
-$X = (q, w, uAz)$, $Y = (p, w, uvz)$, $qA \rightarrow pv \in R$, kde $p$, $q \in Q$, $w \in \Sigma^*$, $A \in \Gamma$, $u$, $v$, $z \in \Gamma^*$,
-a platí:
-$$\{X \mid qX \rightarrow p'v' \in R\textnormal{, kde }X \in \mathrm{alph}(u) \cap (\Gamma - \Sigma)\textnormal{, }p' \in Q\textnormal{, }v' \in {\Gamma}^+ \} = \emptyset.$$
-
+\begin{equation*} 
+(q, A, p, v) \in (Q \times (\Gamma-\Sigma) \times Q \times {\Gamma}^+)\textnormal{, píšeme }qA \rightarrow pv. 
+\end{equation*}
+Nechť $X$, $Y$ jsou dvě konfigurace $M$.  $M$ provede expanzi z~$X$ do $Y$, pokud $X = (q, w, uAz)$, $Y = (p, w, uvz)$, $qA \rightarrow pv \in R$, kde $p$, $q \in Q$, $w \in \Sigma^*$, $A \in \Gamma$, $u$, $v$, $z \in \Gamma^*$, a platí:
+\begin{equation*} 
+\{X \mid qX \rightarrow p'v' \in R\textnormal{, kde }X \in \mathrm{alph}(u) \cap (\Gamma - \Sigma)\textnormal{, }p' \in Q\textnormal{, }v' \in {\Gamma}^+ \} = \emptyset. 
+\end{equation*}
 \end{Def}
 
 \begin{Def}\label{def_pda_gen_epsilon}
@@ -36,9 +35,9 @@ $$\{X \mid qX \rightarrow p'v' \in R\textnormal{, kde }X \in \mathrm{alph}(u) \c
 %=========================================================================
  \section{Ekvivalence se stavovými gramatikami} \label{sec_ekv_state_grammars}
 
-Když porovnám definici stavové gramatiky (\ref{def_state_gram}) s definicí zobecněného hlubokého zásobníkového automatu (\ref{def_pda_gen}) je zřejmé, že se jedná o ekvivalentní modely.
+Když porovnám definici stavové gramatiky (\ref{def_state_gram}) s~definicí zobecněného hlubokého zásobníkového automatu (\ref{def_pda_gen}) je zřejmé, že se jedná o~ekvivalentní modely.
 
-V souvislosti s kapitolou \ref{kap_teorie_hierarchie} lze o tomto automatu prohlásit, že rodina jazyků, které přijímá, je identická s rodinou kontextových jazyků. Dále z definic \ref{def_state_gram_epsilon} a \ref{def_pda_gen_epsilon} vyplývá, že zobecněný hluboký zásobníkový automat s~$\varepsilon$-pravidly přijímá rodinu jazyků, která je identická s rodinou  rekurzivně spočetných jazyků. Jinými slovy, tento automat má mocnost Turingova stroje.
+V~souvislosti s~kapitolou \ref{kap_teorie_hierarchie} lze o~tomto automatu prohlásit, že rodina jazyků, které přijímá, je identická s~rodinou kontextových jazyků. Dále z~definic \ref{def_state_gram_epsilon} a \ref{def_pda_gen_epsilon} vyplývá, že zobecněný hluboký zásobníkový automat s~$\varepsilon$-pravidly přijímá rodinu jazyků, která je identická s~rodinou  rekurzivně spočetných jazyků. Jinými slovy, tento automat má mocnost Turingova stroje.
 
 %=========================================================================
 \section{Omezení počtu nevstupních symbolů}
@@ -127,18 +126,18 @@ Převod zobecněného hlubokého zásobníkového automatu s~$\varepsilon$-pravi
 \end{list}
 \end{Alg}
 
-Z uvedeného algoritmu vyplývá, že redukce neovlivní mocnost hlubokého zásobníkového automatu s~$\varepsilon$-pravidly. Pro automat bez $\varepsilon$-pravidel nelze tento postup použít. Zůstává tedy otázkou, zda je též zredukovatelný na tři nevstupní symboly.
+Z~uvedeného algoritmu vyplývá, že redukce neovlivní mocnost hlubokého zásobníkového automatu s~$\varepsilon$-pravidly. Pro automat bez $\varepsilon$-pravidel nelze tento postup použít. Zůstává tedy otázkou, zda je též zredukovatelný na tři nevstupní symboly.
 
 
 \begin{Example}
-Ukázka aplikace pravidla $qB \rightarrow p Dd$ v konfiguraci $(q, abc, ABC)$ ve zobecneném hlubokém zásobníkovém automatu zkonstruovaném podle algoritmu \ref{alg_gen_deep_pda_nonterm}.
+Ukázka aplikace pravidla $qB \rightarrow p Dd$ v~konfiguraci $(q, abc, ABC)$ ve zobecneném hlubokém zásobníkovém automatu zkonstruovaném podle algoritmu \ref{alg_gen_deep_pda_nonterm}.
 
 \begin{center}
 \begin{tabular}{llll|l|ll}
                 & $( <q, \varepsilon>$,  & $abc$, & $0100100011\#$         $)$ & $ABC\#$ \\
 $\Rightarrow$   & $( <q, \mathbf{0}>$,            & $abc$, & $100100011\#$         $)$ & \\
-$\Rightarrow$   & $( <q, 0\mathbf{1}>$,           & $abc$, & $00100011\#$         $)$ &   $BC\#$ & přečteno A \\
-$\Rightarrow$   & $( <q, \varepsilon>$,  & $abc$, & $00100011\mathbf{01}\#$         $)$ & $BC\#\mathbf{A}$ & přesun A \\
+$\Rightarrow$   & $( <q, 0\mathbf{1}>$,           & $abc$, & $00100011\#$         $)$ &   $BC\#$ & přečteno A~\\
+$\Rightarrow$   & $( <q, \varepsilon>$,  & $abc$, & $00100011\mathbf{01}\#$         $)$ & $BC\#\mathbf{A}$ & přesun A~\\
 $\Rightarrow$   & $( <q, \mathbf{0}>$,            & $abc$, & $010001101\#$         $)$ & \\
 $\Rightarrow$   & $( <q, 0\mathbf{0}>$,           & $abc$, & $10001101\#$         $)$ & \\
 $\Rightarrow$   & $( <q, 00\mathbf{1}>$,          & $abc$, & $0001101\#$         $)$ &    $C\#A$ & přečteno B \\
@@ -161,7 +160,7 @@ $\Rightarrow$   & $( <p,\varepsilon>$,   & $abc$, & $01000010000010001\mathbf{1}
 %=========================================================================
 \section{Omezení počtu stavů}
 
-Pro každou stavovou gramatiku s $\varepsilon$-pravidly dle \cite{Meduna:StateGrammars} platí, že existuje ekvivalentní stavová gramatika s právě třemi stavy. V~algoritmu \ref{alg_gen_deep_pda_state} ukazuji, že totéž platí pro zobecněné hluboké zásobníkové automaty.
+Pro každou stavovou gramatiku s~$\varepsilon$-pravidly dle \cite{Meduna:StateGrammars} platí, že existuje ekvivalentní stavová gramatika s~právě třemi stavy. V~algoritmu \ref{alg_gen_deep_pda_state} ukazuji, že totéž platí pro zobecněné hluboké zásobníkové automaty.
 
 Pokud automat může být jen v~jednom ze tří stavů, je zřejmé, že informace o~stavu simulovaného automatu musí být součástí každého nevstupního symbolu. Musela jsem tedy najít způsob, jak přepsat stavy ve všech nevstupních symbolech na aktulání hodnotu. 
 
@@ -240,10 +239,10 @@ Převod zobecněného hlubokého zásobníkového automatu s~$\varepsilon$-pravi
 \end{list}
 \end{Alg}
 
-Každý zobecněný hluboký zásobníkový automat s~$\varepsilon$-pravidly lze převést na ekvivalentní se třemi stavy, jak vyplývá z algoritmu \ref{alg_gen_deep_pda_state}. Otázka, zda lze stejně zredukovat automat bez $\varepsilon$-pravidel zůstává otevřená.
+Každý zobecněný hluboký zásobníkový automat s~$\varepsilon$-pravidly lze převést na ekvivalentní se třemi stavy, jak vyplývá z~algoritmu \ref{alg_gen_deep_pda_state}. Otázka, zda lze stejně zredukovat automat bez $\varepsilon$-pravidel zůstává otevřená.
 
 \begin{Example}
-Ukázka aplikace pravidla $pB \rightarrow r Dd$ v konfiguraci $(p, abc, ABc)$ ve zobecneném hlubokém zásobníkovém automatu zkonstruovaném podle algoritmu \ref{alg_gen_deep_pda_state}.
+Ukázka aplikace pravidla $pB \rightarrow r Dd$ v~konfiguraci $(p, abc, ABc)$ ve zobecneném hlubokém zásobníkovém automatu zkonstruovaném podle algoritmu \ref{alg_gen_deep_pda_state}.
 
 \begin{center}
 \begin{tabular}{llll|l}

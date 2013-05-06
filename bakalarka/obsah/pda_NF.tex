@@ -1,5 +1,4 @@
 % TODO
-% * obrázek s oběma převody
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Hluboký zásobníkový automat v~normální formě} \label{kap_pda_NF}
 
@@ -31,7 +30,7 @@ Pak $M$ je v~normální formě, pokud každé pravidlo z~$R$ je v~jednom ze tvar
 
 \end{enumerate}
 
-Nechť pravidlo typu (i) lze aplikovat jen na nejvrchnější možný nevstupní symbol na zásobníku a typ (iv) je možné aplikovat jen na nejspodnější symbol $\#$, pak na zásobníku je v každém kroku řetězec z~množiny $ ( \Sigma^* \{ \# \} )^k  \Gamma^*$, kde $0 \le k \le n$. 
+Nechť pravidlo typu (i) lze aplikovat jen na nejvrchnější možný nevstupní symbol na zásobníku a typ (iv) je možné aplikovat jen na nejspodnější symbol $\#$, pak na zásobníku je v~každém kroku řetězec z~množiny $ ( \Sigma^* \{ \# \} )^k  \Gamma^*$, kde $0 \le k \le n$. 
 
 \end{Def}
 
@@ -39,7 +38,7 @@ Nechť pravidlo typu (i) lze aplikovat jen na nejvrchnější možný nevstupní
 \begin{figure}[ht]
 \centering
 \includegraphics{img/bp_pda04.eps} \bigskip \\
-\caption{Příklad konfigurace hlubokého zásobníkového automatu v normální formě s prefixem 3.}
+\caption{Příklad konfigurace hlubokého zásobníkového automatu v~normální formě s~prefixem 3.}
 \end{figure}
 
 \section{Převod na normální formu}
@@ -97,11 +96,11 @@ Převod hlubokého zásobníkového automatu do normální formy.
 \end{list}
 \end{Alg}
 
-Každý hluboký zásobníkový automat lze převést na ekvivalentní automat v normální formě. Zároveň je možné podobným způsobem modifikovat každý automat v normální formě tak, že ve stavech zaznamenávám symboly $\#$ vyskytující se v prefixu zásobníku a s jejich pomocí simuluji použití pravidel (i) a (iv). Pak omezení kladená na tato pravidla nejsou nutná a takový automat splňuje definici hlubokého zásobníkového automatu. Z toho vyplývá, že se jedná o ekvivalentní modely.
+Každý hluboký zásobníkový automat lze převést na ekvivalentní automat v~normální formě. Zároveň je možné podobným způsobem modifikovat každý automat v~normální formě tak, že ve stavech zaznamenávám symboly $\#$ vyskytující se v~prefixu zásobníku a s~jejich pomocí simuluji použití pravidel (i) a (iv). Pak omezení kladená na tato pravidla nejsou nutná a takový automat splňuje definici hlubokého zásobníkového automatu. Z~toho vyplývá, že se jedná o~ekvivalentní modely.
 
 
 \begin{Example}
-Ukázka aplikace pravidla $r: 2q B \rightarrow p DdEe$ upraveného podle algoritmu \ref{alg_NF} pro konfiguraci $(q, abc, AaBC)$ v hlubokém zásobníkovém automatu v normální formě s prefixem 3.
+Ukázka aplikace pravidla $r: 2q B \rightarrow p DdEe$ upraveného podle algoritmu \ref{alg_NF} pro konfiguraci $(q, abc, AaBC)$ v~hlubokém zásobníkovém automatu v~normální formě s~prefixem 3.
 
 
 
@@ -115,7 +114,7 @@ $\Rightarrow$   & $( <p, A\mathbf{D}(r: dEe)>$,       & $abc$, & $\#a\#\#C$     
 $\Rightarrow$   & $( <p, AD\mathbf{(r: d)}>$,         & $abc$, & $\#a\#\#\mathbf{(r: Ee)}C$   $)$ & postupná expanze \\
 $\Rightarrow$   & $( <p, AD>$,               & $abc$, & $\#a\#\mathbf{d}(r: Ee)C$    $)$        & expanze na vstupní symbol\\
 $\Rightarrow$   & $( <p, AD\mathbf{(r: Ee)}>$,        & $abc$, & $\#a\#d\mathbf{\#}C$   $)$     & načtení symbolu do prefixu\\
-$\Rightarrow$   & $( <p, AD\mathbf{(r: E)}>$,         & $abc$, & $\#a\#d\#\mathbf{(r: e)}C$$)$  & postupná expanze\\
+$\Rightarrow$   & $( <p, AD\mathbf{(r: E)}>$,         & $abc$, & $\#a\#d\#\mathbf{(r: e)}C$ $)$  & postupná expanze\\
 $\Rightarrow$   & $( <p, AD\mathbf{E}>$,         & $abc$, & $\#a\#d\#(r: e)C$        $)$        & konec
 
 \end{tabular}
