@@ -13,7 +13,7 @@ Zobecněný hluboký zásobníkový automat (Definice \ref{def_pda_gen}) vycház
 
 \begin{figure}[ht]
 \centering
-\includegraphics{img/bp_pda01.eps} \bigskip \\
+\includegraphics{img/bp_pda05.eps} \bigskip \\
 \caption{Pravidlo $q B \rightarrow p DdEe$ lze ve zobecněném hlubokém zásobníkovém automatu v aktuální konfiguraci aplikovat právě tehdy, když neexistuje pravidlo s levou stranou $qA$.}
 \end{figure}
 
@@ -130,6 +130,34 @@ Převod zobecněného hlubokého zásobníkového automatu s~$\varepsilon$-pravi
 Z uvedeného algoritmu vyplývá, že redukce neovlivní mocnost hlubokého zásobníkového automatu s~$\varepsilon$-pravidly. Pro automat bez $\varepsilon$-pravidel nelze tento postup použít. Zůstává tedy otázkou, zda je též zredukovatelný na tři nevstupní symboly.
 
 
+\begin{Example}
+Ukázka aplikace pravidla $qB \rightarrow p Dd$ v konfiguraci $(q, abc, ABC)$ ve zobecneném hlubokém zásobníkovém automatu zkonstruovaném podle algoritmu \ref{alg_gen_deep_pda_nonterm}.
+
+\begin{center}
+\begin{tabular}{llll|l|ll}
+                & $( <q, \varepsilon>$,  & $abc$, & $0100100011\#$         $)$ & $ABC\#$ \\
+$\Rightarrow$   & $( <q, \mathbf{0}>$,            & $abc$, & $100100011\#$         $)$ & \\
+$\Rightarrow$   & $( <q, 0\mathbf{1}>$,           & $abc$, & $00100011\#$         $)$ &   $BC\#$ & přečteno A \\
+$\Rightarrow$   & $( <q, \varepsilon>$,  & $abc$, & $00100011\mathbf{01}\#$         $)$ & $BC\#\mathbf{A}$ & přesun A \\
+$\Rightarrow$   & $( <q, \mathbf{0}>$,            & $abc$, & $010001101\#$         $)$ & \\
+$\Rightarrow$   & $( <q, 0\mathbf{0}>$,           & $abc$, & $10001101\#$         $)$ & \\
+$\Rightarrow$   & $( <q, 00\mathbf{1}>$,          & $abc$, & $0001101\#$         $)$ &    $C\#A$ & přečteno B \\
+$\Rightarrow$   & $( <p,\varepsilon>'$,   & $abc$, & $0001101\mathbf{00001000001}\#$         $)$ & $C\#A\mathbf{Dd}$ & expanze B \\
+$\Rightarrow$   & $( <p,\mathbf{0}>'$,   & $abc$, & $00110100001000001\#$         $)$ & \\
+$\Rightarrow$   & $( <p,0\mathbf{0}>'$,   & $abc$, & $0110100001000001\#$         $)$ & \\
+$\Rightarrow$   & $( <p,00\mathbf{0}>'$,   & $abc$, & $110100001000001\#$         $)$ & \\
+$\Rightarrow$   & $( <p,000\mathbf{1}>'$,   & $abc$, & $10100001000001\#$         $)$ & $\#ADd$ & přečteno C  \\
+$\Rightarrow$   & $( <p,\varepsilon>'$,   & $abc$, & $10100001000001\mathbf{0001}\#$         $)$ & $\#ADd\mathbf{C}$ & přesun C \\
+$\Rightarrow$   & $( <p,\mathbf{1}>'$,   & $abc$, & $01000010000010001\#$         $)$ & $ADdC$ & dno zásobníku \\
+$\Rightarrow$   & $( <p,\varepsilon>$,   & $abc$, & $01000010000010001\mathbf{1}\#$         $)$ & $ADdC\mathbf{\#}$ & konec
+
+
+\end{tabular}
+\end{center}
+
+
+\end{Example}
+
 %=========================================================================
 \section{Omezení počtu stavů}
 
@@ -213,6 +241,35 @@ Převod zobecněného hlubokého zásobníkového automatu s~$\varepsilon$-pravi
 \end{Alg}
 
 Každý zobecněný hluboký zásobníkový automat s~$\varepsilon$-pravidly lze převést na ekvivalentní se třemi stavy, jak vyplývá z algoritmu \ref{alg_gen_deep_pda_state}. Otázka, zda lze stejně zredukovat automat bez $\varepsilon$-pravidel zůstává otevřená.
+
+\begin{Example}
+Ukázka aplikace pravidla $pB \rightarrow r Dd$ v konfiguraci $(p, abc, ABc)$ ve zobecneném hlubokém zásobníkovém automatu zkonstruovaném podle algoritmu \ref{alg_gen_deep_pda_state}.
+
+\begin{center}
+\begin{tabular}{llll|l}
+                & $( s_{\alpha}$,  & $abc$, & $<p,A> <p,B> c <p, \#>$         $)$ &  \\
+$\Rightarrow$   & $( \mathbf{s_{\beta}}$,   & $abc$, & $<p,A> \mathbf{<2> <p,D> d} c <p, \#>$         $)$ & expanze $pB \rightarrow r Dd$ \\
+$\Rightarrow$   & $( s_{\beta}$,   & $abc$, & $\mathbf{<q,A>'} <2> <p,D> d c <p, \#>$         $)$ & přepis stavů $q$ na $p$\\
+$\Rightarrow$   & $( s_{\beta}$,   & $abc$, & $<q,A>' <2> \mathbf{<q,D>'} d c <p, \#>$         $)$ & \\
+$\Rightarrow$   & $( \mathbf{s_{\alpha}}$,   & $abc$, & $<q,A>' <2> <q,D>' d c \mathbf{<q, \#>_{set}}$         $)$ & nastavení příznaku $set$\\
+$\Rightarrow$   & $( \mathbf{s_{\gamma}}$,  & $abc$, & $<q,A>' \mathbf{<1>} <q,D>' d c <q, \#>_{set}$  $)$ & snížení hodnoty čítače \\
+$\Rightarrow$   & $( s_{\gamma}$,  & $abc$, & $\mathbf{<q,A>} <1> <q,D>' d c <q, \#>_{set}$  $)$ & odznačení symbolů \\
+$\Rightarrow$   & $( s_{\gamma}$,  & $abc$, & $<q,A> <1> \mathbf{<q,D>} d c <q, \#>_{set}$  $)$ &  \\
+$\Rightarrow$   & $( \mathbf{s_{\beta}}$,  & $abc$, & $<q,A> <1> <q,D> d c \mathbf{<q, \#>}$  $)$ &  odstranení příznaku $set$\\
+$\Rightarrow$   & $( s_{\beta}$,  & $abc$, & $\mathbf{<r,A>'} <1> <q,D> d c <q, \#>$  $)$ &  přepis stavů $p$ na $r$\\
+$\Rightarrow$   & $( s_{\beta}$,  & $abc$, & $<r,A>' <1> \mathbf{<r,D>'} d c <q, \#>$  $)$ &  \\
+$\Rightarrow$   & $( \mathbf{s_{\alpha}}$,  & $abc$, & $<r,A>' <1> <r,D>' d c \mathbf{<r, \#>_{set}}$  $)$ &  nastavení příznaku $set$\\
+$\Rightarrow$   & $( s_{\alpha}$,  & $abc$, & $<r,A>' <r,D>' d c <r, \#>_{set}$  $)$ &  vynulování čítače\\
+$\Rightarrow$   & $( \mathbf{s_{\gamma}}$,  & $abc$, & $<r,A>' <r,D>' d c \mathbf{<r, \#>_{exp}}$  $)$ &  nastavení příznaku $exp$\\
+$\Rightarrow$   & $( s_{\gamma}$,  & $abc$, & $\mathbf{<r,A>} <r,D>' d c <r, \#>_{exp}$  $)$ &  odznačení symbolů\\
+$\Rightarrow$   & $( s_{\gamma}$,  & $abc$, & $<r,A> \mathbf{<r,D>} d c <r, \#>_{exp}$  $)$ &  \\
+$\Rightarrow$   & $( \mathbf{s_{\alpha}}$,  & $abc$, & $<r,A> <r,D> d c \mathbf{<r, \#>}$  $)$ &  konec
+
+\end{tabular}
+\end{center}
+
+
+\end{Example}
 
 
 %=========================================================================

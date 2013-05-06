@@ -1,6 +1,5 @@
 % TODO
 % * obrázek s oběma převody
-% * příklad
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Hluboký zásobníkový automat v~normální formě} \label{kap_pda_NF}
 
@@ -9,6 +8,8 @@ V~této kapitole zavádím normální formu hlubokého zásobníkového automatu
 % definice
 % algoritmus
 % ekvivalence
+
+
 
 %=========================================================================
 \section{Definice normální formy}
@@ -34,6 +35,12 @@ Nechť pravidlo typu (i) lze aplikovat jen na nejvrchnější možný nevstupní
 
 \end{Def}
 
+
+\begin{figure}[ht]
+\centering
+\includegraphics{img/bp_pda04.eps} \bigskip \\
+\caption{Příklad konfigurace hlubokého zásobníkového automatu v normální formě s prefixem 3.}
+\end{figure}
 
 \section{Převod na normální formu}
 
@@ -94,46 +101,25 @@ Každý hluboký zásobníkový automat lze převést na ekvivalentní automat v
 
 
 \begin{Example}
-Ukázka aplikace pravidla $r: 2q B \rightarrow p DdEe$ upraveného podle algoritmu \ref{alg_NF} pro konfiguraci $(q, abc, AaBC)$ v hlubokém zásobníkovém automatu v normální formě.
+Ukázka aplikace pravidla $r: 2q B \rightarrow p DdEe$ upraveného podle algoritmu \ref{alg_NF} pro konfiguraci $(q, abc, AaBC)$ v hlubokém zásobníkovém automatu v normální formě s prefixem 3.
 
 
-\begin{alignat*}{3}
-& 1:\text{  } & 2 <q, ABC> \#  &\rightarrow  <p, A(r: DdEe)C> \# \\
-& 2: & 3 <p, A(r: DdEe)C> \#  &\rightarrow  <p, A(r: D) (r: dEe)> \#C\\
-& 3: & 2 <p, A(r: D) (r: dEe)> \#  &\rightarrow  <p, AD(r: dEe)> \#\\
-& 4: & 3 <p, AD(r: dEe)> \#  &\rightarrow   <p, AD(r: d)> \#(r: Ee)\\
-& 5: & 3 <p, AD(r: d)> \#  &\rightarrow  <p, AD> d \\
-& 6: & 3 <p, AD> (r: Ee)  &\rightarrow   <p, AD(r: Ee)> \# \\
-& 7: & 3  <p, AD(r: Ee)> \#  &\rightarrow   <p, AD(r: E))> \#(r: e)\\
-& 8: & 3  <p, AD(r: E)> \#  &\rightarrow   <p, ADE)> \# 
-\end{alignat*}
+
 
 \begin{center}
-\begin{tabular}{lllllc}
-                & $( <q, ABC>$,              & $abc$, & $\#a\#\#$           $)$ & \\
-$\Rightarrow$   & $( <p, A(r: DdEe)C>$,      & $abc$, & $\#a\#\#$           $)$ & [1] \\
-$\Rightarrow$   & $( <p, A(r: D) (r: dEe)>$, & $abc$, & $\#a\#\#C$          $)$ & [2] \\
-$\Rightarrow$   & $( <p, AD(r: dEe)>$,       & $abc$, & $\#a\#\#C$          $)$ & [3] \\
-$\Rightarrow$   & $( <p, AD(r: d)>$,         & $abc$, & $\#a\#\#(r: Ee)C$   $)$ & [4] \\
-$\Rightarrow$   & $( <p, AD>$,               & $abc$, & $\#a\#d(r: Ee)C$    $)$ & [5] \\
-$\Rightarrow$   & $( <p, AD(r: Ee)>$,        & $abc$, & $\#a\#d\#C$         $)$ & [6] \\
-$\Rightarrow$   & $( <p, AD(r: E)>$,         & $abc$, & $\#a\#d\#(r: e)C$   $)$ & [7] \\
-$\Rightarrow$   & $( <p, ADE>$,         & $abc$, & $\#a\#d\#(r: e)C$        $)$ & [8] \\
+\begin{tabular}{llll|l}
+                & $( <q, ABC>$,              & $abc$, & $\#a\#\#$                    $)$ &  \\
+$\Rightarrow$   & $( <p, A\mathbf{(r: DdEe)}C>$,      & $abc$, & $\#a\#\#$           $)$ & expanze $r: 2q B \rightarrow p DdEe$\\
+$\Rightarrow$   & $( <p, A\mathbf{(r: D) (r: dEe)}>$, & $abc$, & $\#a\#\#\mathbf{C}$ $)$ & postupná expanze\\
+$\Rightarrow$   & $( <p, A\mathbf{D}(r: dEe)>$,       & $abc$, & $\#a\#\#C$          $)$ & expanze na nevstupní symbol\\
+$\Rightarrow$   & $( <p, AD\mathbf{(r: d)}>$,         & $abc$, & $\#a\#\#\mathbf{(r: Ee)}C$   $)$ & postupná expanze \\
+$\Rightarrow$   & $( <p, AD>$,               & $abc$, & $\#a\#\mathbf{d}(r: Ee)C$    $)$        & expanze na vstupní symbol\\
+$\Rightarrow$   & $( <p, AD\mathbf{(r: Ee)}>$,        & $abc$, & $\#a\#d\mathbf{\#}C$   $)$     & načtení symbolu do prefixu\\
+$\Rightarrow$   & $( <p, AD\mathbf{(r: E)}>$,         & $abc$, & $\#a\#d\#\mathbf{(r: e)}C$$)$  & postupná expanze\\
+$\Rightarrow$   & $( <p, AD\mathbf{E}>$,         & $abc$, & $\#a\#d\#(r: e)C$        $)$        & konec
 
 \end{tabular}
 \end{center}
-
-
-
-
-
-
-
-
-
-
-
-
 
 \end{Example}
 
