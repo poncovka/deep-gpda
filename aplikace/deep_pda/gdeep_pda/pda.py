@@ -1,10 +1,12 @@
 '''
-Created on 21.4.2013
+Trida pro zobecneny hluboky zasobnikovy automat a jeho pravidla.
 
 @author: Vendula Poncova
 '''
 
 from library import check, error_more
+
+##################################################################### GDP_rule
 
 class GDP_rule:
     '''
@@ -24,12 +26,14 @@ class GDP_rule:
     def get(self):
         return (self.q, self.A, self.p, self.v)
 
+##################################################################### GDP
 
 class GDP:
     '''
     Trida reprezentuje zobecneny hluboky zasobnikovy automat,
     GDP je zkratka pro Generalized Deep PDA.
     '''
+#===================================================================
 
     def __init__(self):
         '''
@@ -45,6 +49,8 @@ class GDP:
         self.S = None
         self.F = set()
 
+#===================================================================
+
     def __str__(self):
 
         return ("Generalized Deep PDA: (\n"
@@ -56,15 +62,19 @@ class GDP:
                 "" + str(self.S) + "\n"
                 "" + str(self.F) + "\n)")
 
+#===================================================================
+
     def set(self, Q, Sigma, Gamma, R, s, S, F):
         
-        self.Q = Q
-        self.Sigma = Sigma
-        self.Gamma = Gamma
-        self.R = R
+        self.Q = set(Q)
+        self.Sigma = set(Sigma)
+        self.Gamma = set(Gamma)
+        self.R = set(R)
         self.s = s
         self.S = S
-        self.F = F
+        self.F = set(F)
+
+#===================================================================
 
     def validate(self):
         
@@ -102,6 +112,7 @@ class GDP:
                 if symbol not in self.Gamma:
                     error_more("Na prave strane pravidla je nedefinovany symbol.")     
             
+#===================================================================
 
     def serialize(self):
         '''
@@ -148,4 +159,4 @@ class GDP:
 
         return string
 
-        
+##################################################################### konec souboru       

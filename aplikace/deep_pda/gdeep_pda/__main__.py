@@ -14,6 +14,7 @@ from symbol_reduction import SymbolReduction
 
 import sys
 
+##################################################################### main()
 
 if __name__ == '__main__':
     
@@ -50,3 +51,5 @@ if __name__ == '__main__':
     
     # konec
     exit(0)
+    
+##################################################################### konec souboru

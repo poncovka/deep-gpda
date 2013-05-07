@@ -7,8 +7,10 @@ Obsahuje ruzne funkce a tridy.
 import sys
 from codecs import open
 
+# flag pro debugovani
 debug = True
 
+# chybove hlasky a kody
 errors = {"EPARAM": ("Spatne zadane parametry.", 1), 
           "EREAD": ("Chyba pri cteni ze souboru.", 2), 
           "EWRITE": ("Chyba pri zapise do souboru.", 3), 
@@ -16,10 +18,14 @@ errors = {"EPARAM": ("Spatne zadane parametry.", 1),
           "ERROR": ("Doslo k chybe.", 5)
           }
 
+#=================================================================== enum()
+
 def enum(*sequential, **named):
     
     enums = dict(zip(sequential, range(len(sequential))), **named)
     return type('Enum', (), enums)
+
+#=================================================================== fce pro vypis
 
 def check(string):
     '''Funkce pro kontrolni vypisy.'''
@@ -43,6 +49,8 @@ def error_more(more):
     sys.stderr.write("ERR: " + msg + " " + more + "\n", )
     sys.exit(code)
 
+#=================================================================== printHelp()
+
 def printHelp():
     msg = '''
     gdeep_pda: Redukce zobecneneho zasobnikoveho automatu
@@ -61,6 +69,8 @@ def printHelp():
                                  danym automatem, a vypise sekvenci kroku.
     \n'''
     sys.stdout.write(msg)
+
+#=================================================================== processParams()
 
 def processParams(argv):
 
@@ -98,6 +108,7 @@ def processParams(argv):
     check(args)
     return args
 
+#=================================================================== readInput()
 
 def readInput (filename):
     check("Nacteni vstupu:")
@@ -120,6 +131,8 @@ def readInput (filename):
     check(input)
     return input
 
+#=================================================================== readOutput()
+
 def writeOutput(filename, output):
     check("Zapis vystupu:")
     try:
@@ -140,4 +153,4 @@ def writeOutput(filename, output):
         error("EWRITE")
 
 
-# konec souboru library.py
+##################################################################### konec souboru

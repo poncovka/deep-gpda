@@ -4,8 +4,8 @@ Nacte z retezce zasobnikovy automat.
 '''
 
 import re
-
-from library import check, error
+import string as pystring
+from library import check, error, enum, error_more
 from pda import GDP
 
 class GDPParser:
@@ -13,234 +13,269 @@ class GDPParser:
     Parser pro nacteni GDP automatu z retezce.
     '''
 
+##################################################################### init()
+
     def __init__(self):
         '''
-        Constructor
+        Nastavi vzory a regualrni vyrazy pro parsovani.
         '''
-        # regularni vyrazy popisujici definici pda
 
-        self.pda_pattern = re.compile (r'''
-        ^\s*\(
-        \s*\{((?:'[^']*'|[^}])*)\}\s*,
-        \s*\{((?:'[^']*'|[^}])*)\}\s*,
-        \s*\{((?:'[^']*'|[^}])*)\}\s*,
-        \s*\{((?:'[^']*'|[^}])*)\}\s*,
-        \s*((?:'[^']*'|<[^>]*>|[^,])*)\s*,
-        \s*((?:'[^']*'|<[^>]*>|[^,])*)\s*,
-        \s*\{((?:'[^']*'|[^}])*)\}\s*
-        \)\s*$
-        ''', re.VERBOSE)     
-
-        self.symbol_pattern = re.compile (r'''
-        ^\s*
+        # regularni vyraz pro vstupni symboly
+        self.char_pattern = re.compile (r'''
         ('(?:''|[^'])*'|(?:(?:<[^>]*>|\[[^]]*\]|[^-{}, \t\n])+))
-        \s*
         ''', re.VERBOSE) 
-        
+ 
+        # regularni vyraz pro zasobnikove symboly
+        self.symbol_pattern = re.compile (r'''
+        ('(?:''|[^'])*'|(?:(?:<[^>]*>|\[[^]]*\]|[^-{}, \t\n])+))
+        ''', re.VERBOSE) 
+         
+        # regularni vyraz pro stavy
         self.state_pattern = re.compile (r'''
-        ^\s*
-        ((?:<[^>]*>|\[[^]]*\]|[^-{}, \t\n])+)
-        \s*
+        ('(?:''|[^'])*'|(?:(?:<[^>]*>|\[[^]]*\]|[^-{}, \t\n])+))
         ''', re.VERBOSE)
         
-        self.arrow_pattern = re.compile (r'''
-        ^\s*
-        (->)
-        \s*
-        ''', re.VERBOSE)  
-                
-    def match(self, pattern, string):
+        # konstanty pro typ vzoru
+        self.LIST = 0 
+        self.GROUP = 1
+        
+        # vzor pro pravidlo
+        self.rule_pattern = (self.LIST, (
+                             self.state_pattern, 
+                             self.symbol_pattern, 
+                             "->", 
+                             self.state_pattern, 
+                             (self.GROUP, (self.symbol_pattern, "")))
+                             )
+        
+        # vzor pro automat
+        self.pda_pattern = (self.LIST, (
+                            "(",
+                            "{", (self.GROUP, (self.state_pattern,  ",")), "}", ",",
+                            "{", (self.GROUP, (self.char_pattern,   ",")), "}", ",",
+                            "{", (self.GROUP, (self.symbol_pattern, ",")), "}", ",",
+                            "{", (self.GROUP, (self.rule_pattern,   ",")), "}", ",",
+                            self.state_pattern,  ",",
+                            self.symbol_pattern, ",",
+                            "{", (self.GROUP, (self.state_pattern, ",")) , "}",
+                            ")")
+                            )
+  
+
+##################################################################### parsovani
+  
+    def skipWhitespace(self, index, string):
+        '''
+        Preskoci bile znaky a vrati upraveny index.
+        '''
+        while index < len(string) and string[index] in pystring.whitespace :
+            index += 1
+            
+        return index    
+                  
+    def isConst(self, item, pattern):
+        '''
+        Vrati true, pokud je polozka konstanta.
+        '''
+        return isinstance(pattern, str)         
+
+#=================================================================== match()
+                  
+    def match(self, pattern, index, string):
         '''
         Aplikuje na retezec regularni vyraz
-        a vrati vysledek.
-        '''       
+        a vrati nalezeny retezec a index konce.
+        '''    
+        index = self.skipWhitespace(index,string)
+   
+        check("match: " + str(index))
         # aplikuje regularni vyraz na retezec
-        result = re.match(pattern, string)
-        
+        result = pattern.match(string, index)
+         
         # vrati False, nebo nalezene skupiny a index konce
-        if result == None: return False
-        else :             return result.groups(), result.end()
+        if result == None: 
+            return None, index
+        else :             
+            check(result.group(0))
+            return result.group(0), result.end()
+          
+#=================================================================== matchStr()
     
-    def matchGroups(self, string):
+    def matchStr(self, pattern, index, string):
+        '''
+        Porovna retezec s prefixem retezce od aktualni pozice.
+        '''
+              
+        # posun indexu za bile znaky
+        old_index = index
+        index = self.skipWhitespace(index,string)
         
-        # parsovani automatu
-        result = self.match(self.pda_pattern, string)
+        check("matchStr: " + str(index)+ ", " + pattern)
         
-        # chyba ve vstupnim retezci
-        if not result: error("EPDA")
+        # oddelovacem je whitespace
+        if pattern == "" and old_index != index:
+            return "", index
         
-        # skupiny
-        return result[0]
+        # oddelovacem je znak
+        if string.startswith(pattern, index) :
+            index += len(pattern)
+            return pattern, index
     
-    def matchGroup(self, patterns, string):
+        else:
+            return None, index
+            
+#=================================================================== matchGroup()
+        
+    def matchGroup(self, pattern, index, string):
         '''
-        Nacte z retezce polozky oddelene carkou
+        Aplikuje pravidla na polozky oddelene separatorem.
+        Vrati seznam nalezenych polozek.
         '''
+        check("matchGroup: " + str(index))
         
         group = list()
-        items = list()
+        pattern, separator = pattern
         
-        start = 0
-        end = len(string)
-        comma = False
+        item = True
+        is_separator = False
         
-        # dokud neprojde cely retezec
-        while start < end :
-            
-            # v retezci nasleduje oddelovac carka
-            if comma and string[start] == ',' :
+        while item :
+            check(is_separator)
+            # ocekavam separator
+            if is_separator :             
                 
-                # nastav promenne
-                start += 1
-                comma = False
+                # match retezce                
+                item, index = self.matchItem(separator, index, string)
                 
-                # uloz polozky do skupiny
-                group.append(list(items))
-                # zaloz novou skupinu polozek
-                items = list()               
-            
-            # vyhledej skupinu polozek
-            for pattern in patterns:
-                #check(string[start:])
-                # aplikuje regularni vyraz na retezec
-                result = self.match(pattern, string[start:])
-                
-                if result:                      
-                    # posune se ukazatel na retezec
-                    start += result[1]
-                    # nova polozka se ulozi
-                    items.append(result[0][0])
-                    # nastavi se indikator oddelovace
-                    comma = True
-                    # vyskoc z cyklu
+                # OK, pokracuj dalsi polozkou
+                if item != None :
+                    is_separator = False
+                    check("separator ok")
+                    
+                # KONEC
+                else:
+                    check("Konec cyklu")
                     break
             
-            # zadna polozka, chyba 
-            if not comma :
-                error("EPDA")
- 
-        # uloz polozky do skupiny
-        group.append(list(items))
-                    
-        # vrati prvky skupiny
-        return group
- 
-    def matchSet(self, pattern, string):
-        
-        group = self.matchGroup((pattern,), string)
-        result = set()
-
-        for items in group :
-            for item in items :
-                result.add(item)
+            # nacitani polozky    
+            item, index = self.matchItem(pattern, index, string)
             
-        return result
-    
-    def matchItem(self, pattern, string):
-        
-        items = self.matchSet(pattern, string)
-        return items.pop()
-    
-    def matchRules(self, string):
-        '''
-        Nacte pravidla z retezce
-        '''
-        
-        patterns_left = (self.state_pattern, 
-                         self.symbol_pattern,
-                         self.arrow_pattern, 
-                         self.state_pattern)
-                 
-        group = self.matchGroup( patterns_left + (self.symbol_pattern,), string)
-        
-        rules = set()
-        
-        check(group)
-        
-        for items in group :
-            
-            rule_right = list()
-            rule_left = list()
-            
-            index = 0
-            
-            for item in items:
-               
-                if index < len(patterns_left):
-                   
-                    result = self.match(patterns_left[index], item)
-                   
-                    if not result: 
-                        error("EPDA")
-                    else:
-                        rule_left.append(item)
-                        
-                else:
-                    
-                    result = self.match(self.symbol_pattern, item)
-                   
-                    if result: 
-                            
-                        if item != "''" :
-                            rule_right.append(item)
-                        break
-                    
-                    else : 
-                        error("EPDA") 
-                        
-                index += 1
+            if item != None :
+                check("item ok")
                 
-            #rules.add((rule_left.append(rule_right)))
-            rule = (rule_left[0], rule_left[1], rule_left[3], tuple(rule_right))
-            rules.add(rule)
+                if not self.isConst(item, pattern):    
+                    group.append(item)
+                    
+                is_separator = True
+                
+        # TODO separator nemuze zustat za
+        #if is_separator == False and item == None:
+        #    error_more("Lexikalni chyba v matchGroup.")
+         
+        check(group)   
+        return group, index
+
+#=================================================================== matchList()
+                
+    def matchList(self, patterns, index, string):
+        '''
+        Aplikuje seznam vzoru na aktualni pozici v retezci.
+        '''
+        check("matchItem: " + str(index))
+
+        group = list()
+
+        # prochazi seznam vzoru
+        for pattern in patterns :
             
-            check(rules)
+            # aplikuje vzor
+            item, index = self.matchItem(pattern, index, string)
             
-        return rules
-                        
+            # chyba
+            if item == None :
+                error_more("Lexikalni chyba v matchList.")
+            
+            # polozku uloz, pokud to neni konstanta
+            if not self.isConst(item, pattern):    
+                group.append(item)
+        
+        check(group)    
+        return group, index
+
+#=================================================================== matchItem()
+        
+    def matchItem(self, pattern, index, string):
+        '''
+        Aplikuje vzor na aktualni pozici v retezci.
+        '''
+        check("matchItem: " + str(index))
+        
+        item = None
+        
+        # vzorem jeretezec
+        if isinstance(pattern, str):
+            
+            item, index = self.matchStr(pattern, index, string)
+        
+        # vzorem je sekvence pravidel
+        elif isinstance(pattern,tuple) :
+            
+            # urci typ sekvence
+            type_pattern, next_pattern = pattern
+            
+            # sekvence pravidel
+            if type_pattern == self.LIST :
+                item, index = self.matchList(next_pattern, index, string)
+            
+            # skupina pravidel oddelena separatorem
+            elif type_pattern == self.GROUP:
+                item, index = self.matchGroup(next_pattern, index, string)
+        
+        # vzorem je regularni vyraz           
+        elif isinstance(pattern, re._pattern_type) :
+            
+            item, index = self.match(pattern, index, string)
+            
+        check(item)
+        
+        # navrat    
+        return item, index
+
+##################################################################### run()
+    
     def run(self, string):
         '''
         Nacteni PDA z retezce.
         '''
         check("Parsovani automatu.")
-        
+                
         # smazani komentaru
         string = re.sub("(//.*)", " ", string)
 
+        # rozparsovanu vstupu
+        group, index = self.matchItem(self.pda_pattern, 0, string)
+        
+        # zpracovani vysledku parsovani
+        rules = list()
+        
+        for [q,A,p,v] in group[3] :
+            
+            # eliminace epsilon znaků
+            w = list()
+            
+            for char in v:
+                if char != "''" :
+                    w.append(char)
+            
+            # sestaveni pravidla        
+            rules.append((q,A,p,tuple(w)))    
+
         # vytvoreni noveho automatu
         pda = GDP()
+        pda.set(group[0], group[1], group[2], rules, group[4], group[5], group[6])
         
-        # parsovani automatu
-        groups = self.matchGroups(string)
-                
-        # parsovani stavu
-        check("Parsovani stavu.")
-        pda.Q = self.matchSet(self.state_pattern, groups[0])
-
-        # parsovani vstupni abecedy
-        check("Parsovani Sigma.")
-        pda.Sigma = self.matchSet(self.symbol_pattern, groups[1])
-
-        # parsovani zasobnikove abecedy
-        check("Parsovani Gamma.")
-        pda.Gamma = self.matchSet(self.symbol_pattern, groups[2])
-        
-        # parsovani pravidel
-        check("Parsovani pravidel.")
-        pda.R = self.matchRules(groups[3])
-
-        # parsovani pocatecniho stavu
-        check("Parsovani poc. stavu.")
-        pda.s = self.matchItem(self.state_pattern, groups[4])
-
-        # parsovani pocatecniho symbolu
-        check("Parsovani poc. symbolu.")
-        pda.S = self.matchItem(self.symbol_pattern, groups[5])
-
-        # parsovani koncovych stavu
-        check("Parsovani koncovych stavu.")
-        pda.F = self.matchSet(self.state_pattern, groups[6])
-
         # vrati nacteny automat
         check(pda)
         return pda
+    
+##################################################################### konec souboru
