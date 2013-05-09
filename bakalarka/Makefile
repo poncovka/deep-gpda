@@ -22,10 +22,7 @@ counting: $(CO).pdf
 	bash counter.sh
 
 vlnka: clean
-	vlna $(CO).tex
-	vlna $(OBSAH).tex
-	vlna $(REF).bib
-	vlna obsah/*
+	vlna -l -m -n *.tex $(REF).bib obsah/*.tex
 
 $(CO).pdf: $(CO).ps
 	dvipdf $(CO)

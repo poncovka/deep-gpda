@@ -79,7 +79,7 @@ Pravidla množiny R jsou tvaru: \\$mqA \rightarrow pv$, kde $m \in \{1, 2, 3,\do
 \begin{figure}[h!]
 \centering
 \scalebox{0.5}{\includegraphics{img/pda01.eps}} \bigskip \\
-\emph{Příklad aplikace pravidla $2 q A \rightarrow p BbCc$.}
+\emph{Příklad aplikace pravidla $2 q A~\rightarrow p BbCc$.}
 \end{figure}
 
 
@@ -106,7 +106,7 @@ Pravidla množiny R jsou tvaru: \\$mqA \rightarrow pv$, kde $m \in \{1, 2, 3,\do
 \begin{figure}[h!]
 \centering
 \scalebox{0.5}{\includegraphics{img/pda02.eps}} \bigskip \\
-\emph{V~hlubokém zásobníkovém automatu konečného indexu 3  nelze pravidlo $2 q A \rightarrow p BbCc$ v~aktuální konfiguraci aplikovat.}
+\emph{V~hlubokém zásobníkovém automatu konečného indexu 3  nelze pravidlo $2 q A~\rightarrow p BbCc$ v~aktuální konfiguraci aplikovat.}
 \end{figure}
 
 
@@ -157,10 +157,10 @@ Je ekvivalentní s~hlubokým zásobníkovým automatem konečného indexu?
   \item Pro každé pravidlo \colorbox{blue}{\black $mqA \rightarrow p b_0 B_1 b_1 B_2 b_2 \dots b_{j-1} B_{j} b_j \in R$}, kde $j \in \{0,1,2,\dots,n\}$, $b_0,b_1,\dots,b_j \in {\Sigma}^*$ a $B_1,B_2,\dots,B_j \in (\Gamma - \Sigma)$, 
  a každé $(u,z) \in (\Gamma - \Sigma)^* \times (\Gamma - \Sigma)^*$,  kde $|u|=m-1$, $|z|\le n-m$  : \medskip
 
-  \subitem přidej do $R_\#$ pravidlo \colorbox{blue}{\black $m <q, u A z> \# \rightarrow <p, u B_1 B_2 \dots B_{j-1} B_{j} z> b_0 \# b_1 \# b_2 \dots b_{j-1} \# b_j $}, \medskip
-  \subitem přidej do $Q_\#$ stavy $<q, u A z>$, $<p, u B_1 B_2 \dots B_{j-1} B_{j} z>$,
-  \subitem pokud $p \in F$, přidej do $F_\#$ stav $<p, u B_1 B_2 \dots B_{j-1} B_{j} z>$,
-  \subitem pokud $q \in F$, přidej do $F_\#$ stav $<q, u A z>$.
+  \subitem přidej do $R_\#$ pravidlo \colorbox{blue}{\black $m <q, u~A~z> \# \rightarrow <p, u~B_1 B_2 \dots B_{j-1} B_{j} z> b_0 \# b_1 \# b_2 \dots b_{j-1} \# b_j $}, \medskip
+  \subitem přidej do $Q_\#$ stavy $<q, u~A~z>$, $<p, u~B_1 B_2 \dots B_{j-1} B_{j} z>$,
+  \subitem pokud $p \in F$, přidej do $F_\#$ stav $<p, u~B_1 B_2 \dots B_{j-1} B_{j} z>$,
+  \subitem pokud $q \in F$, přidej do $F_\#$ stav $<q, u~A~z>$.
 
 \end{list}
 
@@ -176,7 +176,7 @@ Je ekvivalentní s~hlubokým zásobníkovým automatem konečného indexu?
 \begin{figure}[h!]
 \centering
 \scalebox{0.5}{\includegraphics{img/pda04.eps}} \bigskip \\
-\emph{Převod pravidla $2 q A \rightarrow p BbCc$ pro obsah zásobníku $AaAA$.}
+\emph{Převod pravidla $2 q A~\rightarrow p BbCc$ pro obsah zásobníku $AaAA$.}
 \end{figure}
 
 
@@ -198,7 +198,7 @@ Je ekvivalentní s~hlubokým zásobníkovým automatem konečného indexu?
 
 \end{description*}
 
-Pravidla množiny $P$ jsou tvaru $r \colon A \rightarrow v, g(r)$, kde 
+Pravidla množiny $P$ jsou tvaru $r \colon A~\rightarrow v, g(r)$, kde 
 
 \begin{description*}
 \item[$r$] je označení pravidla, 
@@ -237,17 +237,17 @@ Je hluboký zásobníkový automat s~jedním nevstupním symbolem ekvivalentní 
   \item Vstup: $G = (T \cup N ,T,P,S)$ konečného indexu $n$
   \item Výstup: $M = (Q, T, T \cup \{\#\}, R, <\sigma>, \# , F, n)$ \medskip
 
-  \item Pro každé $p: S \rightarrow v, g(p) \in P$:
+  \item Pro každé $p: S~\rightarrow v, g(p) \in P$:
   \subitem přidej do $R$ $<\sigma>_1 \# \rightarrow <p, S> \#$ a do $Q$ $<p, S>$.\medskip
 
-  \item Pro každé \colorbox{blue}{\black $p: A \rightarrow b_0 B_1 b_1 B_2 b_2 \dots b_{j-1} B_{j} b_j, g(p) \in P$}, kde $j \in \{0,1,2,\dots\}$, $b_0,b_1,\dots,b_j \in T^*$ a $B_1,B_2,\dots,B_j \in N$ a pro každé $(k,u,z) \in \{1,2,3,\dots,n-j+1\} \times N^* \times N^*$, kde $|u| = k-1$, $|z|  \le n-k$ : \medskip
+  \item Pro každé \colorbox{blue}{\black $p: A~\rightarrow b_0 B_1 b_1 B_2 b_2 \dots b_{j-1} B_{j} b_j, g(p) \in P$}, kde $j \in \{0,1,2,\dots\}$, $b_0,b_1,\dots,b_j \in T^*$ a $B_1,B_2,\dots,B_j \in N$ a pro každé $(k,u,z) \in \{1,2,3,\dots,n-j+1\} \times N^* \times N^*$, kde $|u| = k-1$, $|z|  \le n-k$ : \medskip
 
   \subitem Pokud $g(p) \ne \emptyset$, pak pro každé $q \in g(p)$:
-  \subitem přidej do $Q$ stavy $<p,uAz>$, $<q, u B_1 B_2 \dots B_{j-1} B_{j} z>$ a do $R$
-  \subitem  \colorbox{blue}{\black$<p,uAz>_k \# \rightarrow <q, u B_1 B_2 \dots B_{j-1} B_{j} z> b_0 \# b_1 \# b_2 \dots b_{j-1} \# b_j$}.  \medskip
+  \subitem přidej do $Q$ stavy $<p,uAz>$, $<q, u~B_1 B_2 \dots B_{j-1} B_{j} z>$ a do $R$
+  \subitem  \colorbox{blue}{\black$<p,uAz>_k \# \rightarrow <q, u~B_1 B_2 \dots B_{j-1} B_{j} z> b_0 \# b_1 \# b_2 \dots b_{j-1} \# b_j$}.  \medskip
 
-  \subitem Jinak přidej do $Q$ $<p,uAz>$, $<\varepsilon, u B_1 B_2 \dots B_{j-1} B_{j} z>$ a do $R$ 
-\subitem $<p,uAz>_k \# \rightarrow <\varepsilon, u B_1 B_2 \dots B_{j-1} B_{j} z> b_0 \# b_1 \# b_2 \dots b_{j-1} \# b_j$.\medskip
+  \subitem Jinak přidej do $Q$ $<p,uAz>$, $<\varepsilon, u~B_1 B_2 \dots B_{j-1} B_{j} z>$ a do $R$ 
+\subitem $<p,uAz>_k \# \rightarrow <\varepsilon, u~B_1 B_2 \dots B_{j-1} B_{j} z> b_0 \# b_1 \# b_2 \dots b_{j-1} \# b_j$.\medskip
 
 
   \item Pro každé $q \in (Q \cup \{\varepsilon\})$ přidej do $F$ $<q, \varepsilon>$.

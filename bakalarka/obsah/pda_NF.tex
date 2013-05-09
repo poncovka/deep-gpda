@@ -16,7 +16,7 @@ V~této kapitole zavádím normální formu hlubokého zásobníkového automatu
 Hluboký zásobníkový automat v~normální formě dle definice \ref{def_NF} pracuje s~prefixem $n$ nevstupních symbolů. Přepis symbolů v~prefixu na symbol $\#$ umožňuje pravidlo typu (i), změnu stavu pravidlo (ii), přepis na symbol vstupní abecedy pravidlo typu (iii) a expandovat lze pravidlem typu (iv). 
 
 \begin{Def}\label{def_NF}
-Nechť $M = (Q,\Sigma,\Gamma, R, s, S , F)$ je hluboký zásobníkový automat
+Nechť $M = (Q,\Sigma,\Gamma, R, s, S~, F)$ je hluboký zásobníkový automat
 a $n$ je maximální hloubka expanze v~$M$.
 Pak $M$ je v~normální formě, pokud každé pravidlo z~$R$ je v~jednom ze tvarů:
 
@@ -30,7 +30,7 @@ Pak $M$ je v~normální formě, pokud každé pravidlo z~$R$ je v~jednom ze tvar
 
 \end{enumerate}
 
-Nechť pravidlo typu (i) lze aplikovat jen na nejvrchnější možný nevstupní symbol na zásobníku a typ (iv) je možné aplikovat jen na nejspodnější symbol $\#$, pak na zásobníku je v~každém kroku řetězec z~množiny $ ( \Sigma^* \{ \# \} )^k  \Gamma^*$, kde $0 \le k \le n$. 
+Nechť pravidlo typu (i) lze aplikovat jen na nejvrchnější možný nevstupní symbol na zásobníku a typ (iv) je možné aplikovat jen na nejspodnější symbol $\#$, pak na zásobníku je v~každém kroku řetězec z~množiny $ ( \Sigma^* \{ \# \} )^k  \Gamma^*$, kde $0 \le k~\le n$. 
 
 \end{Def}
 
@@ -64,7 +64,7 @@ Převod hlubokého zásobníkového automatu do normální formy.
 
   \item Pro každé $(q,u,A) \in Q \times (\Gamma - \Sigma)^* \times (\Gamma - \Sigma)$, kde $|u| < k$: \medskip
 
-  \subitem přidej do $R_{NF}$ pravidlo typu (i) $|uA| <q,u> A \rightarrow <q,uA> \#$. \medskip
+  \subitem přidej do $R_{NF}$ pravidlo typu (i) $|uA| <q,u> A~\rightarrow <q,uA> \#$. \medskip
 
   \item Pro každé $r : mqA \rightarrow p X_1 X_2 X_3 \dots X_j \in R$, kde $1 \le i \le j$, $X_i \in \Gamma$, a 
          pro každou dvojici $(u,v) \in (\Gamma - \Sigma)^* \times (\Gamma - \Sigma)^*$, kde $|uv| < k$ : \medskip

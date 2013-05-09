@@ -17,7 +17,7 @@ symbolem tvoří nekonečnou hierarchii.
 
 
 \begin{Def}
-Nechť $M = (Q,\Sigma,\Gamma, R, s, S , F)$ je hluboký zásobníkový automat
+Nechť $M = (Q,\Sigma,\Gamma, R, s, S~, F)$ je hluboký zásobníkový automat
 a $n$ je maximální hloubka expanze v~$M$.
 Pak $M$ je v~normální formě, pokud každé pravidlo z~$R$ je v~jednom ze tvarů:
 
@@ -54,7 +54,7 @@ Převod hlubokého zásobníkového automatu do normální formy.
   \subitem $k+1 <q,uA> \# \rightarrow <q,u> A$. \medskip
 
   \subitem Pokud $|u| < k$, přidej do $R_{NF}$ pravidlo typu (ii):
-  \subitem $|uA| <q,u> A \rightarrow <q,uA> \#$. \medskip
+  \subitem $|uA| <q,u> A~\rightarrow <q,uA> \#$. \medskip
 
   \item Pro každé $r : mqA \rightarrow p X_1 X_2 X_3 \dots X_j \in R$, kde $1 \le i \le j$, $X_i \in \Gamma$, a 
         pro každou dvojici $(u,v) \in (\Gamma - \Sigma)^* \times (\Gamma - \Sigma)^*$, kde $|uv| < k$ : \medskip
@@ -88,7 +88,7 @@ Převod hlubokého zásobníkového automatu do normální formy.
 % algoritmus
 
 \begin{Alg}
-Převod zobecněného hlubokého zásobníkového automatu s~$\epsilon$-pravidly na ekvivalentní s redukcí na tři stavy.
+Převod zobecněného hlubokého zásobníkového automatu s~$\epsilon$-pravidly na ekvivalentní s~redukcí na tři stavy.
 
 \begin{list}{}{\setlength\parsep{0cm} \setlength\itemsep{0cm} \setlength\leftmargin{1em}}
    \item Vstup: $M = (Q,\Sigma,\Gamma, R, s, S, F)$ 

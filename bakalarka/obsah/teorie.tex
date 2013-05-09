@@ -94,16 +94,16 @@ Nechť $X$ je konfigurace. $M$ provede \emph{nula přechodů} z~$X$ do $X$, pí�
 \item $S \in N$ je počáteční symbol, 
 \item $P$ je konečná množina pravidel tvaru $A \rightarrow v$, kde $A \in N$, $v \in V^*$.
 \end{description*}
-Nechť $A \rightarrow v \in P$, $A \in N$, $v$, $x$, $y \in V^*$, pak bezkontextová gramatika $G$ provede derivační krok z~$xAy$ do $xvy$, píšeme $xAy \Rightarrow xvy [A \rightarrow v]$, zjednodušeně $xAy \Rightarrow xvy$. 
+Nechť $A \rightarrow v~\in P$, $A \in N$, $v$, $x$, $y \in V^*$, pak bezkontextová gramatika $G$ provede derivační krok z~$xAy$ do $xvy$, píšeme $xAy \Rightarrow xvy [A~\rightarrow v]$, zjednodušeně $xAy \Rightarrow xvy$. 
 Nechť $r_1, r_2, \dots r_m \in P$ pro $m \ge 0$, pak $G$ může provést sekvenci kroků dle těchto pravidel, zápisem $x {\Rightarrow}^m y [r_1 r_2 \dots r_m]$. Píšeme ${\Rightarrow}^+$ pro libovolné $m > 0$ a ${\Rightarrow}^*$ pro $m \ge 0$. 
 
-Bezkontextová gramatika $G$ generuje jazyk $L(G)$, pro který platí $$L(G) = \{w \in T^* | S {\Rightarrow}^* w\}.$$ 
+Bezkontextová gramatika $G$ generuje jazyk $L(G)$, pro který platí $$L(G) = \{w \in T^* | S~{\Rightarrow}^* w\}.$$ 
 
 \end{Def}
 
 % DEFINICE: PROGRAMOVA GRAMATIKA
 \begin{Def}
-\emph{Programová gramatika} \cite{Krivka:RewritingSystems} je čtveřice $G = (V,T,P,S)$, kde $V$, $T$ a $S$ jsou definované stejně jako v~bezkontextových gramatikách. $P$ je konečná množina pravidel tvaru $r \colon A \rightarrow v, g(r)$, kde $r$ je označení pravidla, $A \rightarrow v$ je pravidlo bezkontextové gramatiky a $g(r)$ je množina značení těch pravidel, která mohou být provedena v~dalším derivačním kroku po aplikaci pravidla $r$.
+\emph{Programová gramatika} \cite{Krivka:RewritingSystems} je čtveřice $G = (V,T,P,S)$, kde $V$, $T$ a $S$ jsou definované stejně jako v~bezkontextových gramatikách. $P$ je konečná množina pravidel tvaru $r \colon A~\rightarrow v, g(r)$, kde $r$ je označení pravidla, $A \rightarrow v$ je pravidlo bezkontextové gramatiky a $g(r)$ je množina značení těch pravidel, která mohou být provedena v~dalším derivačním kroku po aplikaci pravidla $r$.
 \end{Def}
 
 \begin{Def}
@@ -123,7 +123,7 @@ Bezkontextová gramatika $G$ generuje jazyk $L(G)$, pro který platí $$L(G) = \
 \item $P$ je konečná relace $(W \times N) \times (W \times V^+)$, pravidla zapisujeme $(q,A) \rightarrow (p,v)$.
 \end{description*}
 Nechť $(q,A) \rightarrow (p,v) \in P$, $p$, $q \in W$, $A \in N$, $v$, $x$, $y \in V^*$, pak stavová gramatika $G$ provede derivační krok z~$xAy$ do $xvy$, píšeme $(q, xAy) \Rightarrow (p, xvy) [(q,A) \rightarrow (p,v)]$, zjednodušeně $xAy \Rightarrow xvy$, právě tehdy když 
-   $$\{Z \mid (q,Z) \rightarrow (p',v') \in P \textnormal{, } Z \in \mathrm{alph}(x) \cap N \textnormal{, } p' \in W \textnormal{, } v' \in V^* \} = \emptyset.$$ 
+   $$\{Z \mid (q,Z) \rightarrow (p',v') \in P \textnormal{, } Z~\in \mathrm{alph}(x) \cap N \textnormal{, } p' \in W \textnormal{, } v' \in V^* \} = \emptyset.$$ 
 Gramatika $G$ generuje jazyk 
 $$L(G) = \{w \in T^* | (s, S) {\Rightarrow}^* (p, w), p,q \in W \}.$$
 
