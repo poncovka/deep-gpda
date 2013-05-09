@@ -4,3 +4,6 @@ zobecnenych hlubokych zasobnikovych automatu.
 
 @author: Vendula Poncova
 '''
+
+from .main import run
+    

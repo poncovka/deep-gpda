@@ -4,7 +4,10 @@ Trida pro zobecneny hluboky zasobnikovy automat a jeho pravidla.
 @author: Vendula Poncova
 '''
 
-from library import check, error_more
+from .error import check, EPDA
+
+DEBUG = True
+DEBUG_CODE = "[PDA]"
 
 ##################################################################### GDP_rule
 
@@ -78,39 +81,39 @@ class GDP:
 
     def validate(self):
         
-        check("Kontrola spravnosti GDP automatu")
+        check("Kontrola spravnosti GDP automatu.", DEBUG_CODE, DEBUG, level = 0)
         
         # abecedy a stavy
 
         if len(self.Q) == 0 :
-            error_more("Prazdna mnozina stavu.")
+            raise EPDA("Prazdna mnozina stavu.")
         if len(self.Sigma) == 0 or len(self.Gamma) == 0 :
-            error_more("Prazdna abeceda.")
+            raise EPDA("Prazdna abeceda.")
         if not self.Sigma.issubset(self.Gamma):
-            error_more("Vstupni abeceda neni podmnozinou zasobnikove.")
+            raise EPDA("Vstupni abeceda neni podmnozinou zasobnikove.")
         if self.Q.intersection(self.Gamma) != set() :
-            error_more("Stavy a symboly nejsou disjunktni.")
+            raise EPDA("Stavy a symboly nejsou disjunktni.")
         if self.s not in self.Q:
-            error_more("Pocatecni stav neni v mnozine stavu.")
+            raise EPDA("Pocatecni stav neni v mnozine stavu.")
         if self.S not in self.Gamma.difference(self.Sigma) :
-            error_more("Pocatecni symbol neni v mnozine nevstupnich symbolu.")
+            raise EPDA("Pocatecni symbol neni v mnozine nevstupnich symbolu.")
         if not self.F.issubset(self.Q) :
-            error_more("Mnozina koncovych stavu neni podmnozinou stavu.")
+            raise EPDA("Mnozina koncovych stavu neni podmnozinou stavu.")
         if '' in self.Gamma :
-            error_more("Prazdny retezec nemuze byt soucasti abecedy.")
+            raise EPDA("Prazdny retezec nemuze byt soucasti abecedy.")
             
         # pravidla
         for (q, A, p ,v) in self.R :
-            check((q,A,p,v))
+            check((q,A,p,v), DEBUG_CODE, DEBUG, level = 3)
             
             if q not in self.Q or p not in self.Q:
-                error_more("V pravidle se vyskytuje nedefinovany stav.")
+                raise EPDA("V pravidle se vyskytuje nedefinovany stav.")
             if A not in self.Gamma.difference(self.Sigma):
-                error_more("Na leve strane pravidla neni nevstupni symbol.")
+                raise EPDA("Na leve strane pravidla neni nevstupni symbol.")
                
             for symbol in v :
                 if symbol not in self.Gamma:
-                    error_more("Na prave strane pravidla je nedefinovany symbol.")     
+                    raise EPDA("Na prave strane pravidla je nedefinovany symbol.")     
             
 #===================================================================
 
@@ -118,7 +121,7 @@ class GDP:
         '''
         Formatovany vypis automatu.
         '''        
-        check("Serializace PDA:")
+        check("Serializace PDA.", DEBUG_CODE, DEBUG, level = 0)
 
         # stavy
         Q = list(self.Q)

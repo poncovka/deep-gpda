@@ -6,17 +6,10 @@ Obsahuje ruzne funkce a tridy.
 
 import sys
 from codecs import open
+from .error import EPARAM, EIO, check
 
-# flag pro debugovani
-debug = True
-
-# chybove hlasky a kody
-errors = {"EPARAM": ("Spatne zadane parametry.", 1), 
-          "EREAD": ("Chyba pri cteni ze souboru.", 2), 
-          "EWRITE": ("Chyba pri zapise do souboru.", 3), 
-          "EPDA": ("Chyba ve formatu vstupniho souboru.", 4),
-          "ERROR": ("Doslo k chybe.", 5)
-          }
+DEBUG = False
+DEBUG_CODE = "[Library]"
 
 #=================================================================== enum()
 
@@ -24,30 +17,6 @@ def enum(*sequential, **named):
     
     enums = dict(zip(sequential, range(len(sequential))), **named)
     return type('Enum', (), enums)
-
-#=================================================================== fce pro vypis
-
-def check(string):
-    '''Funkce pro kontrolni vypisy.'''
-    
-    if debug:
-        sys.stderr.write("========== " + str(string) + "\n")
-
-def error(err):
-    '''Vypise chybovou hlasku a skonci.'''
-    
-    (msg, code) = errors[err]
-    
-    sys.stderr.write("ERR: " + msg + "\n", )
-    sys.exit(code)
-    
-def error_more(more):
-    '''Vypise chybovou hlasku a skonci.'''
-    
-    (msg, code) = errors["ERROR"]
-    
-    sys.stderr.write("ERR: " + msg + " " + more + "\n", )
-    sys.exit(code)
 
 #=================================================================== printHelp()
 
@@ -74,11 +43,11 @@ def printHelp():
 
 def processParams(argv):
 
-    check("Zpracovani parametru:")   
+    check("Zpracovani parametru.", DEBUG_CODE, DEBUG, level = 0)   
 
     arg_options = {"--input": "input", "--output": "output", "--analyze-string": "analyze_string"}
 
-    bool_options = { "--help": "help", "-h": "help",
+    flag_options = { "--help": "help", "-h": "help",
                      "--reduce-states": "reduce_states", 
                      "--reduce-symbols": "reduce_symbols",  
                    }
@@ -86,18 +55,18 @@ def processParams(argv):
 
     # zpracovani parametru
     for arg in argv:
-        (opt, sep, value) = arg.partition("=")
+        opt, sep, value = arg.partition("=")
 
-        if arg in bool_options and bool_options[arg] not in args:
-            args[bool_options[arg]] = True
+        if arg in flag_options and flag_options[arg] not in args:
+            args[flag_options[arg]] = True
 
         elif opt in arg_options and arg_options[opt] not in args:
             args[arg_options[opt]] = value
 
-        else: error("EPARAM")
+        else: raise EPARAM
 
     if ("help" in args) and len(args) != 1:
-        error("EPARAM")
+        raise EPARAM
         
     if "input" not in args :
         args["input"] = None
@@ -105,13 +74,13 @@ def processParams(argv):
     if "output" not in args :
         args["output"] = None
 
-    check(args)
+    check(args, DEBUG_CODE, DEBUG, level = 2)
     return args
 
 #=================================================================== readInput()
 
 def readInput (filename):
-    check("Nacteni vstupu:")
+    check("Nacteni vstupu.", DEBUG_CODE, DEBUG, level = 0)
     try:
         
         # cteni ze souboru
@@ -126,15 +95,15 @@ def readInput (filename):
             input = sys.stdin.read()
 
     except IOError:
-        error("EREAD")
+        raise EIO("Chyba pri cteni souboru.")
 
-    check(input)
+    check(input, DEBUG_CODE, DEBUG, level = 2)
     return input
 
 #=================================================================== readOutput()
 
 def writeOutput(filename, output):
-    check("Zapis vystupu:")
+    check("Zapis vystupu.", DEBUG_CODE, DEBUG, level = 0)
     try:
         
         # zapis do souboru
@@ -143,14 +112,14 @@ def writeOutput(filename, output):
             file.write(output)
             file.close()
         
-            check(output)
+            check(output, DEBUG_CODE, DEBUG, level = 2)
             
         # zapis na stdout
         else:
             file = sys.stdout.write(output)
 
     except IOError:
-        error("EWRITE")
+        raise EIO("Chyba pri zapisu do souboru.")
 
 
 ##################################################################### konec souboru

@@ -5,8 +5,12 @@ Nacte z retezce zasobnikovy automat.
 
 import re
 import string as pystring
-from library import check, error, enum, error_more
-from pda import GDP
+from .library import enum
+from .error import check, EPDA
+from .pda import GDP
+
+DEBUG = False
+DEBUG_CODE = "[Parser]"
 
 class GDPParser:
     '''
@@ -85,18 +89,22 @@ class GDPParser:
         '''
         Aplikuje na retezec regularni vyraz
         a vrati nalezeny retezec a index konce.
-        '''    
+        '''
+        # pomocny vypis
+        check("match() na indexu " + str(index), DEBUG_CODE, DEBUG, 1)
+            
+        # vynechani stavu
         index = self.skipWhitespace(index,string)
    
-        check("match: " + str(index))
         # aplikuje regularni vyraz na retezec
         result = pattern.match(string, index)
          
         # vrati False, nebo nalezene skupiny a index konce
         if result == None: 
             return None, index
-        else :             
-            check(result.group(0))
+        else :
+            # pomocny vypis             
+            check(result.group(0), DEBUG_CODE, DEBUG, 3)
             return result.group(0), result.end()
           
 #=================================================================== matchStr()
@@ -110,7 +118,8 @@ class GDPParser:
         old_index = index
         index = self.skipWhitespace(index,string)
         
-        check("matchStr: " + str(index)+ ", " + pattern)
+        # pomocny vypis
+        check("matchStr() na indexu " + str(index) + ", vzor " + pattern, DEBUG_CODE, DEBUG, 1)
         
         # oddelovacem je whitespace
         if pattern == "" and old_index != index:
@@ -131,7 +140,8 @@ class GDPParser:
         Aplikuje pravidla na polozky oddelene separatorem.
         Vrati seznam nalezenych polozek.
         '''
-        check("matchGroup: " + str(index))
+        # pomocny vypis
+        check("matchGroup() na indexu " + str(index), DEBUG_CODE, DEBUG, 1)
         
         group = list()
         pattern, separator = pattern
@@ -140,7 +150,10 @@ class GDPParser:
         is_separator = False
         
         while item :
-            check(is_separator)
+            
+            # pomocny vypis
+            check(is_separator, DEBUG_CODE, DEBUG, 3)
+            
             # ocekavam separator
             if is_separator :             
                 
@@ -150,18 +163,21 @@ class GDPParser:
                 # OK, pokracuj dalsi polozkou
                 if item != None :
                     is_separator = False
-                    check("separator ok")
+                    # pomocny vypis
+                    check("Separator je nalezen.", DEBUG_CODE, DEBUG, 3)
                     
                 # KONEC
                 else:
-                    check("Konec cyklu")
+                    # pomocny vypis
+                    check("Konec cyklu pro parsovani skupiny.", DEBUG_CODE, DEBUG, 3)
                     break
             
             # nacitani polozky    
             item, index = self.matchItem(pattern, index, string)
             
             if item != None :
-                check("item ok")
+                # pomocny vypis
+                check("Polozka je nalezena.", DEBUG_CODE, DEBUG, 3)
                 
                 if not self.isConst(item, pattern):    
                     group.append(item)
@@ -171,8 +187,10 @@ class GDPParser:
         # TODO separator nemuze zustat za
         #if is_separator == False and item == None:
         #    error_more("Lexikalni chyba v matchGroup.")
-         
-        check(group)   
+        
+        # pomocny vypis 
+        check(group, DEBUG_CODE, DEBUG, 3)   
+        
         return group, index
 
 #=================================================================== matchList()
@@ -181,7 +199,8 @@ class GDPParser:
         '''
         Aplikuje seznam vzoru na aktualni pozici v retezci.
         '''
-        check("matchItem: " + str(index))
+        # pomocny vypis
+        check("matchList() na indexu " + str(index), DEBUG_CODE, DEBUG, 1)
 
         group = list()
 
@@ -193,13 +212,15 @@ class GDPParser:
             
             # chyba
             if item == None :
-                error_more("Lexikalni chyba v matchList.")
+                raise EPDA("Chyba v syntaxi automatu.")
             
             # polozku uloz, pokud to neni konstanta
             if not self.isConst(item, pattern):    
                 group.append(item)
         
-        check(group)    
+        # pomocny vypis
+        check(group, DEBUG_CODE, DEBUG, 3)
+            
         return group, index
 
 #=================================================================== matchItem()
@@ -208,7 +229,8 @@ class GDPParser:
         '''
         Aplikuje vzor na aktualni pozici v retezci.
         '''
-        check("matchItem: " + str(index))
+        # pomocny vypis
+        check("matchItem() na indexu " + str(index), DEBUG_CODE, DEBUG, 1)
         
         item = None
         
@@ -236,7 +258,8 @@ class GDPParser:
             
             item, index = self.match(pattern, index, string)
             
-        check(item)
+        # pomocny vypis
+        check(item, DEBUG_CODE, DEBUG, 3)
         
         # navrat    
         return item, index
@@ -247,35 +270,42 @@ class GDPParser:
         '''
         Nacteni PDA z retezce.
         '''
-        check("Parsovani automatu.")
+        # pomocny vypis
+        check("Parsovani automatu.", DEBUG_CODE, DEBUG, 0)
+        
+        try :        
+            # smazani komentaru
+            string = re.sub("(//.*)", " ", string)
+        
+            # rozparsovanu vstupu
+            group, index = self.matchItem(self.pda_pattern, 0, string)
+            
+            # zpracovani vysledku parsovani
+            rules = list()
+            
+            for [q,A,p,v] in group[3] :
                 
-        # smazani komentaru
-        string = re.sub("(//.*)", " ", string)
-
-        # rozparsovanu vstupu
-        group, index = self.matchItem(self.pda_pattern, 0, string)
-        
-        # zpracovani vysledku parsovani
-        rules = list()
-        
-        for [q,A,p,v] in group[3] :
-            
-            # eliminace epsilon znaků
-            w = list()
-            
-            for char in v:
-                if char != "''" :
-                    w.append(char)
-            
-            # sestaveni pravidla        
-            rules.append((q,A,p,tuple(w)))    
+                # eliminace epsilon znaků
+                w = list()
+                
+                for char in v:
+                    if char != "''" :
+                        w.append(char)
+                
+                # sestaveni pravidla        
+                rules.append((q,A,p,tuple(w)))
+                    
+        except Exception:
+            raise EPDA("Chyba v syntaxi automatu.")
 
         # vytvoreni noveho automatu
         pda = GDP()
         pda.set(group[0], group[1], group[2], rules, group[4], group[5], group[6])
         
+        # pomocny vypis
+        check(pda, DEBUG_CODE, DEBUG, 2)
+        
         # vrati nacteny automat
-        check(pda)
         return pda
     
 ##################################################################### konec souboru
