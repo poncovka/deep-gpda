@@ -4,7 +4,7 @@ Trida pro redukci nevstupnich symbolu GDP na tri.
 @author: Vendula Poncova
 '''
 
-from .pda import GDP, GDP_rule
+from .automaton import GDP, GDP_rule
 from .error import check
 
 # nastaveni paramentru pro debugging

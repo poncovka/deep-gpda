@@ -7,7 +7,7 @@ import re
 import string as pystring
 from .library import enum
 from .error import check, EPDA
-from .pda import GDP
+from .automaton import GDP
 
 DEBUG = False
 DEBUG_CODE = "[Parser]"

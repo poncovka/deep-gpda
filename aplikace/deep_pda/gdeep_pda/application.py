@@ -17,7 +17,7 @@ import sys
 
 ##################################################################### run()
 
-def run():
+def main():
     
     try:
         
@@ -56,12 +56,12 @@ def run():
         e.print()
         exit(e.code)
     
-    # doslo k nezname chybe
-    except Exception as e_unknown:
-        
-        e = Error(str(e_unknown))
-        e.print()
-        exit(e.code)
+#     # doslo k nezname chybe
+#     except Exception as e_unknown:
+#         
+#         e = Error(str(e_unknown))
+#         e.print()
+#         exit(e.code)
     
     # probehlo v poradku
     exit(EOK)

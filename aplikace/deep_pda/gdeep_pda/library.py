@@ -25,7 +25,7 @@ def printHelp():
     gdeep_pda: Redukce zobecneneho zasobnikoveho automatu
     Vendula Poncova (xponco00)
 
-    gdeep_pda [-h] [--input=filename] [--output=filename] [--reduce-states]
+    gdeep_pda [-h|--help] [--input=filename] [--output=filename] [--reduce-states]
          [--reduce-symbols] [--analyze-string="string"]
 
 

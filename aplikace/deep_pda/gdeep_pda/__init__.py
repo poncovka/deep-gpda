@@ -5,5 +5,5 @@ zobecnenych hlubokych zasobnikovych automatu.
 @author: Vendula Poncova
 '''
 
-from .main import run
+from .application import main as run
     

@@ -4,7 +4,7 @@ Trida pro redukci stavu GDP na tri.
 @author: Vendula Poncova
 '''
 
-from .pda import GDP, GDP_rule
+from .automaton import GDP, GDP_rule
 from .error import check
 
 # nastaveni parametru pro debugging
