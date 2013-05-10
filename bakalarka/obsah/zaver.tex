@@ -2,23 +2,22 @@
 \chapter{Závěr}
 %TODO Dolnit až na konec
 
+V této práci jsem se zabývala hlubokými zásobníkovými automaty z pohledu počtu nevstupních symbolů a stavů. Cílem bylo zavést nové modifikace tohoto typu automatu a dosáhnout tak jeho částečného zjednodušení. Po dohodě s vedoucím jsem původní zadání rozšířila o problematiku normální formy a zobecněné varianty hlubokých zásobníkových automatů.
 
-%========================================================================= VYCPAVKA
+Dokázala jsem, že hluboký zásobníkový automat konečného indexu s jedním nevstupním symbolem je ekvivalentní s programovými gramatikami konečného indexu. Znamená to, že omezením počtu nevstupních symbolů na jeden se jeho mocnost nezměnila.  Dále jsem zavedla normální formu hlubokého zásobníkového automatu se čtyřmi typy pravidel a docílila tak zjednodušení jejich zápisu. Nakonec jsem definovala zobecněný hluboký zásobníkový automat. Toto zobecnění spočívá v odstranění hloubky expanze z pravidel. Místo toho je upraveno chování automatu tak, aby expandoval nejvrchnější možný nevstupní symbol na svém zásobníku. Tento typ automatu s povolenými $\varepsilon$-pravidly má mocnost Turingova stroje a platí, že zredukováním počtu nevstupních symbolů, případně stavů, na tři se síla automatu nezmění. Srovnání mocností zavedených automatů a zasazení do širšího kontextu je k dispozici na diagramu \ref{obr_model02_hierarchy}.
 
 
+Algoritmy pro redukci zobecněného hlubokého zásobníkového automatu jsem po dohodě s vedoucím implementovala v konzolové aplikaci \texttt{gdeep\_pda}. Ta převádí vstupní automat na zredukovaný a vypisuje jej na výstup. Aplikace je implementovaná v jazyce Python a slouží k demonstraci navržených postupů. 
 
-In rutrum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur? Morbi leo mi, nonummy eget tristique non, rhoncus non leo. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Maecenas aliquet accumsan leo. Aliquam erat volutpat. Nam quis nulla. Fusce suscipit libero eget elit. Aliquam ornare wisi eu metus. Etiam bibendum elit eget erat. Et harum quidem rerum facilis est et expedita distinctio. Etiam commodo dui eget wisi. Nulla quis diam. Mauris dolor felis, sagittis at, luctus sed, aliquam non, tellus.
+Uvedené algoritmy popisují, jakým způsobem lze jeden model převést na druhý, z čehož lze vyvozovat závěry o jejich ekvivalenci. Bylo by však vhodné  správnost algoritmů ověřit formálním způsobem. Dále z navržených redukcí lze odvodit, že omezení počtu prvků jedné komponenty automatu se projevuje výrazným zvýšením počtu prvků v ostatních komponentách. Konkrétně, když jsem omezila počet nevstupních symbolů, zvýšila se kardinalita množin pravidel a stavů a po omezení počtu stavů, narostla kardinalita množin pravidel a nevstupních symbolů. Je tedy pravděpodobné, že není možné současně omezit počet stavů a počet nevstupních symbolů se zachováním mocnosti automatu. Jedná se však o zajímavou problematiku vhodnou k dalšímu prostudování.
 
-Nunc auctor. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Nullam dapibus fermentum ipsum. Nulla non lectus sed nisl molestie malesuada. Maecenas fermentum, sem in pharetra pellentesque, velit turpis volutpat ante, in pharetra metus odio a lectus. Maecenas lorem. In rutrum. Praesent id justo in neque elementum ultrices. Maecenas aliquet accumsan leo. Duis ante orci, molestie vitae vehicula venenatis, tincidunt ac pede. In dapibus augue non sapien.
-
-Fusce aliquam vestibulum ipsum. Vivamus ac leo pretium faucibus. Nullam lectus justo, vulputate eget mollis sed, tempor sed magna. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Morbi scelerisque luctus velit. In enim a arcu imperdiet malesuada. Morbi scelerisque luctus velit. Nunc auctor. Nulla non arcu lacinia neque faucibus fringilla. Ut tempus purus at lorem. Integer pellentesque quam vel velit.
 
 
 \begin{figure}[ht]
 \centering
 \includegraphics{img/bp_hierarchy03.eps} \bigskip \\
 \caption{Zařazení automatů do kontextu jazykových rodin. Význam jednotlivých zkratek je vysvětlen v kapitole \ref{kap_teorie_hierarchie}. Dále \textbf{DP${}_{NF}$} označuje rodinu jazyků přijímanou hlubokými zásobníkovými automaty v normální formě a \textbf{GDP} rodinu jazyků přijímaných zobecněnými hlubokými zásobníkovými automaty.}
-\label{obr_model_hierarchy}
+\label{obr_model02_hierarchy}
 \end{figure}
 
 % bylo by vhodné formálně dokázat správnost uvedených algoritmů
