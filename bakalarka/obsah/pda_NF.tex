@@ -48,6 +48,7 @@ Při sestavování algoritmu pro převod hlubokého zásobníkového automatu do
 Expanze na dva nevstupní symboly je již udržitelná, ale pokud bych neomezila použití pravidla typu (iv), stále by se mohlo stát, že poslední symbol $\#$ bude odsunut o~jednu pozici za prefix. Nabízelo se povolit pravidlo pro přepis tohoto symbolu na původní nevstupní symbol, ale tím bych zvýšila hloubku automatu. Místo toho spojuji krok expanze a krok přepisu posledního $\#$ symbolu na původní symbol do jednoho pravidla. Expanze tak nemá vliv na $\#$ symboly v~prefixu.
 
 V~algoritmu \ref{alg_NF} popisuji konstrukci hlubokého zásobníkového automatu v~normální formě. S~ohledem na postupnou expanzi zavádím nové nevstupní symboly, jejichž součástí je rovněž původní pravidlo pro expanzi. Nelze určit dopředu, kdy se jednotlivé kroky expanze provedou, proto je nutné umožnit je provést ve všech stavech automatu a na všech pozicích v~prefixu. 
+Ukázka aplikace tohoto algoritmu je k dispozici v příkladu \ref{example_NF}.
 
 \begin{Alg}\label{alg_NF}
 Převod hlubokého zásobníkového automatu do normální formy.
@@ -98,28 +99,74 @@ Převod hlubokého zásobníkového automatu do normální formy.
 
 Každý hluboký zásobníkový automat lze převést na ekvivalentní automat v~normální formě. Zároveň je možné podobným způsobem modifikovat každý automat v~normální formě tak, že ve stavech zaznamenávám symboly $\#$ vyskytující se v~prefixu zásobníku a s~jejich pomocí simuluji použití pravidel (i) a (iv). Pak omezení kladená na tato pravidla nejsou nutná a takový automat splňuje definici hlubokého zásobníkového automatu. Z~toho vyplývá, že se jedná o~ekvivalentní modely.
 
+\begin{figure}[ht]
+\begin{Example} \label{example_NF}
+$M$ je hluboký zásobníkový automat s maximální hloubkou expanze 3 a $M_{NF}$ je jeho normální forma zkonstruovaná podle algoritmu \ref{alg_NF}. Pro lepší přehlednost definice automatů nejsou kompletní a
+pravidla jsou označena identifikátorem.
+\medskip
 
-\begin{Example}
-Ukázka aplikace pravidla $r: 2q B \rightarrow p DdEe$ upraveného podle algoritmu \ref{alg_NF} pro konfiguraci $(q, abc, AaBC)$ v~hlubokém zásobníkovém automatu v~normální formě s~prefixem 3.
+\newlength{\deftabcolsep}
+\setlength{\deftabcolsep}{\tabcolsep}
+\setlength{\tabcolsep}{1pt}
 
+\begin{tabular}{ll}
 
-\begin{center}
-\begin{tabular}{llll|l}
-                & $( <q, ABC>$,              & $abc$, & $\#a\#\#$                    $)$ &  \\
-$\Rightarrow$   & $( <p, A\mathbf{(r: DdEe)}C>$,      & $abc$, & $\#a\#\#$           $)$ & expanze $r: 2q B \rightarrow p DdEe$\\
-$\Rightarrow$   & $( <p, A\mathbf{(r: D) (r: dEe)}>$, & $abc$, & $\#a\#\#\mathbf{C}$ $)$ & postupná expanze\\
-$\Rightarrow$   & $( <p, A\mathbf{D}(r: dEe)>$,       & $abc$, & $\#a\#\#C$          $)$ & expanze na nevstupní symbol\\
-$\Rightarrow$   & $( <p, AD\mathbf{(r: d)}>$,         & $abc$, & $\#a\#\#\mathbf{(r: Ee)}C$   $)$ & postupná expanze \\
-$\Rightarrow$   & $( <p, AD>$,               & $abc$, & $\#a\#\mathbf{d}(r: Ee)C$    $)$        & expanze na vstupní symbol\\
-$\Rightarrow$   & $( <p, AD\mathbf{(r: Ee)}>$,        & $abc$, & $\#a\#d\mathbf{\#}C$   $)$     & načtení symbolu do prefixu\\
-$\Rightarrow$   & $( <p, AD\mathbf{(r: E)}>$,         & $abc$, & $\#a\#d\#\mathbf{(r: e)}C$ $)$  & postupná expanze\\
-$\Rightarrow$   & $( <p, AD\mathbf{E}>$,         & $abc$, & $\#a\#d\#(r: e)C$        $)$        & konec
+$M = ($&$\{s,p,q, \dots, f\},$ \\
+     &$\{a,b,c,d,e\}, $\\
+     &$\{a,b,c,d,e,A,B,C,D,E,S\},$ \\
+     &$\{$ r :\quad$ 2q B \rightarrow p DdEe, \dots\},$\\
+     &$s,$ \\
+     &$S,$ \\
+     &\{f\} )
+\end{tabular}
+
+\bigskip
+
+\begin{tabular}{llp{12cm}l}
+
+$M_{NF} = ($ & $\{$ &$<s,S>, <q, ABC>, <p, A(r: DdEe)C>, <p, A(r: D) (r: dEe)>,$\\
+           && $<p, AD(r: dEe)>, <p, AD(r: d)>, <p, AD>, <p, AD(r: Ee)>, $\\
+           && $<p, AD(r: E)>, <p, ADE>, \dots, <f,\varepsilon> $ \\
+           & $ \},$ \\
+     &$\{$ & $a,b,c,d,e \ \}, $\\
+     &$\{$ & $a,b,c,d,e,A,B,C,D,E,S, (r: DdEe), (r: D), (r: dEe), (r: d),$\\
+     &&$ (r: Ee), (r: E), (r: e), \dots, \# \ $ \\
+     & $ \},$ \\
+     &$\{$ \\
+     && 1 :\quad$ 2 \ <q, ABC> \ \# \ \rightarrow \ <p, A(r: DdEe)C>\  \#, $\\ 
+     && 2 :\quad$ 2 \ <p, A(r: DdEe)C> \ \# \ \rightarrow \ <p, A(r: D) (r: dEe)>\  \#, $\\
+     && 3 :\quad$ 2 \ <p, A(r: D) (r: dEe)> \  \# \ \rightarrow \ <p, AD(r: dEe)>\  \#, $\\
+     && 4 :\quad$ 3 \ <p, AD(r: dEe)> \# \rightarrow <p, AD(r: d)> (r: Ee), $\\
+     && 5 :\quad$ 3 \ <p, AD(r: d)> \ \# \ \rightarrow \ <p, AD> \ d, $\\
+     && 6 :\quad$ 3 \ <p, AD>\  (r: Ee)\  \rightarrow \ <p, AD(r: Ee)> \ \#, $\\
+     && 7 :\quad$ 3 \ <p, AD(r: Ee)> \ \# \ \rightarrow \ <p, AD(r: E)> \ (r: e), $\\
+     && 8 :\quad$ 3 \ <p, AD(r: E)> \ \# \ \rightarrow \ <p, ADE> \ \#, $\\
+     &&$ \dots$ \\
+     & $ \},$ \\
+     &\multicolumn{2}{l}{$<s, S>,$} \\
+     &\multicolumn{2}{l}{$\#,$} \\
+     &$\{$&$<f,\varepsilon> \ \}$ )
+\end{tabular}
+\bigskip
+
+Ukázka simulace pravidla $r: 2q B \rightarrow p DdEe$ automatu $M$ pro konfiguraci $(q, abc, AaBC)$ v~hlubokém zásobníkovém automatu v~normální formě $M_{NF}$ s~prefixem 3. \bigskip
+
+\setlength{\tabcolsep}{\deftabcolsep}
+\begin{tabular}{lllll|l}
+                & $( <q, ABC>$,              & $abc$, & $\#a\#\#$                    $)$ & &  \\
+$\Rightarrow$   & $( <p, A\mathbf{(r: DdEe)}C>$,      & $abc$, & $\#a\#\#$           $)$ & [1] & postupná expanze podle $r$\\
+$\Rightarrow$   & $( <p, A\mathbf{(r: D) (r: dEe)}>$, & $abc$, & $\#a\#\#\mathbf{C}$ $)$ & [2] & \\
+$\Rightarrow$   & $( <p, A\mathbf{D}(r: dEe)>$,       & $abc$, & $\#a\#\#C$          $)$ & [3] & expanze na nevstupní symbol\\
+$\Rightarrow$   & $( <p, AD\mathbf{(r: d)}>$,         & $abc$, & $\#a\#\#\mathbf{(r: Ee)}C$   $)$ & [4] &\\
+$\Rightarrow$   & $( <p, AD>$,               & $abc$, & $\#a\#\mathbf{d}(r: Ee)C$    $)$ & [5]        & expanze na vstupní symbol\\
+$\Rightarrow$   & $( <p, AD\mathbf{(r: Ee)}>$,        & $abc$, & $\#a\#d\mathbf{\#}C$   $)$ & [6]     & načtení symbolu do prefixu\\
+$\Rightarrow$   & $( <p, AD\mathbf{(r: E)}>$,         & $abc$, & $\#a\#d\#\mathbf{(r: e)}C$ $)$ & [7]  &\\
+$\Rightarrow$   & $( <p, AD\mathbf{E}>$,         & $abc$, & $\#a\#d\#(r: e)C$        $)$ & [8]        & konec
 
 \end{tabular}
-\end{center}
 
 \end{Example}
-
+\end{figure}
 
 
 
