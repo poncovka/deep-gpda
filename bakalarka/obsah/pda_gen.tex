@@ -241,10 +241,76 @@ Převod zobecněného hlubokého zásobníkového automatu s~$\varepsilon$-pravi
 
 Každý zobecněný hluboký zásobníkový automat s~$\varepsilon$-pravidly lze převést na ekvivalentní se třemi stavy, jak vyplývá z~algoritmu \ref{alg_gen_deep_pda_state}. Otázka, zda lze stejně zredukovat automat bez $\varepsilon$-pravidel, zůstává otevřená.
 
-\begin{Example}
-Ukázka aplikace pravidla $pB \rightarrow r Dd$ v~konfiguraci $(p, abc, ABc)$ v zobecněném hlubokém zásobníkovém automatu zkonstruovaném podle algoritmu \ref{alg_gen_deep_pda_state}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{center}
+\newpage
+\begin{Example}\label{example_state}
+$M$ je hluboký zásobníkový automat s maximální hloubkou expanze 3 a $M_{NF}$ je jeho normální forma zkonstruovaná podle algoritmu \ref{alg_NF}. Pro lepší přehlednost definice automatů nejsou kompletní a
+pravidla jsou označena identifikátorem.
+\medskip
+
+\setlength{\deftabcolsep}{\tabcolsep}
+\setlength{\tabcolsep}{1pt}
+
+\begin{tabular}{ll}
+
+$M = ($&$\{s,p,q,r,\dots,f\},$ \\
+     &$\{a,b,c,d,e\}, $\\
+     &$\{a,b,c,d,e,A,B,C,D,E\},$ \\
+     &$\{pB \rightarrow r Dd, \dots\},$\\
+     &$s,$ \\
+     &$S,$ \\
+     &\{f\} )
+\end{tabular}
+
+\bigskip
+
+
+
+\begin{tabular}{llp{12cm}l}
+
+$M_{NF} = ($ &$\{$ & $s_{\alpha}, s_{\beta},s_{\gamma} \ \}, $\\
+     &$\{$ & $a,b,c,d,e \ \}, $\\
+     &$\{$ & $a,b,c,d,e, <start>, <1>, <2>, \dots, <p, A>, <p, B>, <p, C>, $\\
+     &&$  <p, D>,<p, A>',<p, B>',<p, C>', <p, D>', <q, A>, <q, B>, $\\
+     &&$ <q, C>, <q, D>,<q, A>',<q, B>',<q, C>', <q, D>',<r, A>, $\\
+     &&$ <r, B>, <r, C>, <r, D>,<r, A>',<r, B>',<r, C>', <r, D>',$\\
+     &&$ <p, \#>, <p, \#>_{set}, <p, \#>_{exp}, <q, \#>, <q, \#>_{set}, <q, \#>_{exp}, $\\
+     &&$ <r, \#>, <r, \#>_{set}, <r, \#>_{exp}, \dots$\\
+     & $ \},$ \\
+     &$\{$ \\
+     && 1 :\quad$ s_{\alpha} \ <p,B>\ \rightarrow \ s_{\beta} <2>\ <p,D>\ d  ,$\\ 
+     && 1 :\quad$ s_{\beta}\ <q,A>\ \rightarrow\ s_{\beta}\ <q,A>'  ,$\\ 
+     && 1 :\quad$ s_{\beta}\ <q,D>\ \rightarrow\ s_{\beta}\ <q,D>'   ,$\\ 
+     && 1 :\quad$ s_{\beta}\ <p,\#>\ \rightarrow\ s_{\alpha}\ <q,\#>_{set}  ,$\\ 
+     && 1 :\quad$ s_{\alpha}\ <2>\ \rightarrow\ s_{\gamma}\ <1>  ,$\\ 
+     && 1 :\quad$ s_{\gamma}\ <q,A>'\ \rightarrow\ s_{\gamma}\ <q,A>  ,$\\ 
+     && 1 :\quad$ s_{\gamma}\ <q,D>'\ \rightarrow \ s_{\gamma}\ <q,D>  ,$\\ 
+     && 1 :\quad$ s_{\gamma}\ <q, \#>_{set}\ \rightarrow\ s_{\beta}\ <q, \#>  ,$\\ 
+     && 1 :\quad$ s_{\beta}\ <r,A>\ \rightarrow\ s_{\beta}\ <r,A>'  ,$\\ 
+     && 1 :\quad$ s_{\beta}\ <r,D>\ \rightarrow\ s_{\beta}\ <r,D>'  ,$\\ 
+     && 1 :\quad$ s_{\beta}\ <r,\#>\ \rightarrow\ s_{\alpha}\ <r,\#>_{set}  ,$\\ 
+     && 1 :\quad$ s_{\alpha}\ <1>\  \rightarrow\ s_{\alpha}\ \varepsilon  ,$\\ 
+     && 1 :\quad$ s_{\alpha}\ <r,\#>_{set}\ \rightarrow\ s_{\gamma}\ <r, \#>_{exp}  ,$\\ 
+     && 1 :\quad$ s_{\gamma}\ <r,A>'\ \rightarrow\ s_{\gamma}\ <r,A>  ,$\\ 
+     && 1 :\quad$ s_{\gamma}\ <r,D>'\ \rightarrow\ s_{\gamma}\ <r,D>  ,$\\ 
+     && 1 :\quad$ s_{\gamma}\ <r, \#>_{exp}\ \rightarrow\ s_{\alpha}\ <r, \#>  ,$\\ 
+     &&$ \dots$ \\
+     & $ \},$ \\
+     &\multicolumn{2}{l}{$s_{\alpha},$} \\
+     &\multicolumn{2}{l}{$<start>,$} \\
+     &$\{$&$s_{\alpha}\ \}$ )
+\end{tabular}
+\bigskip
+
+
+
+\setlength{\tabcolsep}{\deftabcolsep}
+
+\newpage
+Ukázka simulace pravidla $pB \rightarrow r Dd$ v~konfiguraci $(p, abc, ABc)$ v zobecněném hlubokém zásobníkovém automatu $M_{R}$ zkonstruovaném z automatu $M$ podle algoritmu \ref{alg_gen_deep_pda_state}.\bigskip
+
+%\begin{center}
 \begin{tabular}{llll|l}
                 & $( s_{\alpha}$,  & $abc$, & $<p,A> <p,B> c <p, \#>$         $)$ &  \\
 $\Rightarrow$   & $( \mathbf{s_{\beta}}$,   & $abc$, & $<p,A> \mathbf{<2> <p,D> d} c <p, \#>$         $)$ & expanze $pB \rightarrow r Dd$ \\
@@ -265,10 +331,12 @@ $\Rightarrow$   & $( s_{\gamma}$,  & $abc$, & $<r,A> \mathbf{<r,D>} d c <r, \#>_
 $\Rightarrow$   & $( \mathbf{s_{\alpha}}$,  & $abc$, & $<r,A> <r,D> d c \mathbf{<r, \#>}$  $)$ &  konec
 
 \end{tabular}
-\end{center}
+%\end{center}
 
 
 \end{Example}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %=========================================================================
