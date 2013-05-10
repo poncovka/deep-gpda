@@ -29,7 +29,7 @@ Převod hlubokého zásobníkového automatu konečného indexu na ekvivalentní
   \subitem A~pro každé $(u,z) \in (\Gamma - \Sigma)^* \times (\Gamma - \Sigma)^*$, kde $|u|=m-1$, $|z|\le n-m$ : \smallskip
 
   \subsubitem přidej do $Q_\#$ stavy $<q, u~A~z>$, $<p, u~B_1 B_2 \dots B_{j-1} B_{j} z>$,
-  \subsubitem přidej do $R_\#$ pravidlo $m <q, u~A~z> \# \rightarrow <p, u~B_1 B_2 \dots B_{j-1} B_{j} z> b_0 \# b_1 \# b_2 \dots b_{j-1} \# b_j $,
+  \subsubitem přidej do $R_\#$ $m <q, u~A~z> \# \rightarrow <p, u~B_1 B_2 \dots B_{j-1} B_{j} z> b_0 \# b_1 \# b_2 \dots b_{j-1} \# b_j $,
   \subsubitem pokud $q \in F$, přidej do $F_\#$ stav $<q, u~A~z>$,
   \subsubitem pokud $p \in F$, přidej do $F_\#$ stav $<p, u~B_1 B_2 \dots B_{j-1} B_{j} z>$.
 
@@ -76,10 +76,12 @@ Převod programové gramatiky konečného indexu na ekvivalentní hluboký záso
   \subitem Pro každé $(k,u,z) \in \{1,2,3,\dots,n-j+1\} \times N^* \times N^*$, kde $|u| = k-1$, $|z|  \le n-k$ : \medskip
   \subsubitem Pokud $g(p) = \emptyset$ :
   \subsubitem přidej do $Q$ stavy $<p,uAz>$, $<\varepsilon, u~B_1 B_2 \dots B_{j-1} B_{j} z>$,
-  \subsubitem přidej do $R$ pravidlo $<p,uAz>_k \# \rightarrow <\varepsilon, u~B_1 B_2 \dots B_{j-1} B_{j} z> b_0 \# b_1 \# b_2 \dots b_{j-1} \# b_j$.\medskip
+  \subsubitem přidej do $R$ pravidlo :
+  \subsubitem $<p,uAz>_k \# \rightarrow <\varepsilon, u~B_1 B_2 \dots B_{j-1} B_{j} z> b_0 \# b_1 \# b_2 \dots b_{j-1} \# b_j$.\medskip
   \subsubitem Jinak pro každé $q \in g(p)$:
   \subsubitem přidej do $Q$ stavy $<p,uAz>$, $<q, u~B_1 B_2 \dots B_{j-1} B_{j} z>$,
-  \subsubitem přidej do $R$ pravidlo $<p,uAz>_k \# \rightarrow <q, u~B_1 B_2 \dots B_{j-1} B_{j} z> b_0 \# b_1 \# b_2 \dots b_{j-1} \# b_j$.
+  \subsubitem přidej do $R$ pravidlo :
+  \subsubitem $<p,uAz>_k \# \rightarrow <q, u~B_1 B_2 \dots B_{j-1} B_{j} z> b_0 \# b_1 \# b_2 \dots b_{j-1} \# b_j$.
 
 \end{list}
 \end{Alg}
@@ -87,13 +89,13 @@ Převod programové gramatiky konečného indexu na ekvivalentní hluboký záso
 
 % TODO rozepsat?
 
-Konstrukce důkazu o~převodu hlubokého zásobníkového automatu konečného indexu s~jedním nevstupním symbolem na programovou gramatiku konečného indexu je dohledatelná ve článku \cite{Krivka:RewritingSystems}, který srovnává programové gramatiky s~\#-Rewriting Systems. Programová gramatika simuluje každý krok zásobníkového automatu sekvencí několika derivací. Neterminály obsahují informace o~stavu zásobníku, aktuální pozici výskytu symbolu \# a celkovém počtu všech \# v~aktuální konfiguraci. Vlastní simulace probíhá následovně:
+Pro konstrukci důkazu o~převodu hlubokého zásobníkového automatu konečného indexu s~jedním nevstupním symbolem na programovou gramatiku konečného indexu lze beze změny použít postup z~článku \cite{Krivka:RewritingSystems}, který srovnává programové gramatiky s~\#-Rewriting Systems. Programová gramatika simuluje každý krok zásobníkového automatu sekvencí několika derivací. Neterminály obsahují informace o~stavu zásobníku $p$, aktuální pozici výskytu symbolu \# $i$ a celkovém počtu symbolů \# $h$ ve formě zápisu $<p,i,h>$. Simulace aplikace pravidla s~hloubkou expanze $n$ probíhá následovně:
 
-\begin{list}{}{\setlength\parsep{0cm} \setlength\itemsep{0cm} \setlength\leftmargin{1em}}
-\item 1. Aktualizace pozice a celkového počtu nevstupních symbolů u~všech neterminálů.
-\item 2. Expanze neterminálu na příslušné pozici.
-\item 3. Odstranění pomocných stavů.
-\end{list}
+\begin{enumerate}
+\item Ve všech neterminálech se aktualizuje jejich pozice a celkový počet symbolů \# vzhledem k~výsledné konfiguraci simulovaného automatu. Symboly se expandují postupně zleva doprava tak, že po každé expanzi se vybere pravidlo pro následující neterminál. 
+\item Podle simulovaného pravidla se expanduje neterminál na pozici $n$. Pozice neterminálů za tímto symbolem se v~kroku 1 upravily tak, aby nové neterminály vyplnily chybějící pozice.
+\item Neterminály se postupně prochází z~leva do prava a pomocný stav se přepisuje stavem aktuálním. Po tomto kroku je simulace dokončena a celý postup se může opakovat.
+\end{enumerate}
 
 Tím jsem ukázala, že výše zavedený typ zásobníkového automatu je ekvivalentní s~programovými gramatikami konečného indexu. Z~toho vyplývá, že rodina jazyků přijímaná tímto automatem tvoří nekonečnou hierarchii vycházející z~konečných programových gramatik.
 
