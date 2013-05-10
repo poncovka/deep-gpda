@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pdftotext projekt.pdf
+pdftotext -f 6 -l 29 projekt.pdf
 chars=$((`cat projekt.txt | wc -m`))
 echo "Bezny rozsah: 30-40 normostran."
 echo "Aktualni pocet normostran v projektu:" $(($chars / 1800 ))
