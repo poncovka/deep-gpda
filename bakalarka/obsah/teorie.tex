@@ -144,30 +144,42 @@ $$L(G) = \{w \in T^* | (s, S) {\Rightarrow}^* (p, w), p,q \in W \}.$$
 
 % definovat rodiny jazyků příslušných modelů a zařadit je do kontextu, obrázek - viz. křivka?
 
+\begin{figure}[ht]
+\centering
+\includegraphics{img/bp_hierarchy01.eps} \bigskip \\
+\caption{Znázornění zkoumané oblasti v kontextu Chomského hierarchie.}
+\label{obr_chom_hierarchy}
+\end{figure}
+
 Mocnosti definovaných modelů se v~rámci Chomského hierarchie nacházejí přibližně mezi kontextovými a bezkontextovými jazyky (obrázek \ref{obr_chom_hierarchy}). Pro bližší zkoumání vztahů mezi jazykovými rodinami zavedu následující označení:
 
 \begin{description*}
-\item{L(\textbf{RE})} je rodina rekurzivně spočetných jazyků,
-\item{L(\textbf{CF})} je rodina kontextových jazyků,
-\item{L(\textbf{CS})} je rodina bezkontextových jazyků,
-\item{L(\textbf{REG})} je rodina regulárních jazyků,
+\item{\textbf{RE}} je rodina rekurzivně spočetných jazyků,
+\item{\textbf{CF}} je rodina kontextových jazyků,
+\item{\textbf{CS}} je rodina bezkontextových jazyků,
+\item{\textbf{REG}} je rodina regulárních jazyků,
 
-\item{L(\textbf{${}_n$DP})} je rodina jazyků přijímaných hlubokým zásobníkovým automatem hloubky $n \ge 1$,
+\item{\textbf{${}_n$DP}} je rodina jazyků přijímaných hlubokým zásobníkovým automatem hloubky $n \ge 1$,
 
-\item{L(\textbf{M})} je rodina jazyků generovaných maticovými gramatikami,
-\item{L(\textbf{P})} je rodina jazyků generovaných programovými gramatikami,
-\item{L(\textbf{S})} je rodina jazyků generovaných stavovými gramatikami,
+\item{\textbf{M}} je rodina jazyků generovaných maticovými gramatikami,
+\item{\textbf{P}} je rodina jazyků generovaných programovými gramatikami,
+\item{\textbf{S}} je rodina jazyků generovaných stavovými gramatikami,
 
 \end{description*}
 
-L${}_{fin}$(X) indikuje konečný index modelu X. Pro modely \textbf{M}, \textbf{P} a \textbf{S} platí, že vycházejí z~bezkontextové gramatiky a neobsahují $\varepsilon$-pravidla.
-Vztahy mezi jazykovými rodinami jsou znázorněné na diagramu \ref{obr_model_hiearchy}. Vycházela jsem z~výsledků v~pracích
-Meduny (\cite{Meduna:DeepPDA}, \cite{Meduna:FinitelyDeepPDA}, \cite{Meduna:StateGrammars}), 
-Dassow (\cite{Dassow:RegulatedRewriting}) a 
-Kasai (\cite{Kasai:Hierarchy}).
+$X_{fin}$ indikuje konečný index modelu $X$. Pro modely jazykových rodin \textbf{M}, \textbf{P} a \textbf{S} platí, že vycházejí z~bezkontextové gramatiky a neobsahují $\varepsilon$-pravidla.
+Vztahy mezi jazykovými rodinami jsou znázorněné na diagramu \ref{obr_model_hierarchy}. Vycházela jsem z~výsledků v~pracích
+Meduny \cite{Meduna:DeepPDA, Meduna:FinitelyDeepPDA, Meduna:StateGrammars}, 
+Dassow \cite{Dassow:RegulatedRewriting} a 
+Kasai \cite{Kasai:Hierarchy}.
 
 
-
+\begin{figure}[ht]
+\centering
+\includegraphics{img/bp_hierarchy02.eps} \bigskip \\
+\caption{Grafické srovnání mocností jazykových rodin některých modelů.}
+\label{obr_model_hierarchy}
+\end{figure}
 
 
 
