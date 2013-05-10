@@ -59,7 +59,7 @@ Aplikaci \texttt{gdeep\_pda} jsem implementovala v jazyce Python verze 3 jako sp
 
 \subsubsection{Činnost aplikace}
 
-Po spuštení aplikace je zavolána funkce \texttt{main()} z modulu \texttt{application}. Ta zpracuje parametry, načte vstup do řetězce a řetězec zpracuje pomocí parseru typu \texttt{GDPParser}. Vstupní automat se pak formátovaně vypíše na výstup, nebo se získá jeho zredukovaná varianta pomocí objektu třídy \texttt{StateReduction}, případně \texttt{SymbolReduction}, a vypíše se zredukovaný automat. Modul \texttt{library} poskytuje funkce pro výpis nápovědy, zpracování parametrů a práci se vstupy a výstupy.
+Po spuštění aplikace je zavolána funkce \texttt{main()} z modulu \texttt{application}. Ta zpracuje parametry, načte vstup do řetězce a řetězec zpracuje pomocí parseru typu \texttt{GDPParser}. Vstupní automat se pak formátovaně vypíše na výstup, nebo se získá jeho zredukovaná varianta pomocí objektu třídy \texttt{StateReduction}, případně \texttt{SymbolReduction}, a vypíše se zredukovaný automat. Modul \texttt{library} poskytuje funkce pro výpis nápovědy, zpracování parametrů a práci se vstupy a výstupy.
 
 
 \subsubsection{Model zobecněného hlubokého zásobníkového automatu}
@@ -99,8 +99,8 @@ Aplikace \texttt{gdeep\_pda} pro svůj běh vyžaduje Python verze 3. Pak ji lze
 
 \begin{tabular}{l p{10cm}}\\
 \texttt{-h},\texttt{--help} 	& Na standardní výstup se vypíše nápověda. \\
-\texttt{--input=file}   	& Vstup se načte ze souboru file, jinak ze standardního vstupu. Podporované kódování je \texttt{utf-8}.\\
-\texttt{--output=file}  	& Výstup se vypíše do souboru file, jinak na standardní výstup.	\\
+\texttt{--input=file}   	& Vstup se načte ze souboru \texttt{file}, jinak ze standardního vstupu. Podporované kódování je \texttt{utf-8}.\\
+\texttt{--output=file}  	& Výstup se vypíše do souboru \texttt{file}, jinak na standardní výstup.	\\
 \texttt{--reduce-states} 	& Vstupní automat se upraví tak, aby obsahoval tři stavy, a vypíše se na výstup. \\
 \texttt{--reduce-symbols} 	& Vstupní automat se upraví tak, aby obsahoval tři nevstupní symboly, a vypíše se na výstup.
 \end{tabular}

@@ -45,11 +45,11 @@ Je zřejmé, že každý hluboký zásobníkový automat konečného indexu s~je
 \end{figure}
 
 %=========================================================================
-\section{Ekvivalence s~programovými gramatikami konečného indexu}
+\section{Ekvivalence s~programovými gramatikami konečného\\indexu}
 
-V~\cite{Meduna:FinitelyDeepPDA} je dokázáno, že hluboké zásobníkové automaty konečného indexu jsou ekvivalentní s~maticovými gramatikami konečného indexu, tudíž třídy jazyků, které zásobníkový automat přijímá, tvoří nekonečnou hierarchii. Vzhledem k~výsledkům v~kapitole \ref{section_deep_pda_nonterm} lze očekávat, že tato vlastnost automatu zůstane i při omezení počtu nevstupních symbolů. Konstrukci důkazu tohoto tvrzení ukážu na ekvivalenci s~programovými gramatikami, přičemž platí, že maticové a programové gramatiky konečného indexu generují stejný jazyk \cite{Dassow:RegulatedRewriting}.
+A. Meduna \cite{Meduna:FinitelyDeepPDA} dokázal, že hluboké zásobníkové automaty konečného indexu jsou ekvivalentní s~maticovými gramatikami konečného indexu, tudíž třídy jazyků, které zásobníkový automat přijímá, tvoří nekonečnou hierarchii. Vzhledem k~výsledkům v~kapitole \ref{section_deep_pda_nonterm} lze očekávat, že tato vlastnost automatu zůstane i při omezení počtu nevstupních symbolů. Konstrukci důkazu tohoto tvrzení ukážu na ekvivalenci s~programovými gramatikami, přičemž platí, že maticové a programové gramatiky konečného indexu generují stejný jazyk \cite{Dassow:RegulatedRewriting}.
 
-Pro hluboký zásobníkový automat dle \cite{Meduna:FinitelyDeepPDA} platí, že jestliže přijme nějaké slovo $w$, pak existuje taková sekvence přechodů přijímající slovo $w$, která provádí pouze pop operace po první pop operaci. Toto tvrzení využiji v~následujícím důkazu, neboť zásobníkový automat, na kterém probíhají jen expanze funguje jako gramatika. Stačí proto ukázat, že automat je schopen na svém zásobníku simulovat všechny derivace gramatiky a gramatika je schopná simulovat automat.
+Pro hluboký zásobníkový automat podle článku \cite{Meduna:FinitelyDeepPDA} platí, že jestliže přijme nějaké slovo $w$, pak existuje taková sekvence přechodů přijímající slovo $w$, která provádí pouze pop operace po první pop operaci. Toto tvrzení využiji v~následujícím důkazu, neboť zásobníkový automat, na kterém probíhají jen expanze, funguje jako gramatika. Stačí proto ukázat, že automat je schopen na svém zásobníku simulovat všechny derivace gramatiky a gramatika je schopná simulovat automat.
 
 V~algoritmu \ref{alg_PG} popisuji konstrukci hlubokého zásobníkového automatu konečného indexu s~jedním nevstupním symbolem $M$ simulujícího programovou gramatiku konečného indexu $G$. Stav automatu se v~tomto případě skládá ze dvou položek: označení pravidla, které se bude simulovat v~dalším kroku, a řetězce neterminálů, které jsou na zásobníku nahrazené symbolem $\#$. Automat přejde do koncového stavu, pokud jeho zásobník neobsahuje žádné nevstupní symboly.
  %%%

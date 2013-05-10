@@ -2,7 +2,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Hluboký zásobníkový automat v~normální formě} \label{kap_pda_NF}
 
-V~této kapitole zavádím normální formu hlubokého zásobníkového automatu a ukazuji způsob, jakým lze automat na tuto formu převést. Vycházím z~myšlenky automatu s~jedním nevstupním symbolem, kterému jsem se věnovala doposud. Hluboký zásobníkový automat je ale zobecněním konečného a nemá omezení pro počet nevstupních symbolů na zásobníku. Z~toho důvodu není možné na něj aplikovat algoritmus \ref{alg_PDA}, neboť by to vedlo k~nekonečnému počtu stavů a pravidel. Je ale možné pracovat podobným způsobem s~tzv. prefixem zásobníku, kdy nejvrchnějších $n$ nevstupních symbolů nahrazuji symbolem $\#$. Celkový počet nevstupních symbolů jsem tak nijak nezredukovala, ale docílila jsem zjednodušeného zápisu pravidel.
+V~této kapitole zavádím normální formu hlubokého zásobníkového automatu a ukazuji způsob, jakým lze automat na tuto formu převést. Vycházím z~myšlenky automatu s~jedním nevstupním symbolem, kterému jsem se věnovala doposud. Hluboký zásobníkový automat je ale zobecněním konečného a nemá omezení pro počet nevstupních symbolů na zásobníku. Z~toho důvodu není možné na něj aplikovat algoritmus \ref{alg_PDA}, neboť by to vedlo k~nekonečnému počtu stavů a pravidel. Je však možné pracovat podobným způsobem s~tzv. prefixem zásobníku, kdy nejvrchnějších $n$ nevstupních symbolů nahrazuji symbolem $\#$. Celkový počet nevstupních symbolů jsem tak nijak nezredukovala, ale docílila jsem zjednodušeného zápisu pravidel.
 
 % definice
 % algoritmus
@@ -13,7 +13,7 @@ V~této kapitole zavádím normální formu hlubokého zásobníkového automatu
 %=========================================================================
 \section{Definice normální formy}
 
-Hluboký zásobníkový automat v~normální formě dle definice \ref{def_NF} pracuje s~prefixem $n$ nevstupních symbolů. Přepis symbolů v~prefixu na symbol $\#$ umožňuje pravidlo typu (i), změnu stavu pravidlo (ii), přepis na symbol vstupní abecedy pravidlo typu (iii) a expandovat lze pravidlem typu (iv). 
+Hluboký zásobníkový automat v~normální formě dle definice \ref{def_NF} pracuje s~prefixem $n$ nevstupních symbolů. Přepis symbolů v~prefixu na symbol $\#$ umožňuje pravidlo typu (i), změnu stavu pravidlo typu (ii), přepis na symbol vstupní abecedy pravidlo typu (iii) a expandovat lze pravidlem typu (iv). 
 
 \begin{Def}\label{def_NF}
 Nechť $M = (Q,\Sigma,\Gamma, R, s, S~, F)$ je hluboký zásobníkový automat
@@ -47,7 +47,7 @@ Při sestavování algoritmu pro převod hlubokého zásobníkového automatu do
 
 Expanze na dva nevstupní symboly je již udržitelná, ale pokud bych neomezila použití pravidla typu (iv), stále by se mohlo stát, že poslední symbol $\#$ bude odsunut o~jednu pozici za prefix. Nabízelo se povolit pravidlo pro přepis tohoto symbolu na původní nevstupní symbol, ale tím bych zvýšila hloubku automatu. Místo toho spojuji krok expanze a krok přepisu posledního $\#$ symbolu na původní symbol do jednoho pravidla. Expanze tak nemá vliv na $\#$ symboly v~prefixu.
 
-V~algoritmu \ref{alg_NF} popisuji konstrukci hlubokého zásobníkového automatu v~normální formě. S~ohledem na postupnou expanzi zavádím nové nevstupní symboly, jejichž součástí je rovněž původní pravidlo pro expanzi. Nelze určit dopředu, kdy se jednotlivé kroky expanze provedou, proto je nutné je umožnit provést ve všech stavech automatu a na všech pozicích v~prefixu. 
+V~algoritmu \ref{alg_NF} popisuji konstrukci hlubokého zásobníkového automatu v~normální formě. S~ohledem na postupnou expanzi zavádím nové nevstupní symboly, jejichž součástí je rovněž původní pravidlo pro expanzi. Nelze určit dopředu, kdy se jednotlivé kroky expanze provedou, proto je nutné umožnit je provést ve všech stavech automatu a na všech pozicích v~prefixu. 
 
 \begin{Alg}\label{alg_NF}
 Převod hlubokého zásobníkového automatu do normální formy.
@@ -101,8 +101,6 @@ Každý hluboký zásobníkový automat lze převést na ekvivalentní automat v
 
 \begin{Example}
 Ukázka aplikace pravidla $r: 2q B \rightarrow p DdEe$ upraveného podle algoritmu \ref{alg_NF} pro konfiguraci $(q, abc, AaBC)$ v~hlubokém zásobníkovém automatu v~normální formě s~prefixem 3.
-
-
 
 
 \begin{center}

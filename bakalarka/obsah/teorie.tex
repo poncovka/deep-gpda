@@ -5,7 +5,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Pojmy a definice}
 
-V~této kapitole zavádím a definuji pojmy, ze kterých vycházím v~dalších částech své práce. Ve stručnosti se zabývám problematikou řízených gramatik a definuji programové a stavové gramatiky. Dále uvádím definici hlubokého zásobníkového automatu a jeho konečné varianty. Nakonec zařazuji jazyky přijímané těmito automaty spolu s~jazyky generovanými řízenými gramatikami do kontextu označovaném jako hierarchie mezi kontextovými a bezkontextovými jazyky.
+V~této kapitole zavádím a definuji pojmy, ze kterých vycházím v~dalších částech své práce. Ve stručnosti se zabývám problematikou řízených gramatik a definuji programové a stavové gramatiky. Dále uvádím definici hlubokého zásobníkového automatu a jeho konečné varianty. Nakonec zařazuji jazyky přijímané těmito automaty spolu s~jazyky generovanými řízenými gramatikami do kontextu označovaného jako hierarchie mezi kontextovými a bezkontextovými jazyky.
 
 %=========================================================================
 \section{Základní pojmy}
@@ -14,7 +14,7 @@ V~této práci předpokládám základní znalosti z~teorie formálních jazyků
 
 \emph{Abeceda} je konečná neprázdná množina symbolů. 
 \emph{Prázdný řetězec} se značí symbolem $\varepsilon$. 
-Nechť $\Sigma$ je abeceda, pak $\varepsilon$ je \emph{řetězec} nad abecedou $\Sigma$, a pokud $x$ je řetězec nad $\Sigma$ a $a \in \Sigma$, pak $xa$ je řetězec na abecedou $\Sigma$.  
+Nechť $\Sigma$ je abeceda, pak $\varepsilon$ je \emph{řetězec} nad abecedou $\Sigma$, a pokud $x$ je řetězec nad $\Sigma$ a $a \in \Sigma$, pak $xa$ je řetězec nad abecedou $\Sigma$.  
 $\Sigma^*$ je množina všech řetězců nad $\Sigma$ a $\Sigma^+ = \Sigma^* - \{\varepsilon\}$. 
 Pro řetězec $v \in \Sigma$ platí, že $|v|$ označuje délku řetězce $v$ a $\mathrm{alph}(v)$ značí množinu symbolů vyskytujících se v~řetězci $v$. Pokud V~je množina symbolů, pak $\mathrm{occur}(v, V)$ značí počet výskytů symbolů z~$V$ v~řetězci $v$. 
 Nechť $I$ je podmnožina celých čísel, pak $\mathrm{max}(I)$ označuje největší číslo v~$I$.
@@ -22,7 +22,7 @@ Nechť $I$ je podmnožina celých čísel, pak $\mathrm{max}(I)$ označuje nejv�
 %=========================================================================
 \section{Hluboké zásobníkové automaty}
 
-Zásobníkový automat je modelem pro bezkontextové jazyky. Umožňuje přepisovat symbol na vrcholu zásobníku za řetězec. Meduna tento automat zobecnil a zvýšil jeho sílu tak, že lze přepisovat libovolný symbol na zásobníku. Tyto automaty se označují jako \emph{hluboké zásobníkové automaty}. 
+Zásobníkový automat je modelem pro bezkontextové jazyky. Umožňuje přepisovat symbol na vrcholu zásobníku řetězcem. A. Meduna tento automat zobecnil a zvýšil jeho sílu tak, že lze přepisovat libovolný symbol na zásobníku. Tyto automaty se označují jako \emph{hluboké zásobníkové automaty}. 
 
 % DEFINICE: DEEP PDA
 
@@ -44,7 +44,7 @@ Zásobníkový automat je modelem pro bezkontextové jazyky. Umožňuje přepiso
 Nechť $X$, $Y$ jsou dvě konfigurace. 
 $M$ přečte symbol na vstupní pásce a přejde z~$X$ do $Y$, tzv. \emph{pop operace}, píšeme $X$  ${}_p{\Rightarrow}$  $Y$ $[mqA \rightarrow pv]$, zjednodušeně $X$  ${}_p{\Rightarrow}$  $Y$, pokud $X = (q, au, az)$, $Y = (q, u, z)$, kde $q \in Q$, $a \in \Sigma$, $u \in \Sigma^*$, $z \in \Gamma^*$.
 $M$ přepíše symbol na zásobníku a přejde z~$X$ do $Y$, tzv. \emph{expanze}, píšeme $X$  ${}_e{\Rightarrow}$  $Y$ $[mqA \rightarrow pv]$, zjednodušeně $X$  ${}_e{\Rightarrow}$  $Y$, pokud $X = (q, w, uAz)$, $Y = (p, w, uvz)$, $mqA \rightarrow pv \in R$ a platí $\mathrm{occur}(u,\Gamma - \Sigma) = m - 1 $, kde $p$, $q \in Q$, $w \in \Sigma^*$, $A \in \Gamma$, $u$, $v$, $z \in \Gamma^*$. 
-$M$ provede \emph{přechod} z~$X$ do $Y$, píšeme $X$  ${\Rightarrow}$  $Y$ $[mqA \rightarrow pv]$, zjednodušeně $X$  ${\Rightarrow}$  $Y$, pokud provede expanzi, nebo operaci pop.
+$M$ provede \emph{přechod} z~$X$ do $Y$, píšeme $X$  ${\Rightarrow}$  $Y$ $[mqA \rightarrow pv]$, zjednodušeně $X$  ${\Rightarrow}$  $Y$, pokud provede expanzi nebo operaci pop.
 
 
 \begin{figure}[ht]
@@ -81,7 +81,7 @@ Nechť $X$ je konfigurace. $M$ provede \emph{nula přechodů} z~$X$ do $X$, pí�
 %=========================================================================
 \section{Řízené gramatiky}
 
-Řízené gramatiky vycházejí z~definice bezkontextové gramatiky. Zachovává se základní tvar pravidla, ale mění se způsob derivace. Tímto způsobem lze zvýšit mocnost modelu bez zbytečného komplikování pravidel \cite{Krivka}. Mezi řízené gramatiky patří například programové, maticové a stavové.  
+Řízené gramatiky vycházejí z~definice bezkontextové gramatiky. Zachovává se základní tvar pravidla, ale mění se způsob derivace. Tímto způsobem lze zvýšit mocnost modelu bez zbytečného komplikování pravidel. Mezi řízené gramatiky patří například programové, maticové a stavové.  
 
 % DEFINICE: BEZKONTEXTOVE GRAMATIKY
 \begin{Def}\label{def_bezkontext_gram}
@@ -122,7 +122,7 @@ Bezkontextová gramatika $G$ generuje jazyk $L(G)$, pro který platí $$L(G) = \
 \item $s \in W$ je počáteční stav, 
 \item $P$ je konečná relace $(W \times N) \times (W \times V^+)$, pravidla zapisujeme $(q,A) \rightarrow (p,v)$.
 \end{description*}
-Nechť $(q,A) \rightarrow (p,v) \in P$, $p$, $q \in W$, $A \in N$, $v$, $x$, $y \in V^*$, pak stavová gramatika $G$ provede derivační krok z~$xAy$ do $xvy$, píšeme $(q, xAy) \Rightarrow (p, xvy) [(q,A) \rightarrow (p,v)]$, zjednodušeně $xAy \Rightarrow xvy$, právě tehdy když 
+Nechť $(q,A) \rightarrow (p,v) \in P$, $p$, $q \in W$, $A \in N$, $v$, $x$, $y \in V^*$, pak stavová gramatika $G$ provede derivační krok z~$xAy$ do $xvy$, píšeme $(q, xAy) \Rightarrow (p, xvy) [(q,A) \rightarrow (p,v)]$, zjednodušeně $xAy \Rightarrow xvy$, právě tehdy, když 
    $$\{Z \mid (q,Z) \rightarrow (p',v') \in P \textnormal{, } Z~\in \mathrm{alph}(x) \cap N \textnormal{, } p' \in W \textnormal{, } v' \in V^* \} = \emptyset.$$ 
 Gramatika $G$ generuje jazyk 
 $$L(G) = \{w \in T^* | (s, S) {\Rightarrow}^* (p, w), p,q \in W \}.$$
@@ -131,11 +131,11 @@ $$L(G) = \{w \in T^* | (s, S) {\Rightarrow}^* (p, w), p,q \in W \}.$$
 \end{Def}
 
 \begin{Def}
-\emph{Stavová gramatika konečného indexu $n$} \cite{Kasai:Hierarchy} je stavová gramatika $G=(V,W,T,S,s,P)$, pro kterou platí, že derivační krok $(q, xAy) \Rightarrow (p, xvy)$ za pomoci pravidla $(q,A) \rightarrow (p,v) \in P$, kde $p$, $q \in W$, $A \in N$, $v$, $x$, $y \in V^*$, lze provést právě tehdy, když je počet neterminálů v~řetězci $xA$ menší nebo roven $n$. Píšeme ${{}_n{\Rightarrow}}$. 
+\emph{Stavová gramatika konečného indexu $n$} \cite{Kasai:Hierarchy} je stavová gramatika \\$G=(V,W,T,S,s,P)$, pro kterou platí, že derivační krok $(q, xAy) \Rightarrow (p, xvy)$ za pomoci pravidla $(q,A) \rightarrow (p,v) \in P$, kde $p$, $q \in W$, $A \in N$, $v$, $x$, $y \in V^*$, lze provést právě tehdy, když je počet neterminálů v~řetězci $xA$ menší nebo roven $n$. Píšeme ${{}_n{\Rightarrow}}$. 
 \end{Def}
 
 \begin{Def} \label{def_state_gram_epsilon}
-\emph{Stavová gramatika s~$\varepsilon$-pravidly} je podle \cite{Meduna:StateGrammars} stavová gramatika $G=(V,W,T,S,s,P)$ rozšířená o~vymazávací pravidla typu $(q,A) \rightarrow (p,\varepsilon)$, kde $p$, $q \in W$, $A \in N$.
+\emph{Stavová gramatika s~$\varepsilon$-pravidly} je podle \cite{Meduna:StateGrammars} stavová gramatika \\$G=(V,W,T,S,s,P)$ rozšířená o~vymazávací pravidla typu $(q,A) \rightarrow (p,\varepsilon)$, kde $p$, $q \in W$, $A \in N$.
 \end{Def}
 
 
@@ -163,15 +163,15 @@ Mocnosti definovaných modelů se v~rámci Chomského hierarchie nacházejí př
 
 \item{\textbf{M}} je rodina jazyků generovaných maticovými gramatikami,
 \item{\textbf{P}} je rodina jazyků generovaných programovými gramatikami,
-\item{\textbf{S}} je rodina jazyků generovaných stavovými gramatikami,
+\item{\textbf{S}} je rodina jazyků generovaných stavovými gramatikami.
 
 \end{description*}
 
 $X_{fin}$ indikuje konečný index modelu $X$. Pro modely jazykových rodin \textbf{M}, \textbf{P} a \textbf{S} platí, že vycházejí z~bezkontextové gramatiky a neobsahují $\varepsilon$-pravidla.
 Vztahy mezi jazykovými rodinami jsou znázorněné na diagramu \ref{obr_model_hierarchy}. Vycházela jsem z~výsledků v~pracích
-Meduny \cite{Meduna:DeepPDA, Meduna:FinitelyDeepPDA, Meduna:StateGrammars}, 
-Dassow \cite{Dassow:RegulatedRewriting} a 
-Kasai \cite{Kasai:Hierarchy}.
+A. Meduny \cite{Meduna:DeepPDA, Meduna:FinitelyDeepPDA, Meduna:StateGrammars}, 
+J. Dassow \cite{Dassow:RegulatedRewriting} a 
+T. Kasai \cite{Kasai:Hierarchy}.
 
 
 \begin{figure}[ht]
