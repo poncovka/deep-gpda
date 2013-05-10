@@ -129,26 +129,97 @@ Převod zobecněného hlubokého zásobníkového automatu s~$\varepsilon$-pravi
 Z~uvedeného algoritmu vyplývá, že redukce neovlivní mocnost hlubokého zásobníkového automatu s~$\varepsilon$-pravidly. Pro automat bez $\varepsilon$-pravidel nelze tento postup použít. Zůstává tedy otázkou, zda je též zredukovatelný na tři nevstupní symboly.
 
 
-\begin{Example}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+
+\begin{Example}\label{example_symbol}
+$M$ je zobecněný hluboký zásobníkový automat a $M_{R}$ je jeho zredukovaná varianta se třemi nevstupními symboly zkonstruovaná podle algoritmu \ref{alg_gen_deep_pda_nonterm}. Nechť funkce $\varphi$ je definovaná jako :
+
+\[ \varphi(x) = \left\{
+  \begin{array}{l l}
+    1 & \quad \text{pro $x = \#$}\\
+    01 & \quad \text{pro $x = A$}\\
+    001 & \quad \text{pro $x = B$}\\
+    0001 & \quad \text{pro $x = C$}\\
+    00001 & \quad \text{pro $x = D$}\\
+    000001 & \quad \text{pro $x = d$}
+  \end{array} \right.\]
+
+\medskip
+
+Následující definice automatů jsou jen částečné z důvodu větší přehlednosti a pravidla jsou označena jednoznačným identifikátorem.
+\bigskip
+
+\setlength{\deftabcolsep}{\tabcolsep}
+\setlength{\tabcolsep}{1pt}
+
+\begin{tabular}{ll}
+
+$M = ($&$\{s,p,q,r,\dots,f\},$ \\
+     &$\{a,b,c,d,e\}, $\\
+     &$\{a,b,c,d,e,A,B,C,D,E\},$ \\
+     &$\{qB \rightarrow p Dd, \dots\},$\\
+     &$s,$ \\
+     &$S,$ \\
+     &\{f\} )
+\end{tabular}
+
+\bigskip
+
+\begin{tabular}{llp{12cm}l}
+
+$M_{R} = ($ &$\{$ & $ <start>, <q, \varepsilon>,<q,1>,<q,0>,<q,01>,<q,00>,<q,001>, ,$\\ 
+     && $ <p,\varepsilon>,<p,1>,<p,0>,<p,01>,<p,00>,<p,001>,<p,000> ,$\\ 
+     && $ <p,0001>, <p,\varepsilon>',<p,1>',<p,0>',<p,01>',<p,00>', ,$\\ 
+     && $ <p,001>',<p,000>',<p,0001>', \dots, <end>$\\ 
+     &$\}$ \\
+     &$\{$ & $a,b,c,d,e \ \}, $\\
+     &$\{$ & $a,b,c,d,e, 0, 1, \# \},$ \\
+     &$\{$ \\
+     && 1 :\quad$ <q, \varepsilon> \ 0 \ \rightarrow \ <q, 0> \ \varepsilon ,$\\ 
+     && 2 :\quad$ <q, 0> \ 1 \ \rightarrow \  <q, 01> \ \varepsilon ,$\\ 
+     && 3 :\quad$ <q, 01> \ \# \ \rightarrow \ <q, \varepsilon> \ 01\# ,$\\ 
+     && 4 :\quad$ <q, \varepsilon> \ 0 \ \rightarrow \  <q, 0> \ \varepsilon ,$\\ 
+     && 5 :\quad$ <q, 0> \ 0 \ \rightarrow \ <q, 00> \ \varepsilon ,$\\ 
+     && 6 :\quad$ <q, 00> \  0  \ \rightarrow \ <q, 001> \ \varepsilon ,$\\ 
+     && 7 :\quad$ <q, 001> \  \# \ \rightarrow \ <p,\varepsilon>' \ 00001000001\# ,$\\ 
+     && 8 :\quad$ <p,\varepsilon>' \ 0 \ \rightarrow \  <p,0>' \ \varepsilon ,$\\ 
+     && 9 :\quad$ <p,0>' \  0 \ \rightarrow \  <p,00>' \ \ \varepsilon ,$\\ 
+     && 10:\quad$ <p,00>' \ 0 \ \rightarrow \   <p,000>' \ \varepsilon ,$\\ 
+     && 11:\quad$ <p,000>' \  1 \ \rightarrow \ <p,0001>' \ \varepsilon ,$\\ 
+     && 12:\quad$ <p,0001>' \ \# \ \rightarrow <p,\varepsilon>' \ 0001\# ,$\\ 
+     && 13:\quad$ <p,\varepsilon>' \  1 \ \rightarrow \ <p,1>' \ \varepsilon ,$\\ 
+     && 14:\quad$ <p,1>' \ \# \ \rightarrow \ <p,\varepsilon> \ 1\# ,$\\ 
+     && \dots\\ 
+     & $ \},$ \\
+     &\multicolumn{2}{l}{$<start>,$} \\
+     &\multicolumn{2}{l}{$\#,$} \\
+     &$\{$&$s_{<end>}\ \}$ )
+\end{tabular}
+\bigskip
+
+\setlength{\tabcolsep}{\deftabcolsep}
+
+\newpage
 Ukázka aplikace pravidla $qB \rightarrow p Dd$ v~konfiguraci $(q, abc, ABC)$ v zobecněném hlubokém zásobníkovém automatu zkonstruovaném podle algoritmu \ref{alg_gen_deep_pda_nonterm}.
 
 \begin{center}
-\begin{tabular}{llll|l|ll}
-                & $( <q, \varepsilon>$,  & $abc$, & $0100100011\#$         $)$ & $ABC\#$ \\
-$\Rightarrow$   & $( <q, \mathbf{0}>$,            & $abc$, & $100100011\#$         $)$ & \\
-$\Rightarrow$   & $( <q, 0\mathbf{1}>$,           & $abc$, & $00100011\#$         $)$ &   $BC\#$ & přečteno A~\\
-$\Rightarrow$   & $( <q, \varepsilon>$,  & $abc$, & $00100011\mathbf{01}\#$         $)$ & $BC\#\mathbf{A}$ & přesun A~\\
-$\Rightarrow$   & $( <q, \mathbf{0}>$,            & $abc$, & $010001101\#$         $)$ & \\
-$\Rightarrow$   & $( <q, 0\mathbf{0}>$,           & $abc$, & $10001101\#$         $)$ & \\
-$\Rightarrow$   & $( <q, 00\mathbf{1}>$,          & $abc$, & $0001101\#$         $)$ &    $C\#A$ & přečteno B \\
-$\Rightarrow$   & $( <p,\varepsilon>'$,   & $abc$, & $0001101\mathbf{00001000001}\#$         $)$ & $C\#A\mathbf{Dd}$ & expanze B \\
-$\Rightarrow$   & $( <p,\mathbf{0}>'$,   & $abc$, & $00110100001000001\#$         $)$ & \\
-$\Rightarrow$   & $( <p,0\mathbf{0}>'$,   & $abc$, & $0110100001000001\#$         $)$ & \\
-$\Rightarrow$   & $( <p,00\mathbf{0}>'$,   & $abc$, & $110100001000001\#$         $)$ & \\
-$\Rightarrow$   & $( <p,000\mathbf{1}>'$,   & $abc$, & $10100001000001\#$         $)$ & $\#ADd$ & přečteno C  \\
-$\Rightarrow$   & $( <p,\varepsilon>'$,   & $abc$, & $10100001000001\mathbf{0001}\#$         $)$ & $\#ADd\mathbf{C}$ & přesun C \\
-$\Rightarrow$   & $( <p,\mathbf{1}>'$,   & $abc$, & $01000010000010001\#$         $)$ & $ADdC$ & dno zásobníku \\
-$\Rightarrow$   & $( <p,\varepsilon>$,   & $abc$, & $01000010000010001\mathbf{1}\#$         $)$ & $ADdC\mathbf{\#}$ & konec
+\begin{tabular}{llllc|l|ll}
+                & $( <q, \varepsilon>$,  & $abc$, & $0100100011\#$         $)$ && $ABC\#$ \\
+$\Rightarrow$   & $( <q, \mathbf{0}>$,   & $abc$, & $100100011\#$         $)$ &[1]& \\
+$\Rightarrow$   & $( <q, 0\mathbf{1}>$,  & $abc$, & $00100011\#$         $)$ &[2]&   $BC\#$ & přečteno A~\\
+$\Rightarrow$   & $( <q, \varepsilon>$,  & $abc$, & $00100011\mathbf{01}\#$         $)$ &[3]& $BC\#\mathbf{A}$ & přesun A~\\
+$\Rightarrow$   & $( <q, \mathbf{0}>$,   & $abc$, & $010001101\#$         $)$ &[4]& \\
+$\Rightarrow$   & $( <q, 0\mathbf{0}>$,  & $abc$, & $10001101\#$         $)$ &[5]& \\
+$\Rightarrow$   & $( <q, 00\mathbf{1}>$, & $abc$, & $0001101\#$         $)$ &[6]&    $C\#A$ & přečteno B \\
+$\Rightarrow$   & $( <p,\varepsilon>'$,  & $abc$, & $0001101\mathbf{00001000001}\#$         $)$ &[7]& $C\#A\mathbf{Dd}$ & expanze B \\
+$\Rightarrow$   & $( <p,\mathbf{0}>'$,   & $abc$, & $00110100001000001\#$         $)$ &[8]& \\
+$\Rightarrow$   & $( <p,0\mathbf{0}>'$,  & $abc$, & $0110100001000001\#$         $)$ &[9]& \\
+$\Rightarrow$   & $( <p,00\mathbf{0}>'$, & $abc$, & $110100001000001\#$         $)$ &[10]& \\
+$\Rightarrow$   & $( <p,000\mathbf{1}>'$,& $abc$, & $10100001000001\#$         $)$ &[11]& $\#ADd$ & přečteno C  \\
+$\Rightarrow$   & $( <p,\varepsilon>'$,  & $abc$, & $10100001000001\mathbf{0001}\#$         $)$ &[12]& $\#ADd\mathbf{C}$ & přesun C \\
+$\Rightarrow$   & $( <p,\mathbf{1}>'$,   & $abc$, & $01000010000010001\#$         $)$ &[13]& $ADdC$ & dno zásobníku \\
+$\Rightarrow$   & $( <p,\varepsilon>$,   & $abc$, & $01000010000010001\mathbf{1}\#$         $)$ &[14]& $ADdC\mathbf{\#}$ & konec
 
 
 \end{tabular}
@@ -156,7 +227,7 @@ $\Rightarrow$   & $( <p,\varepsilon>$,   & $abc$, & $01000010000010001\mathbf{1}
 
 
 \end{Example}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %=========================================================================
 \section{Omezení počtu stavů}
 
@@ -245,9 +316,8 @@ Každý zobecněný hluboký zásobníkový automat s~$\varepsilon$-pravidly lze
 
 \newpage
 \begin{Example}\label{example_state}
-$M$ je hluboký zásobníkový automat s maximální hloubkou expanze 3 a $M_{NF}$ je jeho normální forma zkonstruovaná podle algoritmu \ref{alg_NF}. Pro lepší přehlednost definice automatů nejsou kompletní a
-pravidla jsou označena identifikátorem.
-\medskip
+$M$ je zobecněný hluboký zásobníkový automat a $M_{R}$ je jeho zredukovaná varianta zkonstruovaná podle algoritmu \ref{alg_gen_deep_pda_state}. Definice automatů jsou pro větší přehlednost neúplné. Na pravidla se odkazuji pomocí identifikátorů.
+\bigskip
 
 \setlength{\deftabcolsep}{\tabcolsep}
 \setlength{\tabcolsep}{1pt}
@@ -269,7 +339,7 @@ $M = ($&$\{s,p,q,r,\dots,f\},$ \\
 
 \begin{tabular}{llp{12cm}l}
 
-$M_{NF} = ($ &$\{$ & $s_{\alpha}, s_{\beta},s_{\gamma} \ \}, $\\
+$M_{R} = ($ &$\{$ & $s_{\alpha}, s_{\beta},s_{\gamma} \ \}, $\\
      &$\{$ & $a,b,c,d,e \ \}, $\\
      &$\{$ & $a,b,c,d,e, <start>, <1>, <2>, \dots, <p, A>, <p, B>, <p, C>, $\\
      &&$  <p, D>,<p, A>',<p, B>',<p, C>', <p, D>', <q, A>, <q, B>, $\\
@@ -280,21 +350,21 @@ $M_{NF} = ($ &$\{$ & $s_{\alpha}, s_{\beta},s_{\gamma} \ \}, $\\
      & $ \},$ \\
      &$\{$ \\
      && 1 :\quad$ s_{\alpha} \ <p,B>\ \rightarrow \ s_{\beta} <2>\ <p,D>\ d  ,$\\ 
-     && 1 :\quad$ s_{\beta}\ <q,A>\ \rightarrow\ s_{\beta}\ <q,A>'  ,$\\ 
-     && 1 :\quad$ s_{\beta}\ <q,D>\ \rightarrow\ s_{\beta}\ <q,D>'   ,$\\ 
-     && 1 :\quad$ s_{\beta}\ <p,\#>\ \rightarrow\ s_{\alpha}\ <q,\#>_{set}  ,$\\ 
-     && 1 :\quad$ s_{\alpha}\ <2>\ \rightarrow\ s_{\gamma}\ <1>  ,$\\ 
-     && 1 :\quad$ s_{\gamma}\ <q,A>'\ \rightarrow\ s_{\gamma}\ <q,A>  ,$\\ 
-     && 1 :\quad$ s_{\gamma}\ <q,D>'\ \rightarrow \ s_{\gamma}\ <q,D>  ,$\\ 
-     && 1 :\quad$ s_{\gamma}\ <q, \#>_{set}\ \rightarrow\ s_{\beta}\ <q, \#>  ,$\\ 
-     && 1 :\quad$ s_{\beta}\ <r,A>\ \rightarrow\ s_{\beta}\ <r,A>'  ,$\\ 
-     && 1 :\quad$ s_{\beta}\ <r,D>\ \rightarrow\ s_{\beta}\ <r,D>'  ,$\\ 
-     && 1 :\quad$ s_{\beta}\ <r,\#>\ \rightarrow\ s_{\alpha}\ <r,\#>_{set}  ,$\\ 
-     && 1 :\quad$ s_{\alpha}\ <1>\  \rightarrow\ s_{\alpha}\ \varepsilon  ,$\\ 
-     && 1 :\quad$ s_{\alpha}\ <r,\#>_{set}\ \rightarrow\ s_{\gamma}\ <r, \#>_{exp}  ,$\\ 
-     && 1 :\quad$ s_{\gamma}\ <r,A>'\ \rightarrow\ s_{\gamma}\ <r,A>  ,$\\ 
-     && 1 :\quad$ s_{\gamma}\ <r,D>'\ \rightarrow\ s_{\gamma}\ <r,D>  ,$\\ 
-     && 1 :\quad$ s_{\gamma}\ <r, \#>_{exp}\ \rightarrow\ s_{\alpha}\ <r, \#>  ,$\\ 
+     && 2 :\quad$ s_{\beta}\ <q,A>\ \rightarrow\ s_{\beta}\ <q,A>'  ,$\\ 
+     && 3 :\quad$ s_{\beta}\ <q,D>\ \rightarrow\ s_{\beta}\ <q,D>'   ,$\\ 
+     && 4 :\quad$ s_{\beta}\ <p,\#>\ \rightarrow\ s_{\alpha}\ <q,\#>_{set}  ,$\\ 
+     && 5 :\quad$ s_{\alpha}\ <2>\ \rightarrow\ s_{\gamma}\ <1>  ,$\\ 
+     && 6 :\quad$ s_{\gamma}\ <q,A>'\ \rightarrow\ s_{\gamma}\ <q,A>  ,$\\ 
+     && 7 :\quad$ s_{\gamma}\ <q,D>'\ \rightarrow \ s_{\gamma}\ <q,D>  ,$\\ 
+     && 8 :\quad$ s_{\gamma}\ <q, \#>_{set}\ \rightarrow\ s_{\beta}\ <q, \#>  ,$\\ 
+     && 9 :\quad$ s_{\beta}\ <r,A>\ \rightarrow\ s_{\beta}\ <r,A>'  ,$\\ 
+     && 10:\quad$ s_{\beta}\ <r,D>\ \rightarrow\ s_{\beta}\ <r,D>'  ,$\\ 
+     && 11:\quad$ s_{\beta}\ <r,\#>\ \rightarrow\ s_{\alpha}\ <r,\#>_{set}  ,$\\ 
+     && 12:\quad$ s_{\alpha}\ <1>\  \rightarrow\ s_{\alpha}\ \varepsilon  ,$\\ 
+     && 13:\quad$ s_{\alpha}\ <r,\#>_{set}\ \rightarrow\ s_{\gamma}\ <r, \#>_{exp}  ,$\\ 
+     && 14:\quad$ s_{\gamma}\ <r,A>'\ \rightarrow\ s_{\gamma}\ <r,A>  ,$\\ 
+     && 15:\quad$ s_{\gamma}\ <r,D>'\ \rightarrow\ s_{\gamma}\ <r,D>  ,$\\ 
+     && 16:\quad$ s_{\gamma}\ <r, \#>_{exp}\ \rightarrow\ s_{\alpha}\ <r, \#>  ,$\\ 
      &&$ \dots$ \\
      & $ \},$ \\
      &\multicolumn{2}{l}{$s_{\alpha},$} \\
@@ -311,24 +381,24 @@ $M_{NF} = ($ &$\{$ & $s_{\alpha}, s_{\beta},s_{\gamma} \ \}, $\\
 Ukázka simulace pravidla $pB \rightarrow r Dd$ v~konfiguraci $(p, abc, ABc)$ v zobecněném hlubokém zásobníkovém automatu $M_{R}$ zkonstruovaném z automatu $M$ podle algoritmu \ref{alg_gen_deep_pda_state}.\bigskip
 
 %\begin{center}
-\begin{tabular}{llll|l}
-                & $( s_{\alpha}$,  & $abc$, & $<p,A> <p,B> c <p, \#>$         $)$ &  \\
-$\Rightarrow$   & $( \mathbf{s_{\beta}}$,   & $abc$, & $<p,A> \mathbf{<2> <p,D> d} c <p, \#>$         $)$ & expanze $pB \rightarrow r Dd$ \\
-$\Rightarrow$   & $( s_{\beta}$,   & $abc$, & $\mathbf{<q,A>'} <2> <p,D> d c <p, \#>$         $)$ & přepis stavů $q$ na $p$\\
-$\Rightarrow$   & $( s_{\beta}$,   & $abc$, & $<q,A>' <2> \mathbf{<q,D>'} d c <p, \#>$         $)$ & \\
-$\Rightarrow$   & $( \mathbf{s_{\alpha}}$,   & $abc$, & $<q,A>' <2> <q,D>' d c \mathbf{<q, \#>_{set}}$         $)$ & nastavení příznaku $set$\\
-$\Rightarrow$   & $( \mathbf{s_{\gamma}}$,  & $abc$, & $<q,A>' \mathbf{<1>} <q,D>' d c <q, \#>_{set}$  $)$ & snížení hodnoty čítače \\
-$\Rightarrow$   & $( s_{\gamma}$,  & $abc$, & $\mathbf{<q,A>} <1> <q,D>' d c <q, \#>_{set}$  $)$ & odznačení symbolů \\
-$\Rightarrow$   & $( s_{\gamma}$,  & $abc$, & $<q,A> <1> \mathbf{<q,D>} d c <q, \#>_{set}$  $)$ &  \\
-$\Rightarrow$   & $( \mathbf{s_{\beta}}$,  & $abc$, & $<q,A> <1> <q,D> d c \mathbf{<q, \#>}$  $)$ &  odstranění příznaku $set$\\
-$\Rightarrow$   & $( s_{\beta}$,  & $abc$, & $\mathbf{<r,A>'} <1> <q,D> d c <q, \#>$  $)$ &  přepis stavů $p$ na $r$\\
-$\Rightarrow$   & $( s_{\beta}$,  & $abc$, & $<r,A>' <1> \mathbf{<r,D>'} d c <q, \#>$  $)$ &  \\
-$\Rightarrow$   & $( \mathbf{s_{\alpha}}$,  & $abc$, & $<r,A>' <1> <r,D>' d c \mathbf{<r, \#>_{set}}$  $)$ &  nastavení příznaku $set$\\
-$\Rightarrow$   & $( s_{\alpha}$,  & $abc$, & $<r,A>' <r,D>' d c <r, \#>_{set}$  $)$ &  vynulování čítače\\
-$\Rightarrow$   & $( \mathbf{s_{\gamma}}$,  & $abc$, & $<r,A>' <r,D>' d c \mathbf{<r, \#>_{exp}}$  $)$ &  nastavení příznaku $exp$\\
-$\Rightarrow$   & $( s_{\gamma}$,  & $abc$, & $\mathbf{<r,A>} <r,D>' d c <r, \#>_{exp}$  $)$ &  odznačení symbolů\\
-$\Rightarrow$   & $( s_{\gamma}$,  & $abc$, & $<r,A> \mathbf{<r,D>} d c <r, \#>_{exp}$  $)$ &  \\
-$\Rightarrow$   & $( \mathbf{s_{\alpha}}$,  & $abc$, & $<r,A> <r,D> d c \mathbf{<r, \#>}$  $)$ &  konec
+\begin{tabular}{llllc|l}
+                & $( s_{\alpha}$,  & $abc$, & $<p,A> <p,B> c <p, \#>$         $)$ & &  \\
+$\Rightarrow$   & $( \mathbf{s_{\beta}}$,   & $abc$, & $<p,A> \mathbf{<2> <p,D> d} c <p, \#>$   $)$ & [1] & expanze $pB \rightarrow r Dd$ \\
+$\Rightarrow$   & $( s_{\beta}$,   & $abc$, & $\mathbf{<q,A>'} <2> <p,D> d c <p, \#>$         $)$  & [2] & přepis stavů $q$ na $p$\\
+$\Rightarrow$   & $( s_{\beta}$,   & $abc$, & $<q,A>' <2> \mathbf{<q,D>'} d c <p, \#>$         $)$  & [3] & \\
+$\Rightarrow$   & $( \mathbf{s_{\alpha}}$,   & $abc$, & $<q,A>' <2> <q,D>' d c \mathbf{<q, \#>_{set}}$         $)$  & [4] & nastavení příznaku $set$\\
+$\Rightarrow$   & $( \mathbf{s_{\gamma}}$,  & $abc$, & $<q,A>' \mathbf{<1>} <q,D>' d c <q, \#>_{set}$  $)$  & [5] & snížení hodnoty čítače \\
+$\Rightarrow$   & $( s_{\gamma}$,  & $abc$, & $\mathbf{<q,A>} <1> <q,D>' d c <q, \#>_{set}$  $)$  & [6] & odznačení symbolů \\
+$\Rightarrow$   & $( s_{\gamma}$,  & $abc$, & $<q,A> <1> \mathbf{<q,D>} d c <q, \#>_{set}$  $)$  & [7] &  \\
+$\Rightarrow$   & $( \mathbf{s_{\beta}}$,  & $abc$, & $<q,A> <1> <q,D> d c \mathbf{<q, \#>}$  $)$  & [8] &  odstranění příznaku $set$\\
+$\Rightarrow$   & $( s_{\beta}$,  & $abc$, & $\mathbf{<r,A>'} <1> <q,D> d c <q, \#>$  $)$  & [9] &  přepis stavů $p$ na $r$\\
+$\Rightarrow$   & $( s_{\beta}$,  & $abc$, & $<r,A>' <1> \mathbf{<r,D>'} d c <q, \#>$  $)$  & [10] &  \\
+$\Rightarrow$   & $( \mathbf{s_{\alpha}}$,  & $abc$, & $<r,A>' <1> <r,D>' d c \mathbf{<r, \#>_{set}}$  $)$  & [11] &  nastavení příznaku $set$\\
+$\Rightarrow$   & $( s_{\alpha}$,  & $abc$, & $<r,A>' <r,D>' d c <r, \#>_{set}$  $)$  & [12] &  vynulování čítače\\
+$\Rightarrow$   & $( \mathbf{s_{\gamma}}$,  & $abc$, & $<r,A>' <r,D>' d c \mathbf{<r, \#>_{exp}}$  $)$  & [13] &  nastavení příznaku $exp$\\
+$\Rightarrow$   & $( s_{\gamma}$,  & $abc$, & $\mathbf{<r,A>} <r,D>' d c <r, \#>_{exp}$  $)$  & [14] &  odznačení symbolů\\
+$\Rightarrow$   & $( s_{\gamma}$,  & $abc$, & $<r,A> \mathbf{<r,D>} d c <r, \#>_{exp}$  $)$  & [15] &  \\
+$\Rightarrow$   & $( \mathbf{s_{\alpha}}$,  & $abc$, & $<r,A> <r,D> d c \mathbf{<r, \#>}$  $)$  & [16] &  konec
 
 \end{tabular}
 %\end{center}
