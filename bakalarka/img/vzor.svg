@@ -11,13 +11,13 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="561.44452"
-   height="496.46585"
+   width="465.90494"
+   height="496.36588"
    id="svg2"
    inkscape:label="Pozadí"
    version="1.1"
    inkscape:version="0.48.3.1 r9886"
-   sodipodi:docname="bp_hierarchy03.eps">
+   sodipodi:docname="vzor.svg">
   <defs
      id="defs3">
     <pattern
@@ -1192,20 +1192,20 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.91626576"
-     inkscape:cx="177.80688"
-     inkscape:cy="323.2376"
+     inkscape:zoom="0.88359638"
+     inkscape:cx="153.75924"
+     inkscape:cy="133.69006"
      inkscape:document-units="px"
-     inkscape:current-layer="g25290"
+     inkscape:current-layer="g11233"
      showgrid="false"
      inkscape:window-width="1280"
      inkscape:window-height="1000"
      inkscape:window-x="0"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
-     fit-margin-top="10.1"
-     fit-margin-left="20"
-     fit-margin-right="0"
+     fit-margin-top="10"
+     fit-margin-left="10"
+     fit-margin-right="10"
      fit-margin-bottom="10"
      showborder="true"
      units="px"
@@ -1222,8 +1222,8 @@
        visible="true"
        enabled="true"
        snapvisiblegridlinesonly="true"
-       originx="554.47614px"
-       originy="230.35256px" />
+       originx="553.74962px"
+       originy="230.35257px" />
   </sodipodi:namedview>
   <metadata
      id="metadata6">
@@ -1241,7 +1241,7 @@
      inkscape:label="Vrstva 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(455.94489,-311.79225)"
+     transform="translate(455.21837,-311.89225)"
      style="display:none"
      sodipodi:insensitive="true">
     <text
@@ -2212,7 +2212,7 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="obr1"
-     transform="translate(554.47614,197.43774)"
+     transform="translate(553.74962,197.33774)"
      sodipodi:insensitive="true"
      style="display:none">
     <g
@@ -2799,7 +2799,7 @@
     </g>
   </g>
   <g
-     transform="translate(554.47614,197.43774)"
+     transform="translate(553.74962,197.33774)"
      inkscape:label="obr2"
      id="g6385"
      inkscape:groupmode="layer"
@@ -3402,7 +3402,7 @@
      inkscape:groupmode="layer"
      id="g6845"
      inkscape:label="obr3"
-     transform="translate(554.47614,197.43774)"
+     transform="translate(553.74962,197.33774)"
      style="display:none"
      sodipodi:insensitive="true">
     <g
@@ -3968,7 +3968,7 @@
   </g>
   <g
      style="display:none"
-     transform="translate(554.47614,197.43774)"
+     transform="translate(553.74962,197.33774)"
      inkscape:label="obr4"
      id="g3481"
      inkscape:groupmode="layer"
@@ -4335,7 +4335,7 @@
   </g>
   <g
      style="display:none"
-     transform="translate(554.47614,197.43774)"
+     transform="translate(553.74962,197.33774)"
      inkscape:label="obr5"
      id="g4900"
      inkscape:groupmode="layer"
@@ -4926,12 +4926,11 @@
        sodipodi:nodetypes="ccc" />
   </g>
   <g
-     style="display:none"
-     transform="translate(554.47614,197.43774)"
+     style="display:inline"
+     transform="translate(553.74962,197.33774)"
      inkscape:label="hierarchy02"
      id="g11233"
-     inkscape:groupmode="layer"
-     sodipodi:insensitive="true">
+     inkscape:groupmode="layer">
     <text
        xml:space="preserve"
        style="font-size:7.37641907px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#4d4d4d;fill-opacity:1;stroke:none;display:inline;font-family:Ubuntu;-inkscape-font-specification:Ubuntu"
@@ -4960,8 +4959,8 @@
        id="g20843"
        transform="matrix(0.80698871,0,0,0.80698871,-78.398754,-676.85766)">
       <path
-         style="opacity:0.3;fill:none;stroke:#000000;stroke-width:3.01874566;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker-start:url(#DotS);marker-end:url(#Arrow2Mend-43);display:inline"
-         d="m -302.80373,1148.3707 0,-381.81229"
+         style="opacity:0.3;fill:none;stroke:#000000;stroke-width:3.0187459;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker-start:url(#DotS);marker-end:url(#Arrow2Mend-43);display:inline"
+         d="m -302.80373,1045.7849 0,-279.22647"
          id="path11283-5-7-1-74-6"
          inkscape:connector-curvature="0"
          sodipodi:nodetypes="cc" />
@@ -5492,14 +5491,21 @@
            y="919.41144"
            style="font-size:10px;text-align:center;text-anchor:middle;fill:#333333;fill-opacity:1"
            id="tspan20720-9" /></text>
+      <path
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path4080"
+         d="m -302.80373,1148.3707 0,-53.0629"
+         style="opacity:0.3;fill:none;stroke:#000000;stroke-width:3.01874566;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker-start:url(#DotS);marker-end:url(#Arrow2Mend-43);display:inline" />
     </g>
   </g>
   <g
      inkscape:groupmode="layer"
      id="g25290"
      inkscape:label="hierarchy03"
-     transform="translate(554.47614,197.43774)"
-     style="display:inline">
+     transform="translate(553.74962,197.33774)"
+     style="display:none"
+     sodipodi:insensitive="true">
     <rect
        rx="11.435647"
        y="-98.64431"
@@ -5535,7 +5541,7 @@
          style="font-size:13.41167164px;fill:#4d4d4d;fill-opacity:1" /></text>
     <path
        style="opacity:0.3;fill:none;stroke:#000000;stroke-width:2.43609357;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker-start:url(#DotS);marker-end:url(#Arrow2Mend-43);display:inline"
-       d="m -322.75795,249.86453 0,-308.118208"
+       d="m -322.75795,166.9382 0,-225.191878"
        id="path25302"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
@@ -6262,12 +6268,18 @@
          x="-283.42545"
          id="tspan11281-4-3-4-3-3-3"
          sodipodi:role="line">=</tspan></text>
+    <path
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0"
+       id="path4058"
+       d="m -322.75795,249.86452 0,-42.05438"
+       style="opacity:0.3;fill:none;stroke:#000000;stroke-width:2.43609357;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker-start:url(#DotS);marker-end:url(#Arrow2Mend-43);display:inline" />
   </g>
   <g
      inkscape:groupmode="layer"
      id="g3654"
      inkscape:label="hierarchy"
-     transform="translate(554.47614,197.43774)"
+     transform="translate(553.74962,197.33774)"
      style="display:none"
      sodipodi:insensitive="true">
     <text

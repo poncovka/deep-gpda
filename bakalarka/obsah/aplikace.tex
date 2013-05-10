@@ -19,8 +19,9 @@ Modul \texttt{automaton} obsahuje třídu reprezentující zobecněný hluboký 
 
 \subsubsection{Formát zápisu automatu}\label{kap_aplikace_format}
 
-Příklad formátování hlubokého zásobníkového automatu je k~dispozici v~ukázce \ref{example_format}. Zjednodušeně platí, že
-stavy a symboly zásobníkové abecedy se smí skládat pouze z~písmen a číslic. Výjimkou jsou symboly vstupní abecedy uzavřené v~apostrofech a stavy a nevstupní symboly v~závorkách typu \texttt{<>}, \texttt{[]} nebo \texttt{()}. V~těchto případech mohou tyto komponenty obsahovat libovolné tisknutelné znaky s~výjimkou toho, který komponentu uzavírá. Stavy a nevstupní symboly navíc mohou obsahovat řetězec tisknutelných znaků v~apostrofech.
+Zápis zobecněného zásobníkového automatu vychází z~jeho definice. Automat je uzavřen v~kulatých závorkách, množiny ve složených a jednotlivé komponenty jsou oddělené čárkami a libovolným počtem bílých znaků. Dále prvky pravidla jsou oddělené bílými znaky a přechod se zapisuje \texttt{->}. 
+
+Stavy a symboly zásobníkové abecedy se smí skládat pouze z~písmen a číslic. Výjimkou jsou symboly vstupní abecedy uzavřené v~apostrofech a stavy a nevstupní symboly v~závorkách typu \texttt{<>}, \texttt{[]} nebo \texttt{()}. V~těchto případech mohou tyto komponenty obsahovat libovolné tisknutelné znaky s~výjimkou toho, který komponentu uzavírá. Stavy a nevstupní symboly navíc mohou obsahovat řetězec tisknutelných znaků v~apostrofech.
 
 
 \begin{Example} \label{example_format}

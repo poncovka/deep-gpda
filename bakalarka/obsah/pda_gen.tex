@@ -202,9 +202,9 @@ $M_{R} = ($ &$\{$ & $ <start>, <q, \varepsilon>,<q,1>,<q,0>,<q,01>,<q,00>,<q,001
 
 \newpage
 Ukázka aplikace pravidla $qB \rightarrow p Dd$ v~konfiguraci $(q, abc, ABC)$ v~zobecněném hlubokém zásobníkovém automatu zkonstruovaném podle algoritmu \ref{alg_gen_deep_pda_nonterm}.
+\medskip
 
-\begin{center}
-\begin{tabular}{llllc|l|ll}
+\begin{tabular}{lllll|l|l}
                 & $( <q, \varepsilon>$,  & $abc$, & $0100100011\#$         $)$ && $ABC\#$ \\
 $\Rightarrow$   & $( <q, \mathbf{0}>$,   & $abc$, & $100100011\#$         $)$ &[1]& \\
 $\Rightarrow$   & $( <q, 0\mathbf{1}>$,  & $abc$, & $00100011\#$         $)$ &[2]&   $BC\#$ & přečteno A~\\
@@ -220,11 +220,7 @@ $\Rightarrow$   & $( <p,000\mathbf{1}>'$,& $abc$, & $10100001000001\#$         $
 $\Rightarrow$   & $( <p,\varepsilon>'$,  & $abc$, & $10100001000001\mathbf{0001}\#$         $)$ &[12]& $\#ADd\mathbf{C}$ & přesun C \\
 $\Rightarrow$   & $( <p,\mathbf{1}>'$,   & $abc$, & $01000010000010001\#$         $)$ &[13]& $ADdC$ & dno zásobníku \\
 $\Rightarrow$   & $( <p,\varepsilon>$,   & $abc$, & $01000010000010001\mathbf{1}\#$         $)$ &[14]& $ADdC\mathbf{\#}$ & konec
-
-
 \end{tabular}
-\end{center}
-
 
 \end{Example}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -378,31 +374,34 @@ $M_{R} = ($ &$\{$ & $s_{\alpha}, s_{\beta},s_{\gamma} \ \}, $\\
 \setlength{\tabcolsep}{\deftabcolsep}
 
 \newpage
-Ukázka simulace pravidla $pB \rightarrow r Dd$ v~konfiguraci $(p, abc, ABc)$ v~zobecněném hlubokém zásobníkovém automatu $M_{R}$ zkonstruovaném z~automatu $M$ podle algoritmu \ref{alg_gen_deep_pda_state}.\bigskip
+Ukázka simulace pravidla $pB \rightarrow r Dd$ v~konfiguraci $(p, abc, ABc)$ v~zobecněném hlubokém zásobníkovém automatu $M_{R}$ zkonstruovaném z~automatu $M$ podle algoritmu \ref{alg_gen_deep_pda_state}.\medskip
 
-%\begin{center}
+
+\setlength{\deftabcolsep}{\tabcolsep}
+\setlength{\tabcolsep}{4pt}
+
 \begin{tabular}{llllc|l}
                 & $( s_{\alpha}$,  & $abc$, & $<p,A> <p,B> c <p, \#>$         $)$ & &  \\
-$\Rightarrow$   & $( \mathbf{s_{\beta}}$,   & $abc$, & $<p,A> \mathbf{<2> <p,D> d} c <p, \#>$   $)$ & [1] & expanze $pB \rightarrow r Dd$ \\
-$\Rightarrow$   & $( s_{\beta}$,   & $abc$, & $\mathbf{<q,A>'} <2> <p,D> d c <p, \#>$         $)$  & [2] & přepis stavů $q$ na $p$\\
-$\Rightarrow$   & $( s_{\beta}$,   & $abc$, & $<q,A>' <2> \mathbf{<q,D>'} d c <p, \#>$         $)$  & [3] & \\
-$\Rightarrow$   & $( \mathbf{s_{\alpha}}$,   & $abc$, & $<q,A>' <2> <q,D>' d c \mathbf{<q, \#>_{set}}$         $)$  & [4] & nastavení příznaku $set$\\
-$\Rightarrow$   & $( \mathbf{s_{\gamma}}$,  & $abc$, & $<q,A>' \mathbf{<1>} <q,D>' d c <q, \#>_{set}$  $)$  & [5] & snížení hodnoty čítače \\
-$\Rightarrow$   & $( s_{\gamma}$,  & $abc$, & $\mathbf{<q,A>} <1> <q,D>' d c <q, \#>_{set}$  $)$  & [6] & odznačení symbolů \\
-$\Rightarrow$   & $( s_{\gamma}$,  & $abc$, & $<q,A> <1> \mathbf{<q,D>} d c <q, \#>_{set}$  $)$  & [7] &  \\
-$\Rightarrow$   & $( \mathbf{s_{\beta}}$,  & $abc$, & $<q,A> <1> <q,D> d c \mathbf{<q, \#>}$  $)$  & [8] &  odstranění příznaku $set$\\
-$\Rightarrow$   & $( s_{\beta}$,  & $abc$, & $\mathbf{<r,A>'} <1> <q,D> d c <q, \#>$  $)$  & [9] &  přepis stavů $p$ na $r$\\
-$\Rightarrow$   & $( s_{\beta}$,  & $abc$, & $<r,A>' <1> \mathbf{<r,D>'} d c <q, \#>$  $)$  & [10] &  \\
-$\Rightarrow$   & $( \mathbf{s_{\alpha}}$,  & $abc$, & $<r,A>' <1> <r,D>' d c \mathbf{<r, \#>_{set}}$  $)$  & [11] &  nastavení příznaku $set$\\
-$\Rightarrow$   & $( s_{\alpha}$,  & $abc$, & $<r,A>' <r,D>' d c <r, \#>_{set}$  $)$  & [12] &  vynulování čítače\\
-$\Rightarrow$   & $( \mathbf{s_{\gamma}}$,  & $abc$, & $<r,A>' <r,D>' d c \mathbf{<r, \#>_{exp}}$  $)$  & [13] &  nastavení příznaku $exp$\\
-$\Rightarrow$   & $( s_{\gamma}$,  & $abc$, & $\mathbf{<r,A>} <r,D>' d c <r, \#>_{exp}$  $)$  & [14] &  odznačení symbolů\\
-$\Rightarrow$   & $( s_{\gamma}$,  & $abc$, & $<r,A> \mathbf{<r,D>} d c <r, \#>_{exp}$  $)$  & [15] &  \\
-$\Rightarrow$   & $( \mathbf{s_{\alpha}}$,  & $abc$, & $<r,A> <r,D> d c \mathbf{<r, \#>}$  $)$  & [16] &  konec
+$\Rightarrow$   & $( \mathbf{s_{\beta}}$,   & $abc$, & $<p,A> \mathbf{<2> <p,D> d} c <p, \#>$   $)$ & [1] \quad&\quad expanze $pB \rightarrow r Dd$ \\
+$\Rightarrow$   & $( s_{\beta}$,   & $abc$, & $\mathbf{<q,A>'} <2> <p,D> d c <p, \#>$         $)$  & [2] \quad&\quad přepis stavů $q$ na $p$\\
+$\Rightarrow$   & $( s_{\beta}$,   & $abc$, & $<q,A>' <2> \mathbf{<q,D>'} d c <p, \#>$         $)$  & [3] \quad&\quad \\
+$\Rightarrow$   & $( \mathbf{s_{\alpha}}$,   & $abc$, & $<q,A>' <2> <q,D>' d c \mathbf{<q, \#>_{set}}$         $)$  & [4] \quad&\quad nastavení příznaku $set$\\
+$\Rightarrow$   & $( \mathbf{s_{\gamma}}$,  & $abc$, & $<q,A>' \mathbf{<1>} <q,D>' d c <q, \#>_{set}$  $)$  & [5] \quad&\quad snížení hodnoty čítače \\
+$\Rightarrow$   & $( s_{\gamma}$,  & $abc$, & $\mathbf{<q,A>} <1> <q,D>' d c <q, \#>_{set}$  $)$  & [6] \quad&\quad odznačení symbolů \\
+$\Rightarrow$   & $( s_{\gamma}$,  & $abc$, & $<q,A> <1> \mathbf{<q,D>} d c <q, \#>_{set}$  $)$  & [7] \quad&\quad  \\
+$\Rightarrow$   & $( \mathbf{s_{\beta}}$,  & $abc$, & $<q,A> <1> <q,D> d c \mathbf{<q, \#>}$  $)$  & [8] \quad&\quad  odstranění příznaku $set$\\
+$\Rightarrow$   & $( s_{\beta}$,  & $abc$, & $\mathbf{<r,A>'} <1> <q,D> d c <q, \#>$  $)$  & [9] \quad&\quad  přepis stavů $p$ na $r$\\
+$\Rightarrow$   & $( s_{\beta}$,  & $abc$, & $<r,A>' <1> \mathbf{<r,D>'} d c <q, \#>$  $)$  & [10] \quad&\quad  \\
+$\Rightarrow$   & $( \mathbf{s_{\alpha}}$,  & $abc$, & $<r,A>' <1> <r,D>' d c \mathbf{<r, \#>_{set}}$  $)$  & [11] \quad&\quad  nastavení příznaku $set$\\
+$\Rightarrow$   & $( s_{\alpha}$,  & $abc$, & $<r,A>' <r,D>' d c <r, \#>_{set}$  $)$  & [12] \quad&\quad  vynulování čítače\\
+$\Rightarrow$   & $( \mathbf{s_{\gamma}}$,  & $abc$, & $<r,A>' <r,D>' d c \mathbf{<r, \#>_{exp}}$  $)$  & [13] \quad&\quad  nastavení příznaku $exp$\\
+$\Rightarrow$   & $( s_{\gamma}$,  & $abc$, & $\mathbf{<r,A>} <r,D>' d c <r, \#>_{exp}$  $)$  & [14] \quad&\quad  odznačení symbolů\\
+$\Rightarrow$   & $( s_{\gamma}$,  & $abc$, & $<r,A> \mathbf{<r,D>} d c <r, \#>_{exp}$  $)$  & [15] \quad&\quad  \\
+$\Rightarrow$   & $( \mathbf{s_{\alpha}}$,  & $abc$, & $<r,A> <r,D> d c \mathbf{<r, \#>}$  $)$  & [16] \quad&\quad  konec
 
 \end{tabular}
-%\end{center}
 
+\setlength{\tabcolsep}{\deftabcolsep}
 
 \end{Example}
 
