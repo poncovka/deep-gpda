@@ -6,6 +6,7 @@ Trida pro redukci stavu GDP na tri.
 
 from .automaton import GDP, GDP_rule
 from .error import check
+from .library import isSurrounded
 
 # nastaveni parametru pro debugging
 DEBUG = True
@@ -63,12 +64,30 @@ class StateReduction:
 #=================================================================== symbol()
     def symbol(self, state, nonterm, label = None):
         
-        if label == None :
-            return "<" + state + "," + nonterm + ">"        
-        elif label == "apostrof" :
-            return "<" + state + "," + nonterm + ">" + "'"
-        else:
-            return "<" + state + "," + nonterm + "," + label + ">"
+        str_s = state
+        str_n = ""
+        str_l = ""
+        
+        # stav
+        if isSurrounded(state, "<", ">") :
+            str_s  = "(" + state[1:-1] + ")"
+        
+        # nonterminal
+        if nonterm:
+            if isSurrounded(nonterm, "<", ">") :
+                str_n = "," + "(" + nonterm[1:-1] + ")"
+            else :       
+                str_n = "," + nonterm
+        
+        # znacka
+        if label:
+            if label == "apostrof" :
+                str_l = "," + "*"
+            else:
+                str_l = "," + label        
+        
+        # vysledek
+        return "<" + str_s + str_n + str_l + ">"
             
 #=================================================================== counter()
     def counter(self, number):

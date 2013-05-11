@@ -18,6 +18,27 @@ def enum(*sequential, **named):
     enums = dict(zip(sequential, range(len(sequential))), **named)
     return type('Enum', (), enums)
 
+#=================================================================== unquote()
+
+def isSurrounded(item, left, right):
+    
+    return len(item) >= 2 and item[0] == left and item[-1] == right
+
+def unquote(item, char = "'"):
+    
+    if isinstance(item, list) :
+        
+        for n,i in enumerate(item):
+            item[n] = unquote(i)
+                
+    elif isinstance(item, str) :
+        
+        if isSurrounded(item, char, char) :
+            item = item[1:-1]
+            check(item)
+            
+    return item
+
 #=================================================================== printHelp()
 
 def printHelp():

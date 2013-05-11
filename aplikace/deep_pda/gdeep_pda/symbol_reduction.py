@@ -6,9 +6,10 @@ Trida pro redukci nevstupnich symbolu GDP na tri.
 
 from .automaton import GDP, GDP_rule
 from .error import check
+from .library import isSurrounded
 
 # nastaveni paramentru pro debugging
-DEBUG = True
+DEBUG = False
 DEBUG_CODE = "[SymbolReduction]"
 
 
@@ -85,7 +86,21 @@ class SymbolReduction:
     
 #=================================================================== state()    
     def state(self, s, code, apostrof = 0):
-        return "<" + s + "," + ''.join(code) + ">" + "'" * apostrof
+        
+        str_s = s
+        str_c = ""
+        str_a = ""
+        
+        if isSurrounded(s, "<", ">") :
+            str_s  = "(" + s[1:-1] + ")"
+        
+        if code :
+            str_c = "," + ''.join(code)
+             
+        if apostrof != 0 :
+            str_a = "," + "*" * apostrof
+                   
+        return "<" + str_s + str_c + str_a + ">" 
 
 #//////////////////////////////////////////////////////////////////// KONSTRUKCE Q        
 

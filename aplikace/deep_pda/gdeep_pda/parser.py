@@ -5,11 +5,11 @@ Nacte z retezce zasobnikovy automat.
 
 import re
 import string as pystring
-from .library import enum
+from .library import enum, unquote
 from .error import check, EPDA
 from .automaton import GDP
 
-DEBUG = False
+DEBUG = True
 DEBUG_CODE = "[Parser]"
 
 class GDPParser:
@@ -23,25 +23,32 @@ class GDPParser:
         '''
         Nastavi vzory a regualrni vyrazy pro parsovani.
         '''
-
-        # regularni vyraz pro vstupni symboly
-        self.char_pattern = re.compile (r'''
-        ('(?:''|[^'])*'|(?:(?:<[^>]*>|\[[^]]*\]|[^-{}, \t\n])+))
-        ''', re.VERBOSE) 
- 
-        # regularni vyraz pro zasobnikove symboly
-        self.symbol_pattern = re.compile (r'''
-        ('(?:''|[^'])*'|(?:(?:<[^>]*>|\[[^]]*\]|[^-{}, \t\n])+))
-        ''', re.VERBOSE) 
-         
-        # regularni vyraz pro stavy
-        self.state_pattern = re.compile (r'''
-        ('(?:''|[^'])*'|(?:(?:<[^>]*>|\[[^]]*\]|[^-{}, \t\n])+))
-        ''', re.VERBOSE)
         
         # konstanty pro typ vzoru
         self.LIST = 0 
         self.GROUP = 1
+
+        # regularni vyraz pro vstupni symboly
+        self.char_pattern = re.compile (r'''
+        (?:(\w+)|'((?:''|[^'])+)')
+        ''', re.VERBOSE) 
+        
+        # regularni vyraz pro zasobnikove symboly
+        self.symbol_pattern = re.compile (r'''
+        (   \w+
+          | ''
+          | '(?:''|[^'])*'
+          | \#
+          | <(?:'[^']*'|[^>'])*>
+        )
+        ''', re.VERBOSE) 
+                
+        # regularni vyraz pro stavy
+        self.state_pattern = re.compile (r'''
+        (   \w+
+          | <(?:'[^']*'|[^>'])*>
+        )
+        ''', re.VERBOSE) 
         
         # vzor pro pravidlo
         self.rule_pattern = (self.LIST, (
@@ -49,7 +56,7 @@ class GDPParser:
                              self.symbol_pattern, 
                              "->", 
                              self.state_pattern, 
-                             (self.GROUP, (self.symbol_pattern, "")))
+                             (self.GROUP, (self.symbol_pattern, "\whitespace")))
                              )
         
         # vzor pro automat
@@ -122,8 +129,8 @@ class GDPParser:
         check("matchStr() na indexu " + str(index) + ", vzor " + pattern, DEBUG_CODE, DEBUG, 1)
         
         # oddelovacem je whitespace
-        if pattern == "" and old_index != index:
-            return "", index
+        if pattern == "\whitespace" and old_index != index:
+            return pattern, index
         
         # oddelovacem je znak
         if string.startswith(pattern, index) :
@@ -264,6 +271,7 @@ class GDPParser:
         # navrat    
         return item, index
 
+
 ##################################################################### run()
     
     def run(self, string):
@@ -280,6 +288,11 @@ class GDPParser:
             # rozparsovanu vstupu
             group, index = self.matchItem(self.pda_pattern, 0, string)
             
+            check(group)
+            # odstraneni uvozovek ze všech symbolů
+            group = unquote(group)
+            check(group)
+            
             # zpracovani vysledku parsovani
             rules = list()
             
@@ -289,7 +302,7 @@ class GDPParser:
                 w = list()
                 
                 for char in v:
-                    if char != "''" :
+                    if char != "" :
                         w.append(char)
                 
                 # sestaveni pravidla        
