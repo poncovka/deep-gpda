@@ -9,7 +9,7 @@ from .error import check
 from .library import isSurrounded
 
 # nastaveni parametru pro debugging
-DEBUG = True
+DEBUG = False
 DEBUG_CODE = "[StateReduction]"
 
 class StateReduction:

@@ -5,11 +5,11 @@ Nacte z retezce zasobnikovy automat.
 
 import re
 import string as pystring
-from .library import enum, unquote
+from .library import unquote
 from .error import check, EPDA
 from .automaton import GDP
 
-DEBUG = True
+DEBUG = False
 DEBUG_CODE = "[Parser]"
 
 class GDPParser:
@@ -272,6 +272,20 @@ class GDPParser:
         return item, index
 
 
+##################################################################### parseString()
+
+    def parseString(self, string):
+        
+        pattern = (self.GROUP, (self.char_pattern, "\whitespace"))
+        
+        group, index = self.matchItem(pattern, 0, string)
+        group = unquote(group)
+        
+        if index != len(string) :
+            return None
+        else:
+            return group
+
 ##################################################################### run()
     
     def run(self, string):
@@ -288,10 +302,10 @@ class GDPParser:
             # rozparsovanu vstupu
             group, index = self.matchItem(self.pda_pattern, 0, string)
             
-            check(group)
+            check(group, DEBUG_CODE, DEBUG, 3)
             # odstraneni uvozovek ze všech symbolů
             group = unquote(group)
-            check(group)
+            check(group, DEBUG_CODE, DEBUG, 3)
             
             # zpracovani vysledku parsovani
             rules = list()

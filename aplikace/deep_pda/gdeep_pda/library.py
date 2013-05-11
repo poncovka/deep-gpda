@@ -8,6 +8,7 @@ import sys
 from codecs import open
 from .error import EPARAM, EIO, check
 
+
 DEBUG = False
 DEBUG_CODE = "[Library]"
 
@@ -35,7 +36,7 @@ def unquote(item, char = "'"):
         
         if isSurrounded(item, char, char) :
             item = item[1:-1]
-            check(item)
+            #check(item)
             
     return item
 
@@ -63,6 +64,7 @@ def printHelp():
 #=================================================================== processParams()
 
 def processParams(argv):
+    from .parser import GDPParser
 
     check("Zpracovani parametru.", DEBUG_CODE, DEBUG, level = 0)   
 
@@ -94,6 +96,16 @@ def processParams(argv):
 
     if "output" not in args :
         args["output"] = None
+        
+    if "analyze_string" in args :
+        string = GDPParser().parseString(args["analyze_string"])
+        
+        if string == None :
+            raise EPARAM
+        else:
+            args["analyze_string"] = string
+            check(string, DEBUG_CODE, DEBUG, level = 3)
+
 
     check(args, DEBUG_CODE, DEBUG, level = 2)
     return args

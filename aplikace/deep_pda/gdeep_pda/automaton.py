@@ -161,5 +161,116 @@ class GDP:
                   )
 
         return string
+        
+#=================================================================== analyze
+
+    def expand(self, string, index):
+        
+        self.pushdown.pop(index)
+        self.pushdown[index:index] = reversed(string)
+        
+    def saveState(self, tracking, step = 0):
+        
+        tracking.append((self.state, self.index, tuple(self.pushdown), step))
+        
+        check("add track:" + str(tracking), DEBUG_CODE, DEBUG)
+        
+    def loadState(self, tracking):
+        
+        self.state, self.index, pushdown, step = tracking.pop()
+        self.pushdown = list(pushdown)
+        
+        return step + 1
+    
+    def getState(self):
+        return(self.state, self.index, tuple(self.pushdown))
+        
+    def getTop(self,x):
+        return x[-1]
+
+    def analyze(self, string, max_step = 20):
+        
+        check("Analyza retezce.", DEBUG_CODE, DEBUG, level = 0)
+        result = "OK"
+        
+        # sestaveni struktury pro prochazeni pravidly
+        rules = dict()
+        
+        for (q,A,p,v) in self.R :
+            
+            if (q,A) not in rules :
+                rules[(q,A)] = list()
+                
+            rules[(q,A)].append((p, v))
+            
+        check(rules, DEBUG_CODE, DEBUG)
+        
+        # inicializace automatu
+        self.state = self.s
+        self.index = 0
+        self.pushdown = list()
+        self.pushdown.append(self.S)
+
+        # backtracking a historie
+        tracking = list()
+        history = list()
+        step = 0
+        
+        self.saveState(tracking, step)
+                        
+        check("string :" + str(string), DEBUG_CODE, DEBUG)
+        check("Analyza:", DEBUG_CODE, DEBUG)
+        
+        while self.pushdown or self.index < len(string) :
+            
+            check("STATE " + str(self.getState()), DEBUG_CODE, DEBUG)
+            #check(str(tracking), DEBUG_CODE, DEBUG)
+            
+            topsymbol   = self.getTop(self.pushdown) if self.pushdown else None
+            char        = string[self.index]         if self.index < len(string) else None 
+            
+            if char and topsymbol and char == topsymbol :
+                    
+                check("POP " + str(char), DEBUG_CODE, DEBUG)
+                
+                self.index += 1
+                self.pushdown.pop()
+                #self.saveState(tracking, step)
+                
+            else:
+                expanded = False
+                
+                for i in range(len(self.pushdown) - 1, -1, -1):
+                    
+                    symbol = self.pushdown[i]
+                    
+                    check("RULE " + self.state + symbol, DEBUG_CODE, DEBUG)
+                    
+                    if (self.state, symbol) in rules and len(rules[(self.state, symbol)]) > step:
+                        
+                        next_state, next_string = rules[(self.state, symbol)][step]
+                        
+                        check("EXPAND " + self.state + symbol + next_state + str(next_string), DEBUG_CODE, DEBUG)
+                        
+                        self.state = next_state
+                        self.expand(next_string, i)
+                        
+                        self.saveState(tracking, step)
+                        expanded = True
+                        step = 0
+                        break
+                        
+                if not expanded or len(tracking) > max_step:
+                    
+                    if tracking :
+                        step = self.loadState(tracking)
+                        check("BACKTRACKING " + str(step), DEBUG_CODE, DEBUG)
+                    else:
+                        result = "False"
+                        break        
+        
+        check("END " + str(self.getState()), DEBUG_CODE, DEBUG)
+        
+        return result
 
 ##################################################################### konec souboru       

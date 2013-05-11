@@ -45,8 +45,16 @@ def main(argv):
         elif "reduce_symbols" in args :
             automata = SymbolReduction().run(automata)
         
+        # analyza retezce
+        if "analyze_string" in args :
+            string = args["analyze_string"]
+            output = automata.analyze(string)
+        
+        # serializace automatu
+        else :
+            output = automata.serialize()
+                                
         # vytiskne automat na vystup
-        output = automata.serialize()
         writeOutput(args["output"], output)
     
     # doslo ke zname chybe
