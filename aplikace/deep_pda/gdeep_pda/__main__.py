@@ -7,7 +7,8 @@ zobecnenych hlubokych zasobnikovych automatu.
 Spusteni: python3 gdeep_pda params
 '''
 
+import sys
 from .application import main
 
 if __name__ == '__main__':
-    main()
+    main(sys.argv)

@@ -13,16 +13,14 @@ from .state_reduction import StateReduction
 from .symbol_reduction import SymbolReduction
 from .error import Error, EOK
 
-import sys
-
 ##################################################################### run()
 
-def main():
+def main(argv):
     
     try:
         
         # zpracovani parametru
-        args = processParams(sys.argv[1:])
+        args = processParams(argv[1:])
         
         # vytisknuti napovedy
         if "help" in args:

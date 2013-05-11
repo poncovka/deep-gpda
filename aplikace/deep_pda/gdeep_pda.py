@@ -6,6 +6,7 @@ Spousti aplikaci z balicku gdeep_pda
 '''
 
 import gdeep_pda
+import sys
 
 if __name__ == '__main__':
-    gdeep_pda.run()
+    gdeep_pda.run(sys.argv)
