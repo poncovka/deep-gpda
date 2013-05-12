@@ -173,7 +173,7 @@ class GDP:
         
         tracking.append((self.state, self.index, tuple(self.pushdown), step))
         
-        check("add track:" + str(tracking), DEBUG_CODE, DEBUG)
+        #check("add track:" + str(tracking), DEBUG_CODE, DEBUG)
         
     def loadState(self, tracking):
         
@@ -188,9 +188,9 @@ class GDP:
     def getTop(self,x):
         return x[-1]
 
-    def analyze(self, string, max_step = 20):
+    def analyze(self, string, max_step = 1000):
         
-        check("Analyza retezce.", DEBUG_CODE, DEBUG, level = 0)
+        check("Analyza retezce.", DEBUG_CODE, DEBUG, level = 20)
         result = "OK"
         
         # sestaveni struktury pro prochazeni pravidly
@@ -244,13 +244,13 @@ class GDP:
                     
                     symbol = self.pushdown[i]
                     
-                    check("RULE " + self.state + symbol, DEBUG_CODE, DEBUG)
+                    #check("RULE " + self.state + symbol, DEBUG_CODE, DEBUG)
                     
                     if (self.state, symbol) in rules and len(rules[(self.state, symbol)]) > step:
                         
                         next_state, next_string = rules[(self.state, symbol)][step]
                         
-                        check("EXPAND " + self.state + symbol + next_state + str(next_string), DEBUG_CODE, DEBUG)
+                        #check("EXPAND " + self.state +" "+ symbol +" -> "+ next_state + " " + " ".join(next_string), DEBUG_CODE, DEBUG)
                         
                         self.state = next_state
                         self.expand(next_string, i)
@@ -262,6 +262,9 @@ class GDP:
                         
                 if not expanded or len(tracking) > max_step:
                     
+                    if len(tracking) > max_step:
+                        check("MAX STEP", DEBUG_CODE, DEBUG)
+                    
                     if tracking :
                         step = self.loadState(tracking)
                         check("BACKTRACKING " + str(step), DEBUG_CODE, DEBUG)
@@ -269,7 +272,7 @@ class GDP:
                         result = "False"
                         break        
         
-        check("END " + str(self.getState()), DEBUG_CODE, DEBUG)
+        check("END " + str(self.getState()) + ", steps + " + str(len(tracking)), DEBUG_CODE, DEBUG)
         
         return result
 

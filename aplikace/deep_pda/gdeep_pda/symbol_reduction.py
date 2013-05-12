@@ -165,7 +165,7 @@ class SymbolReduction:
         rule.q = "<start>"
         rule.A = "#"
         rule.p = self.state(pda.s, "")
-        rule.v = coding[pda.S] + coding["#"] + tuple("#")
+        rule.v = coding[pda.S] + coding["#"] + ("#",)
         
         R_exp.add(rule.get())
         
@@ -198,22 +198,25 @@ class SymbolReduction:
         # konstrukce mnoziny pravidel PRO NACTENI KODU
         R_find = set()
         rule = GDP_rule()
-        
+
         for q in pda.Q :
-            for zeros in range(0, len(pda.Gamma)) :
-                for apostrof in range(0, 2) :
+            for zeros in range(0, len(pda.Gamma) + 1) :
+                for apostrof in (0, 1, 2) :
                     
                     # pravidla (iii), (iv), (v)
-                    rule.q = self.state(q, self.code(zeros),     apostrof)
-                    rule.A = "0"
-                    rule.p = self.state(q, self.code(zeros + 1), apostrof)
-                    rule.v = ()
-                    
-                    R_find.add(rule.get())
+                                        
+                    if zeros < len(pda.Gamma) :
+
+                        rule.q = self.state(q, self.code(zeros),     apostrof)
+                        rule.A = "0"
+                        rule.p = self.state(q, self.code(zeros + 1), apostrof)
+                        rule.v = ()
+                        
+                        R_find.add(rule.get())
                     
                     rule.q = self.state(q, self.code(zeros),        apostrof)
                     rule.A = "1"
-                    rule.p = self.state(q, self.code(zeros + 1, 1), apostrof)
+                    rule.p = self.state(q, self.code(zeros, 1),     apostrof)
                     rule.v = ()
                     
                     R_find.add(rule.get())

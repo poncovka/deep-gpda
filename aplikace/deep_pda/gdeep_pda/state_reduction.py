@@ -9,7 +9,7 @@ from .error import check
 from .library import isSurrounded
 
 # nastaveni parametru pro debugging
-DEBUG = False
+DEBUG = True
 DEBUG_CODE = "[StateReduction]"
 
 class StateReduction:
@@ -102,6 +102,8 @@ class StateReduction:
         
         for i in range(0, len(states)) :
             function[ states[i] ] = i
+        
+        function["--maximum"] = len(Q)
             
         return function
 
@@ -202,7 +204,7 @@ class StateReduction:
             # dojde ke zmene stavu, generuje se citac
             else:
                 rule.p = "s_beta"
-                rule.v = ( self.counter( abs(get_index[q] - get_index[p]) ) ,)
+                rule.v = ( self.counter( (get_index[p] - get_index[q]) % get_index["--maximum"] ), )
             
             # uprava prave strany pravidla
             for symbol in v :
@@ -294,7 +296,9 @@ class StateReduction:
             rule.q = "s_beta"
             rule.A = self.symbol(q, "#")
             rule.p = "s_alpha"
-            rule.v = (self.symbol(next_state[q], "#", "set"))
+            rule.v = (self.symbol(next_state[q], "#", "set"), )
+            
+            R_beta.add(rule.get())
         
         check("Stav mnoziny R_beta: \n" + str(R_beta), DEBUG_CODE, DEBUG, 3)
         

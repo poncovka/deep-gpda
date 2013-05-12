@@ -12,7 +12,7 @@ import sys
 # 0 - dulezite funkce, 1 - ostatni funkce, 2 - vypis dulezitych hodnot, 3 - pomocny vypis 
 
 DEBUG = True
-DEBUG_LEVEL = 0
+DEBUG_LEVEL = 3
 
 def check(msg, code = "[DEBUG]", allowed = True, level = 0):
     '''Funkce pro kontrolni vypisy.'''
