@@ -1,0 +1,22 @@
+// Hluboký zásobníkový automat:
+(
+    // množina stavů
+    { <s1>, <s2>, <s3>, <s4>, <s5> },
+    // množina vstupních symbolů
+    { 'a', 'b', 'c' },
+    // množina zásobníkových
+    { <A>, <B>, C, a, b, c },
+    // množina pravidel
+    { 
+        <s1> <A> -> <s2> 'a' <A> b <B> c C,
+        <s2> <A> -> <s3> a <A>,
+        <s3> <B> -> <s4> b <B>,
+        <s4> C -> <s2> c C,
+        <s2> <A> -> <s5>,            // epsilon pravidlo
+        <s5> <B> -> <s5> '',         // epsilon pravidlo
+        <s5> C -> <s5> '' '' ''    // epsilon pravidlo
+    },
+    <s1>,     // počáteční stav
+    <A>,      // počáteční symbol
+    { <s5> }  // množina koncových stavů	
+)

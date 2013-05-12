@@ -158,12 +158,9 @@ def processParams(argv):
         
     if "analyze_string" in args :
         string = GDPParser().parseString(args["analyze_string"])
-        
-        if string == None :
-            raise EPARAM("Chybi hodnota parametru --analyze-string.")
-        else:
-            args["analyze_string"] = string
-            check(string, DEBUG_CODE, DEBUG, level = 3)
+
+        args["analyze_string"] = string
+        check(string, DEBUG_CODE, DEBUG, level = 3)
     
     # defaultni hodnota
     if "max_steps" not in args :
