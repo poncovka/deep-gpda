@@ -11,7 +11,7 @@ from .library import processParams, printHelp, readInput, writeOutput
 from .parser import GDPParser
 from .state_reduction import StateReduction
 from .symbol_reduction import SymbolReduction
-from .error import Error, EOK
+from .error import Message, Error, EOK
 
 ##################################################################### run()
 
@@ -47,15 +47,27 @@ def main(argv):
         
         # analyza retezce
         if "analyze_string" in args :
+            
             string = args["analyze_string"]
-            output = automata.analyze(string)
-        
-        # serializace automatu
+            steps  = args["max_steps"]
+            
+            result, derivation = automata.analyze(string, steps)
+            
+            # pokud probehlo v poradku, vypise na vystup derivaci retezce
+            if result :
+                writeOutput(args["output"], derivation)
+                
+            # jinak vypise na stderr hlasku
+            else :
+                output = "Retezec '" +" ".join(string) + "' neni retezcem jazyka prijimaneho konecnym automatem. "
+                output+= "Maximalni pocet kroku derivace je nastaven na: " + str(args["max_steps"])
+                
+                Message(output).print()
+
+        # serializace automatu a vypis na vystup
         else :
             output = automata.serialize()
-                                
-        # vytiskne automat na vystup
-        writeOutput(args["output"], output)
+            writeOutput(args["output"], output)
     
     # doslo ke zname chybe
     except Error as e :

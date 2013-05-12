@@ -10,7 +10,7 @@ from .library import isSurrounded
 
 # nastaveni parametru pro debugging
 DEBUG = True
-DEBUG_CODE = "[StateReduction]"
+DEBUG_CODE = "[STARED]"
 
 class StateReduction:
     '''

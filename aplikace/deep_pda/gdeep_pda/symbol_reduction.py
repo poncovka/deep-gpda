@@ -10,7 +10,7 @@ from .library import isSurrounded
 
 # nastaveni paramentru pro debugging
 DEBUG = False
-DEBUG_CODE = "[SymbolReduction]"
+DEBUG_CODE = "[SYMRED]"
 
 
 class SymbolReduction:
@@ -235,7 +235,7 @@ class SymbolReduction:
 
         for X in pda.Gamma :
             for q in pda.Q :
-                if self.state (q, coding[X] ) not in Q_exp :                   
+                if self.state(q, coding[X]) not in Q_exp :                   
                     
                     # pravidlo (vi)            
                     rule.q = self.state( q, coding[X] )

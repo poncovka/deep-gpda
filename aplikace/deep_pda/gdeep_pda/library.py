@@ -10,7 +10,7 @@ from .error import EPARAM, EIO, check
 
 
 DEBUG = False
-DEBUG_CODE = "[Library]"
+DEBUG_CODE = "[LIB]"
 
 #=================================================================== enum()
 
@@ -19,11 +19,13 @@ def enum(*sequential, **named):
     enums = dict(zip(sequential, range(len(sequential))), **named)
     return type('Enum', (), enums)
 
-#=================================================================== unquote()
+#=================================================================== isSurrounded()
 
 def isSurrounded(item, left, right):
     
     return len(item) >= 2 and item[0] == left and item[-1] == right
+
+#=================================================================== unquote()
 
 def unquote(item, char = "'"):
     
@@ -36,9 +38,62 @@ def unquote(item, char = "'"):
         
         if isSurrounded(item, char, char) :
             item = item[1:-1]
-            #check(item)
             
     return item
+
+#=================================================================== tableprint()
+
+def tableprint(table, head = False):
+    check("Priprava tabulky.", DEBUG_CODE, DEBUG, level = 0)   
+    
+    # vypocet poctu radku a sloupcu a jejich velikosti
+    nrow = 0
+    ncolumn = 0
+    size_columns = list()
+    
+    # spocitej radky
+    for row in table:
+        nrow += 1
+        nitem = 0
+
+        # pocitej sloupce
+        for item in row :
+            
+            if len(size_columns) <= nitem :
+                size_columns.append(len(item))
+            else:
+                size_columns[nitem] = max (size_columns[nitem], len(item))
+                
+            nitem += 1 
+        
+        # nastav velikost sloupce
+        ncolumn = max(ncolumn, nitem)
+    
+    # vytvoreni tabulky        
+    output = ""
+    
+    # prochazeni radku tabulky
+    for row in table:
+        
+        # tisk polozek radku
+        nitem = 0
+        for item in row :
+            
+            output += (' {0:' + str(size_columns[nitem]) + '} ').format(item)
+            nitem  += 1
+            
+        output += "\n"
+        
+        # tisk hlavicky tabulky
+        if head :
+            for n in range(0,ncolumn) :
+                output +=  '-' * size_columns[n] + '--' 
+                
+            output += "\n"
+            head = False
+     
+    # vrati retezec s tabulkou       
+    return output
 
 #=================================================================== printHelp()
 
@@ -58,6 +113,8 @@ def printHelp():
     --reduce-symbols             Zredukuje pocet nevstupnich symbolu.
     --analyze-string="string"    Zjisti, zda string je retezec jazyka prijimaneho
                                  danym automatem, a vypise sekvenci kroku.
+    --max-steps=n                Analyza retezce se provede pro maximalne n
+                                 derivacnich kroku pro n >= 0.
     \n'''
     sys.stdout.write(msg)
 
@@ -68,11 +125,13 @@ def processParams(argv):
 
     check("Zpracovani parametru.", DEBUG_CODE, DEBUG, level = 0)   
 
-    arg_options = {"--input": "input", "--output": "output", "--analyze-string": "analyze_string"}
+    arg_options = {"--input": "input", "--output": "output", 
+                   "--analyze-string": "analyze_string", "--max-steps" : "max_steps" 
+                  }
 
     flag_options = { "--help": "help", "-h": "help",
                      "--reduce-states": "reduce_states", 
-                     "--reduce-symbols": "reduce_symbols",  
+                     "--reduce-symbols": "reduce_symbols"
                    }
     args = {} 
 
@@ -101,11 +160,28 @@ def processParams(argv):
         string = GDPParser().parseString(args["analyze_string"])
         
         if string == None :
-            raise EPARAM
+            raise EPARAM("Chybi hodnota parametru --analyze-string.")
         else:
             args["analyze_string"] = string
             check(string, DEBUG_CODE, DEBUG, level = 3)
-
+    
+    # defaultni hodnota
+    if "max_steps" not in args :
+        args["max_steps"] = 100
+    
+    # spatne zadane                
+    elif "analyze_string" not in args :
+        raise EPARAM("Ocekavan parametr --analyze-string.")
+    
+    # konverze z retezce
+    else:
+        try:
+            args["max_steps"] = int(args["max_steps"])
+            
+            if args["max_steps"] < 0 : raise ValueError
+            
+        except ValueError :
+            raise EPARAM("Chybna hodnota parametru --max-steps.")
 
     check(args, DEBUG_CODE, DEBUG, level = 2)
     return args

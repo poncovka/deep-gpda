@@ -10,7 +10,7 @@ from .error import check, EPDA
 from .automaton import GDP
 
 DEBUG = False
-DEBUG_CODE = "[Parser]"
+DEBUG_CODE = "[PARSER]"
 
 class GDPParser:
     '''

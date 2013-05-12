@@ -5,8 +5,10 @@ Trida pro zobecneny hluboky zasobnikovy automat a jeho pravidla.
 '''
 
 from .error import check, EPDA
+from .library import tableprint
 
-DEBUG = True
+
+DEBUG = False
 DEBUG_CODE = "[PDA]"
 
 ##################################################################### GDP_rule
@@ -36,7 +38,7 @@ class GDP:
     Trida reprezentuje zobecneny hluboky zasobnikovy automat,
     GDP je zkratka pro Generalized Deep PDA.
     '''
-#===================================================================
+#=================================================================== init()
 
     def __init__(self):
         '''
@@ -52,7 +54,7 @@ class GDP:
         self.S = None
         self.F = set()
 
-#===================================================================
+#=================================================================== str()
 
     def __str__(self):
 
@@ -65,7 +67,7 @@ class GDP:
                 "" + str(self.S) + "\n"
                 "" + str(self.F) + "\n)")
 
-#===================================================================
+#=================================================================== set()
 
     def set(self, Q, Sigma, Gamma, R, s, S, F):
         
@@ -77,7 +79,7 @@ class GDP:
         self.S = S
         self.F = set(F)
 
-#===================================================================
+#=================================================================== validate()
 
     def validate(self):
         
@@ -115,7 +117,35 @@ class GDP:
                 if symbol not in self.Gamma:
                     raise EPDA("Na prave strane pravidla je nedefinovany symbol.")     
             
-#===================================================================
+#=================================================================== serializace
+
+    def serializeRule(self, rule):
+        
+        (q,A,p,v) = rule
+        
+        str_rule = q + " " + A + " -> " + p
+        if v : str_rule += " " + " ".join(v)
+        
+        return str_rule
+    
+    def serializeDerivation(self, backtracking, string):
+        
+        derivation_table = list()
+        head = ["","", "state", "input", "pushdown","", "rule"]
+        
+        for (state, index, pushdown, step, rule) in backtracking :
+            
+            derivation   = "=>" if derivation_table else ""
+            str_state    = state + ", "
+            str_input    = "".join(string[index:]) + ", "
+            str_pushdown = " ".join(reversed(pushdown))
+            str_rule     = "[ " + self.serializeRule(rule) + " ] " if rule else ""
+            
+            derivation_table.append([derivation, "(", str_state, str_input, str_pushdown, ")", str_rule])            
+
+        derivation_table.insert(0, head)
+        
+        return tableprint(derivation_table, head)
 
     def serialize(self):
         '''
@@ -139,11 +169,9 @@ class GDP:
 
         # pravidla
         R = []
-        for (q,A,p,v) in list(self.R) :
+        for r in list(self.R) :
             
-            rule = q + " " + A + " -> " + p
-            if v : rule += " " + " ".join(v)
-            
+            rule = self.serializeRule(r)
             R.append(rule)
             
         R.sort()    
@@ -162,36 +190,34 @@ class GDP:
 
         return string
         
-#=================================================================== analyze
+#=================================================================== analyze string
+        
+    def getTop(self,x):
+        return x[-1]
 
     def expand(self, string, index):
         
         self.pushdown.pop(index)
         self.pushdown[index:index] = reversed(string)
+
+    def getConfiguration(self):
+        return(self.state, self.index, tuple(self.pushdown))
         
-    def saveState(self, tracking, step = 0):
+    def saveDerivation(self, backtracking, step = 0, rule = None):
         
-        tracking.append((self.state, self.index, tuple(self.pushdown), step))
+        backtracking.append((self.state, self.index, tuple(self.pushdown), step, rule))
         
-        #check("add track:" + str(tracking), DEBUG_CODE, DEBUG)
+    def loadDerivation(self, backtracking):
         
-    def loadState(self, tracking):
-        
-        self.state, self.index, pushdown, step = tracking.pop()
+        self.state, self.index, pushdown, step, rule = backtracking.pop()
         self.pushdown = list(pushdown)
         
         return step + 1
-    
-    def getState(self):
-        return(self.state, self.index, tuple(self.pushdown))
-        
-    def getTop(self,x):
-        return x[-1]
 
-    def analyze(self, string, max_step = 1000):
+    def analyze(self, string, max_step = 500):
         
-        check("Analyza retezce.", DEBUG_CODE, DEBUG, level = 20)
-        result = "OK"
+        check("Analyza retezce.", DEBUG_CODE, DEBUG, level = 0)
+        result = True
         
         # sestaveni struktury pro prochazeni pravidly
         rules = dict()
@@ -203,7 +229,7 @@ class GDP:
                 
             rules[(q,A)].append((p, v))
             
-        check(rules, DEBUG_CODE, DEBUG)
+        check(rules, DEBUG_CODE, DEBUG, 3)
         
         # inicializace automatu
         self.state = self.s
@@ -211,31 +237,27 @@ class GDP:
         self.pushdown = list()
         self.pushdown.append(self.S)
 
-        # backtracking a historie
-        tracking = list()
-        history = list()
+        # backbacktracking a historie
+        backtracking = list()
         step = 0
         
-        self.saveState(tracking, step)
+        self.saveDerivation(backtracking, step)
                         
-        check("string :" + str(string), DEBUG_CODE, DEBUG)
-        check("Analyza:", DEBUG_CODE, DEBUG)
         
-        while self.pushdown or self.index < len(string) :
+        while self.pushdown or self.index < len(string) or self.state not in self.F:
             
-            check("STATE " + str(self.getState()), DEBUG_CODE, DEBUG)
-            #check(str(tracking), DEBUG_CODE, DEBUG)
+            check("STATE " + str(self.getConfiguration()), DEBUG_CODE, DEBUG, 3)
             
             topsymbol   = self.getTop(self.pushdown) if self.pushdown else None
             char        = string[self.index]         if self.index < len(string) else None 
             
             if char and topsymbol and char == topsymbol :
                     
-                check("POP " + str(char), DEBUG_CODE, DEBUG)
+                check("POP " + str(char), DEBUG_CODE, DEBUG, 3)
                 
                 self.index += 1
                 self.pushdown.pop()
-                #self.saveState(tracking, step)
+                self.saveDerivation(backtracking, step)
                 
             else:
                 expanded = False
@@ -244,36 +266,39 @@ class GDP:
                     
                     symbol = self.pushdown[i]
                     
-                    #check("RULE " + self.state + symbol, DEBUG_CODE, DEBUG)
-                    
                     if (self.state, symbol) in rules and len(rules[(self.state, symbol)]) > step:
                         
                         next_state, next_string = rules[(self.state, symbol)][step]
                         
-                        #check("EXPAND " + self.state +" "+ symbol +" -> "+ next_state + " " + " ".join(next_string), DEBUG_CODE, DEBUG)
+                        check("EXPAND" + self.state +" "+ symbol +" -> "+ next_state + " " + " ".join(next_string), DEBUG_CODE, DEBUG, 3)
                         
                         self.state = next_state
                         self.expand(next_string, i)
                         
-                        self.saveState(tracking, step)
+                        self.saveDerivation(backtracking, step, (self.state, symbol, next_state, next_string ))
                         expanded = True
                         step = 0
                         break
                         
-                if not expanded or len(tracking) > max_step:
+                if not expanded or len(backtracking) > max_step:
                     
-                    if len(tracking) > max_step:
-                        check("MAX STEP", DEBUG_CODE, DEBUG)
+                    if len(backtracking) > max_step:
+                        check("MAX STEP", DEBUG_CODE, DEBUG, 3)
                     
-                    if tracking :
-                        step = self.loadState(tracking)
-                        check("BACKTRACKING " + str(step), DEBUG_CODE, DEBUG)
+                    if backtracking :
+                        step = self.loadDerivation(backtracking)
+                        check("BACKTRACKING " + str(step), DEBUG_CODE, DEBUG, 3)
                     else:
-                        result = "False"
+                        result = False
                         break        
         
-        check("END " + str(self.getState()) + ", steps + " + str(len(tracking)), DEBUG_CODE, DEBUG)
+        check("END " + str(self.getConfiguration()) + ", steps + " + str(len(backtracking)), DEBUG_CODE, DEBUG, 3)
         
-        return result
+        if result :
+            derivation = self.serializeDerivation(backtracking, string)
+        else:
+            derivation = None
+        
+        return result, derivation
 
 ##################################################################### konec souboru       
