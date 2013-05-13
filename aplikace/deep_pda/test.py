@@ -1,7 +1,8 @@
+#!/usr/bin/python3
 '''
-Created on 13.5.2013
+Skript pro spusteni testu z baliku test.
 
-@author: wendy
+@author: Vendula Poncova
 '''
 
 import sys
