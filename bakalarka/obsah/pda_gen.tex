@@ -80,14 +80,14 @@ Převod zobecněného hlubokého zásobníkového automatu s~$\varepsilon$-pravi
 
 \suspend{enumerate}
 
-  \item Pro každé $q \in Q$, $0 \le i \le n$ přidej do $R_{find}$ pravidla:
+  \item Pro každé $q \in Q$, $0 \le i < n$, $0 \le j \le n$ přidej do $R_{find}$ pravidla:
 
 \resume{enumerate}
 \renewcommand{\labelenumi}{(\roman{enumi})}
 
-  \item $<q, 0^i> 0 \rightarrow <q, 0^{i+1}> \varepsilon $, $<q, 0^i> 1 \rightarrow <q, 0^i 1> \varepsilon $,
-  \item $<q, 0^i>' 0 \rightarrow <q, 0^{i+1}>' \varepsilon $, $<q, 0^i>' 1 \rightarrow <q, 0^i 1>' \varepsilon $,
-  \item $<q, 0^i>'' 0 \rightarrow <q, 0^{i+1}>'' \varepsilon $, $<q, 0^i>'' 1 \rightarrow <q, 0^i 1>'' \varepsilon $.
+  \item $<q, 0^i> 0 \rightarrow <q, 0^{i+1}> \varepsilon $, $<q, 0^j> 1 \rightarrow <q, 0^j 1> \varepsilon $,
+  \item $<q, 0^i>' 0 \rightarrow <q, 0^{i+1}>' \varepsilon $, $<q, 0^j>' 1 \rightarrow <q, 0^j 1>' \varepsilon $,
+  \item $<q, 0^i>'' 0 \rightarrow <q, 0^{i+1}>'' \varepsilon $, $<q, 0^j>'' 1 \rightarrow <q, 0^j 1>'' \varepsilon $.
 
 \suspend{enumerate}
 
@@ -252,14 +252,14 @@ Převod zobecněného hlubokého zásobníkového automatu s~$\varepsilon$-pravi
    \item $S_{R} := <start> $
    \item $F_{R} := \{s_{\alpha}\} $ \medskip
 
-   \item Nechť $Q = \{s_0, s_1, s_2, \dots,s_{|Q|}\}$, kde $s_0 = s$ je počáteční stav v~$M$. Nechť $s_{|Q|+1} = s_0$.\medskip
+   \item Nechť $Q = \{s_0, s_1, s_2, \dots,s_{|Q-1|}\}$, kde $s_0 = s$ je počáteční stav v~$M$. Nechť $s_{|Q|} = s_0$.\medskip
 
    \item Pro každé $q \in Q$, $X \in (\Gamma - \Sigma)$, $j \in \{1,2,3,\dots,|Q|\}$ přidej do ${\Gamma}_{R}'$ symboly :
    \item $<start>, <j>, <q, X>, <q, X>', <q, \#>, <q, \#>_{set}, <q, \#>_{exp}$.\medskip
 
    \item Pro každé $qA \rightarrow p b_0 B_1 b_1 B_2 b_2 \dots b_{j-1} B_{j} b_j \in R$, kde $p, q \in Q$, $j \ge 0$, $b_0,b_1,\dots,b_j \in {\Sigma}^*$ a $A, B_1,B_2,\dots,B_j \in (\Gamma - \Sigma)$. 
-         Nechť $k$ je absolutní hodnota rozdílu indexů stavů $p$ a $q$. 
-         Pak přidej do $R_\alpha$ pravidla:
+         Nechť $p=s_x$ a $q=s_y$, kde $x$, $y$ jsou indexy stavů $p$, $q$, pak označme $k = (x - y) \textrm{ \% } |Q|$ . 
+         Přidej do $R_\alpha$ pravidla:
 
 \begin{enumerate}
 \renewcommand{\labelenumi}{(\roman{enumi})}

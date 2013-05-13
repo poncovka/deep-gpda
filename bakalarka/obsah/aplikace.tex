@@ -17,11 +17,14 @@ Aplikace se skládá z~několika částí. Práci se zásobníkovým automatem u
 Modul \texttt{automaton} obsahuje třídu reprezentující zobecněný hluboký zásobníkový automat, \texttt{parser} zprostředkovává načtení zápisu automatu z~řetězce a \texttt{symbol\_reduction} spolu se \texttt{state\_reduction} slouží k~redukci symbolů nebo stavů automatu.
 Činnost aplikace pak zajišťují moduly \texttt{application}, \texttt{error} a \texttt{library}, kde \texttt{application} umožňuje běh aplikace, \texttt{error} definuje chybové stavy a \texttt{library} slouží jako knihovna funkcí.
 
+\subsubsection{Syntaktická analýza řetězce}
+DOPLNIT
+
 \subsubsection{Formát zápisu automatu}\label{kap_aplikace_format}
 
-Zápis zobecněného zásobníkového automatu vychází z~jeho definice. Automat je uzavřen v~kulatých závorkách, množiny ve složených a jednotlivé komponenty jsou oddělené čárkami a libovolným počtem bílých znaků. Dále prvky pravidla jsou oddělené bílými znaky a přechod se zapisuje \texttt{->}. 
+%Zápis zobecněného zásobníkového automatu vychází z~jeho definice. Automat je uzavřen v~kulatých závorkách, množiny ve složených a jednotlivé komponenty jsou oddělené čárkami a libovolným počtem bílých znaků. Dále prvky pravidla jsou oddělené bílými znaky a přechod se zapisuje \texttt{->}. 
 
-Stavy a symboly zásobníkové abecedy se smí skládat pouze z~písmen a číslic. Výjimkou jsou symboly vstupní abecedy uzavřené v~apostrofech a stavy a nevstupní symboly v~závorkách typu \texttt{<>}, \texttt{[]} nebo \texttt{()}. V~těchto případech mohou tyto komponenty obsahovat libovolné tisknutelné znaky s~výjimkou toho, který komponentu uzavírá. Stavy a nevstupní symboly navíc mohou obsahovat řetězec tisknutelných znaků v~apostrofech.
+%Stavy a symboly zásobníkové abecedy se smí skládat pouze z~písmen a číslic. Výjimkou jsou symboly vstupní abecedy uzavřené v~apostrofech a stavy a nevstupní symboly v~závorkách typu \texttt{<>}, \texttt{[]} nebo \texttt{()}. V~těchto případech mohou tyto komponenty obsahovat libovolné tisknutelné znaky s~výjimkou toho, který komponentu uzavírá. Stavy a nevstupní symboly navíc mohou obsahovat řetězec tisknutelných znaků v~apostrofech.
 
 
 \begin{Example} \label{example_format}
@@ -35,19 +38,19 @@ Ukázka zápisu zobecněného hlubokého automatu pro aplikaci \texttt{gdeep\_pd
     // množina vstupních symbolů
     { a, b, c },
     // množina zásobníkových symbolů
-    { [A], [B], [C], a, b, c },
+    { A, B, C, a, b, c },
     // množina pravidel
     { 
-        <s1> [A] -> <s2> a [A] b [B] c [C],
-        <s2> [A] -> <s3> a [A],
-        <s3> [B] -> <s4> b [B],
-        <s4> [C] -> <s2> c [C],
-        <s2> [A] -> <s5>,            // epsilon pravidlo
-        <s5> [B] -> <s5> '',         // epsilon pravidlo
-        <s5> [C] -> <s5> '' '' ''    // epsilon pravidlo
+        <s1> A -> <s2> a A b B c C,
+        <s2> A -> <s3> a A,
+        <s3> B -> <s4> b B,
+        <s4> C -> <s2> c C,
+        <s2> A -> <s5>,            // epsilon pravidlo
+        <s5> B -> <s5> '',         // epsilon pravidlo
+        <s5> C -> <s5> '' '' ''    // epsilon pravidlo
     },
     <s1>,     // počáteční stav
-    [A],      // počáteční symbol
+    A,      // počáteční symbol
     { <s5> }  // množina koncových stavů	
 )
 \end{verbatim}
@@ -55,7 +58,7 @@ Ukázka zápisu zobecněného hlubokého automatu pro aplikaci \texttt{gdeep\_pd
 
 \section{Implementace aplikace}
 
-Aplikaci \texttt{gdeep\_pda} jsem implementovala v~jazyce Python verze 3 jako spustitelný balík. Vzhledem k~vybranému programovacímu jazyku výsledná aplikace není závislá na platformě.
+Aplikaci \texttt{gdeep\_pda} jsem implementovala v~jazyce Python verze 3.2 jako spustitelný balík. Vzhledem k~vybranému programovacímu jazyku výsledná aplikace není závislá na platformě.
 
 
 \subsubsection{Činnost aplikace}
@@ -88,34 +91,14 @@ Metoda \texttt{getCodingFunction()} vrátí kódovací funkci pro symboly. Tato 
 
 K~redukci počtu stavů slouží třída \texttt{StateReduction} z~modulu \texttt{state\_reduction}. Konstrukci automatu se třemi stavy provádí metoda \texttt{run()} podle algoritmu \ref{alg_gen_deep_pda_state} z~kapitoly \ref{kap_pda_gen}. Metoda \texttt{getIndexFunction()} seřadí stavy automatu podle abecedy a vrátí funkci pro určení pozice stavu v~tomto uspořádání. Metoda \texttt{getStateFunction()} pak definuje a vrátí funkci, která pro každý stav automatu vrací stav následující a pro poslední stav stav první. Poté metoda \texttt{construct\_Gamma()} zkonstruuje množinu zásobníkových symbolů a metoda \texttt{construct\_R()} sestaví množinu pravidel. Nakonec je vytvořen a inicializován výsledný automat a ověřena jeho správnost.
 
+\subsubsection{Analýza vstupního řetězce}
+DOPSAT
+
 \subsubsection{Ošetření chybových stavů}
 
 V~modulu \texttt{error} jsou definované výjimky \texttt{Error}, \texttt{EPARAM}, \texttt{EIO} a \texttt{EPDA}. \texttt{Error} je základní třída, ze které dědí ostatní výjimky. \texttt{EPARAM} indikuje chybu v~parametrech, \texttt{EIO} chybu při práci se soubory a \texttt{EPDA} označuje chybu v~zásobníkovém automatu. Pokud je vyvolána výjimka, na standardní chybový výstup se vypíše chybová hláška a aplikace skončí s~odpovídající návratovou hodnotou.
 
-
-
-\section{Spuštění aplikace}
-
-Aplikace \texttt{gdeep\_pda} pro svůj běh vyžaduje Python verze 3. Pak ji lze spustit příkazem \texttt{python3 gdeep\_pda} s~následujícími parametry:
-
-\begin{tabular}{l p{10cm}}\\
-\texttt{-h},\texttt{--help} 	& Na standardní výstup se vypíše nápověda. \\
-\texttt{--input=file}   	& Vstup se načte ze souboru \texttt{file}, jinak ze standardního vstupu. Podporované kódování je \texttt{utf-8}.\\
-\texttt{--output=file}  	& Výstup se vypíše do souboru \texttt{file}, jinak na standardní výstup.	\\
-\texttt{--reduce-states} 	& Vstupní automat se upraví tak, aby obsahoval tři stavy, a vypíše se na výstup. \\
-\texttt{--reduce-symbols} 	& Vstupní automat se upraví tak, aby obsahoval tři nevstupní symboly, a vypíše se na výstup.
-\end{tabular}
-
-
-
-
-
-
-
-%\section{Uživatelská příručka} Uvádí se v příloze.
-
-%\section{Testování}
-
-%\section{Ukázka vstupů a výstupů}
+\section{Testování}
+DOPSAT
 
 %=========================================================================
