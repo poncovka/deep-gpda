@@ -2,14 +2,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \chapter{Aplikace \texttt{gdeep\_pda}} \label{kap_aplikace}
 
-V~této kapitole popisuji návrh a implementaci konzolové aplikace pro redukci zobecněných hlubokých zásobníkových automatů. Na aplikaci demonstruji implementaci algoritmů \ref{alg_gen_deep_pda_nonterm} a \ref{alg_gen_deep_pda_state} navržených v~kapitole \ref{kap_pda_gen}.
+V~této kapitole popisuji návrh a implementaci konzolové aplikace pro redukci zobecněných hlubokých zásobníkových automatů a syntaktickou analýzu řetězců, které tyto automaty přijímají. Na aplikaci demonstruji implementaci algoritmů \ref{alg_gen_deep_pda_nonterm} a \ref{alg_gen_deep_pda_state} navržených v~kapitole \ref{kap_pda_gen}.
 
 
 \section{Návrh aplikace a formátu vstupního souboru}
 
-%Aplikace \texttt{gdeep\_pda} by měla umožnit načíst vstupní automat ze souboru nebo standardního vstupu. Formát zápisu automatu je navržen v kapitole \ref{kap_aplikace_format}. Parsování vstupního řetězce je možné provést pomocí regulárních výrazů nebo prostřednictvím lexikální a syntaktické analýzy.  
-
-Při návrhu aplikace jsem vycházela z~kapitoly věnované zobecněným hlubokým zásobníkovým automatům. Odkáži se tedy na kapitolu \ref{kap_pda_gen} a použité principy zde nebudu dále rozebírat. %Základní kostru aplikace popisuji v kapitole \ref{kap_aplikace_rozvrzeni} a popisu vstupního souboru se věnuji v kapitole \ref{kap_aplikace_format}.
+Při návrhu aplikace jsem vycházela z~kapitoly věnované zobecněným hlubokým zásobníkovým automatům. Odkáži se tedy na kapitolu \ref{kap_pda_gen} a použité principy zde nebudu více rozebírat. Dále navrhuji základní komponenty aplikace, postup pro syntaktickou analýzu řetězce a formát zápisu automatu. 
 
 \subsubsection{Rozvržení aplikace}\label{kap_aplikace_rozvrzeni}
 
@@ -17,15 +15,17 @@ Aplikace se skládá z~několika částí. Práci se zásobníkovým automatem u
 Modul \texttt{automaton} obsahuje třídu reprezentující zobecněný hluboký zásobníkový automat, \texttt{parser} zprostředkovává načtení zápisu automatu z~řetězce a \texttt{symbol\_reduction} spolu se \texttt{state\_reduction} slouží k~redukci symbolů nebo stavů automatu.
 Činnost aplikace pak zajišťují moduly \texttt{application}, \texttt{error} a \texttt{library}, kde \texttt{application} umožňuje běh aplikace, \texttt{error} definuje chybové stavy a \texttt{library} slouží jako knihovna funkcí.
 
-\subsubsection{Syntaktická analýza řetězce}
-DOPLNIT
+\subsubsection{Syntaktická analýza řetězce}\label{kap_aplikace_analyza}
+
+Zobecněné hluboké zásobníkové automaty jsou nedeterministické, což je třeba u~syntaktické analýzy zohlednit. Vzhledem k~demonstračním účelům aplikace jsem se rozhodla použít metodu shora dolů s~návratem, která je jednoduchá na implementaci, ale z~hlediska časové složitosti neefektivní.
+
+Automat postupně provádí jednotlivé kroky derivace tak, že na nejvrchnější možný nevstupní symbol aplikuje první nalezené pravidlo. Pokud je na vrcholu zásobníku vstupní symbol, provede se pop operace. Jestliže tuto operaci nelze provést, automat se vrátí do předchozí konfigurace a pokusí se aplikovat jiné pravidlo, jinak opět provede návrat. Pokud se automat vrátí do výchozí konfigurace, pak analyzovaný řetězec není řetězcem jazyka přijímaného tímto automatem. Jinak algoritmus skončí, jakmile je přečten celý vstupní řetězec, automat je v~konečném stavu a zásobník je prázdný.
+
+Automat prochází derivační strom do hloubky. Je proto vhodné omezit hloubku stromu, jinak by analýza řetězce mohla vést k~zacyklení aplikace. Pro ukládání konfigurací a obnovení konfigurace předcházející lze použít zásobník. Po každém kroku automatu se na tento zásobník vloží aktuální konfigurace a pořadové číslo aplikovaného pravidla. Při neúspěchu se automat nastaví podle konfigurace na vrcholu zásobníku. Po úspěšné analýze lze pomocí tohoto zásobníku zrekonstruovat jednotlivé kroky derivace.
 
 \subsubsection{Formát zápisu automatu}\label{kap_aplikace_format}
 
-%Zápis zobecněného zásobníkového automatu vychází z~jeho definice. Automat je uzavřen v~kulatých závorkách, množiny ve složených a jednotlivé komponenty jsou oddělené čárkami a libovolným počtem bílých znaků. Dále prvky pravidla jsou oddělené bílými znaky a přechod se zapisuje \texttt{->}. 
-
-%Stavy a symboly zásobníkové abecedy se smí skládat pouze z~písmen a číslic. Výjimkou jsou symboly vstupní abecedy uzavřené v~apostrofech a stavy a nevstupní symboly v~závorkách typu \texttt{<>}, \texttt{[]} nebo \texttt{()}. V~těchto případech mohou tyto komponenty obsahovat libovolné tisknutelné znaky s~výjimkou toho, který komponentu uzavírá. Stavy a nevstupní symboly navíc mohou obsahovat řetězec tisknutelných znaků v~apostrofech.
-
+Zápis zobecněného zásobníkového automatu vychází z~jeho definice. Hlavním kritériem formátování bylo, aby výstupem programu byl automat, který se může použít jako vstup. Zároveň v~souvislosti s~redukcí jsem musela umožnit vytvářet složitější zápisy stavů a nevstupních symbolů, aby se daly použít k~uchovávání nezbytných informací. Příklad formátování je k~dispozici v~\ref{example_format}. Zevrubnější popis je součástí manuálu k~aplikaci.
 
 \begin{Example} \label{example_format}
 Ukázka zápisu zobecněného hlubokého automatu pro aplikaci \texttt{gdeep\_pda}.
@@ -41,16 +41,16 @@ Ukázka zápisu zobecněného hlubokého automatu pro aplikaci \texttt{gdeep\_pd
     { A, B, C, a, b, c },
     // množina pravidel
     { 
-        <s1> A -> <s2> a A b B c C,
-        <s2> A -> <s3> a A,
+        <s1> A~-> <s2> a A~b B c C,
+        <s2> A~-> <s3> a A,
         <s3> B -> <s4> b B,
         <s4> C -> <s2> c C,
-        <s2> A -> <s5>,            // epsilon pravidlo
+        <s2> A~-> <s5>,            // epsilon pravidlo
         <s5> B -> <s5> '',         // epsilon pravidlo
         <s5> C -> <s5> '' '' ''    // epsilon pravidlo
     },
     <s1>,     // počáteční stav
-    A,      // počáteční symbol
+    A,        // počáteční symbol
     { <s5> }  // množina koncových stavů	
 )
 \end{verbatim}
@@ -58,12 +58,11 @@ Ukázka zápisu zobecněného hlubokého automatu pro aplikaci \texttt{gdeep\_pd
 
 \section{Implementace aplikace}
 
-Aplikaci \texttt{gdeep\_pda} jsem implementovala v~jazyce Python verze 3.2 jako spustitelný balík. Vzhledem k~vybranému programovacímu jazyku výsledná aplikace není závislá na platformě.
-
+Aplikaci \texttt{gdeep\_pda} jsem implementovala v~jazyce Python verze 3.2 jako spustitelný balík. Cílovou platformou byly operační systémy unixového typu. Na jiných platformách aplikace nebyla testována.
 
 \subsubsection{Činnost aplikace}
 
-Po spuštění aplikace je zavolána funkce \texttt{main()} z~modulu \texttt{application}. Ta zpracuje parametry, načte vstup do řetězce a řetězec zpracuje pomocí parseru typu \texttt{GDPParser}. Vstupní automat se pak formátovaně vypíše na výstup, nebo se získá jeho zredukovaná varianta pomocí objektu třídy \texttt{StateReduction}, případně \texttt{SymbolReduction}, a vypíše se zredukovaný automat. Modul \texttt{library} poskytuje funkce pro výpis nápovědy, zpracování parametrů a práci se vstupy a výstupy.
+Po spuštění je zavolána funkce \texttt{main()} z~modulu \texttt{application}. Ta zpracuje parametry, načte vstup do řetězce a řetězec zpracuje pomocí parseru typu \texttt{GDPParser}. Vstupní automat se pak formátovaně vypíše na výstup, nebo se získá jeho zredukovaná varianta pomocí objektu třídy \texttt{StateReduction}, případně \texttt{SymbolReduction}, a vypíše se zredukovaný automat. Modul \texttt{library} poskytuje funkce pro výpis nápovědy, zpracování parametrů a práci se vstupy a výstupy.
 
 
 \subsubsection{Model zobecněného hlubokého zásobníkového automatu}
@@ -80,7 +79,7 @@ Metoda \texttt{validate()} kontroluje sémantickou správnost automatu a v~pří
 Původně jsem vstupní řetězec zpracovávala výhradně pomocí regulárních výrazů, ale pro obsáhlejší automaty tento postup výrazně zpomaloval aplikaci. Dále jsem zvažovala použít konečný automat pro lexikální analýzu a syntaxi analyzovat metodou shora dolů, ale takové řešení by bylo velmi robustní a neumožňovalo jednoduše měnit formát zápisu. Nakonec jsem oba postupy zkombinovala. Stavy a symboly zpracovávám regulárními výrazy, automat a pravidla konečným automatem. Konečný automat je pak řízen pravidly, která jsou specifikovaná formou zjednodušených regulárních výrazů. Činnost parseru je tak nezávislá na formátu zápisu automatu a bylo by snadné umožnit~analýzu dalších typů automatů v~různých formátech.
 
 Zpracování vstupu zajišťuje třída \texttt{GDPParser} z~modulu \texttt{parser}. 
-Při inicializaci se nastaví vzory (regulární výrazy a pravidla) a analýza řetezce se spustí zavoláním metody \texttt{run()}. Parsování zajišťují funkce \texttt{match()}, \texttt{matchStr()}, \texttt{matchItem()}, \texttt{matchList()} a \texttt{matchGroup()}, které vrací dvojici prvek, index. Prvek je nalezený řetězec nebo seznam prvků, index označuje pozici v~řetězci pro další parsování. Metoda \texttt{match()} pak slouží k~aplikaci regulárního výrazu, \texttt{matchStr()} porovnává řetězec, \texttt{matchItem()} zavolá podle typu vzoru odpovídající metodu, \texttt{matchList()} volá matchItem() pro všechny vzory v~předaném seznamu a \texttt{matchGroup()} cyklicky volá \texttt{matchItem()} pro analýzu položek prokládaných oddělovačem. Nakonec metoda \texttt{run()} vrátí načtený automat typu \texttt{GDP}, nebo vyvolá výjimku \texttt{EPDA}.
+Při inicializaci se nastaví vzory (regulární výrazy a pravidla) a analýza řetězce se spustí zavoláním metody \texttt{run()}. Parsování zajišťují funkce \texttt{match()}, \texttt{matchStr()}, \texttt{matchItem()}, \texttt{matchList()} a \texttt{matchGroup()}, které vrací dvojici prvek, index. Prvek je nalezený řetězec nebo seznam prvků, index označuje pozici v~řetězci pro další parsování. Metoda \texttt{match()} pak slouží k~aplikaci regulárního výrazu, \texttt{matchStr()} porovnává řetězec, \texttt{matchItem()} zavolá podle typu vzoru odpovídající metodu, \texttt{matchList()} volá matchItem() pro všechny vzory v~předaném seznamu a \texttt{matchGroup()} cyklicky volá \texttt{matchItem()} pro analýzu položek prokládaných oddělovačem. Nakonec metoda \texttt{run()} vrátí načtený automat typu \texttt{GDP}, nebo vyvolá výjimku \texttt{EPDA}.
 
 \subsubsection{Redukce nevstupních symbolů}
 
@@ -92,13 +91,33 @@ Metoda \texttt{getCodingFunction()} vrátí kódovací funkci pro symboly. Tato 
 K~redukci počtu stavů slouží třída \texttt{StateReduction} z~modulu \texttt{state\_reduction}. Konstrukci automatu se třemi stavy provádí metoda \texttt{run()} podle algoritmu \ref{alg_gen_deep_pda_state} z~kapitoly \ref{kap_pda_gen}. Metoda \texttt{getIndexFunction()} seřadí stavy automatu podle abecedy a vrátí funkci pro určení pozice stavu v~tomto uspořádání. Metoda \texttt{getStateFunction()} pak definuje a vrátí funkci, která pro každý stav automatu vrací stav následující a pro poslední stav stav první. Poté metoda \texttt{construct\_Gamma()} zkonstruuje množinu zásobníkových symbolů a metoda \texttt{construct\_R()} sestaví množinu pravidel. Nakonec je vytvořen a inicializován výsledný automat a ověřena jeho správnost.
 
 \subsubsection{Analýza vstupního řetězce}
-DOPSAT
+Syntaktickou analýzu řetězce umožňuje třída \texttt{GDP} z~modulu \texttt{automaton}. Metoda \texttt{analyze()} hledá derivaci řetězce pomocí postupu navrhovaném v~kapitole \ref{kap_aplikace_analyza}. Aktuální konfiguraci automatu lze získat voláním \texttt{getConfiguration()}, \texttt{saveDerivation()} a \texttt{loadDerivation()} umožňují ukládat konfigurace na zásobník a obnovit stav automatu podle poslední uložené konfigurace. Pokud analýza proběhne úspěšně, pak funkce \texttt{tableprint()} z~modulu \texttt{library} převede kroky derivace do řetězce a výsledek se vypíše na výstup. Hloubku derivace lze nastavit parametrem pro maximální počet kroků.
 
 \subsubsection{Ošetření chybových stavů}
 
 V~modulu \texttt{error} jsou definované výjimky \texttt{Error}, \texttt{EPARAM}, \texttt{EIO} a \texttt{EPDA}. \texttt{Error} je základní třída, ze které dědí ostatní výjimky. \texttt{EPARAM} indikuje chybu v~parametrech, \texttt{EIO} chybu při práci se soubory a \texttt{EPDA} označuje chybu v~zásobníkovém automatu. Pokud je vyvolána výjimka, na standardní chybový výstup se vypíše chybová hláška a aplikace skončí s~odpovídající návratovou hodnotou.
 
 \section{Testování}
-DOPSAT
+
+Pro účely testování jsem použila framework \texttt{unittest} a vytvořila několik testovacích případů k~otestování hlavních komponent aplikace: zpracování parametrů, zpracování vstupu, analýzu řetězce a redukci automatu. Všechny testy jsou součástí balíku \texttt{test} a spustitelné příkazem \texttt{python3 test.py}.
+
+\section{Spuštění aplikace}
+
+Aplikace \texttt{gdeep\_pda} pro svůj běh vyžaduje Python verze 3.2. Manuál s~podrobnějšími informacemi je k~dispozici v~souboru \texttt{README}. Aplikaci lze spustit příkazem:
+
+\begin{verbatim}
+python3 gdeep_pda.py [-h|--help] [--input=filename] [--output=filename] 
+                     [--reduce-states] [--reduce-symbols] 
+                     [--analyze-string="s t r i n g"] [--max-steps=n]
+\end{verbatim} 
+
+
+
+
+
+
+
+
+
 
 %=========================================================================

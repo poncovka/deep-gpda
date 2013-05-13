@@ -94,7 +94,7 @@ Pro konstrukci důkazu o~převodu hlubokého zásobníkového automatu konečné
 \begin{enumerate}
 \item Ve všech neterminálech se aktualizuje jejich pozice a celkový počet symbolů \# vzhledem k~výsledné konfiguraci simulovaného automatu. Symboly se expandují postupně zleva doprava tak, že po každé expanzi se vybere pravidlo pro následující neterminál. 
 \item Podle simulovaného pravidla se expanduje neterminál na pozici $n$. Pozice neterminálů za tímto symbolem se v~kroku 1 upravily tak, aby nové neterminály vyplnily chybějící pozice.
-\item Neterminály se postupně prochází z~leva do prava a pomocný stav se přepisuje stavem aktuálním. Po tomto kroku je simulace dokončena a celý postup se může opakovat.
+\item Neterminály se postupně prochází zleva doprava a pomocný stav se přepisuje stavem aktuálním. Po tomto kroku je simulace dokončena a celý postup se může opakovat.
 \end{enumerate}
 
 Tím jsem ukázala, že výše zavedený typ zásobníkového automatu je ekvivalentní s~programovými gramatikami konečného indexu. Z~toho vyplývá, že rodina jazyků přijímaná tímto automatem tvoří nekonečnou hierarchii vycházející z~konečných programových gramatik.

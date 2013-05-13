@@ -12,7 +12,7 @@ prevest vstupni automat na zredukovany se tremi stavy, pripadne
 se tremi nevstupnimi symboly, a rozhodnout, zda automat prijima
 dany retezec a vypsat derivacni kroky.
 
-Tato aplikace byla testovana jen na operacnich systemech unixoveho
+Tato aplikace byla testovana na operacnich systemech unixoveho
 typu:
     
     Ubuntu 12.10
@@ -22,20 +22,21 @@ typu:
 Spusteni:
 
 Ke spusteni je treba mit nainstalovan Python3.2 :
->>>	sudo apt-get install python3.2
 
-Testy je mozne spustit prikazem:
->>>	python3 test.py
+>>> sudo apt-get install python3.2
+
+Testy je mozne spustit prikazem: 
+
+>>> python3 test.py
 
 Aplikace se spusti:
->>> python3 gdeep_pda.py [params]
+
+>>> python3 gdeep_pda.py [-h|--help] [--input=filename] [--output=filename] 
+                         [--reduce-states] [--reduce-symbols] 
+                         [--analyze-string="s t r i n g"] [--max-steps=n]
 
 =====================================================================
 Parametry:
-
-gdeep_pda [-h|--help] [--input=filename] [--output=filename] [--reduce-states]
-     [--reduce-symbols] [--analyze-string="string"]
-
 
 -h, --help                   Vypise napovedu.
 --input=filename             Nacte vstup ze souboru.
@@ -50,31 +51,6 @@ gdeep_pda [-h|--help] [--input=filename] [--output=filename] [--reduce-states]
 
 =====================================================================
 Format vstupniho souboru:
-Soubor musi byt v kodovani utf-8.
-
-ID          Retezec z unicode alfanumerickych znaku a podtrzitka.
-EPSILON     Prazdny retezec se oznacuje ''.
-STRING      Retezec v apostrofech z libovolnych tisknutelnych znaku.
-            Apostrof se znaci ''.
-COMPOSITE   Retezec uzavreny v zavorkach < >. Obsahuje libovolne znaky
-            krome > a ', tez muze obsahovat retezce typu STRING.
-
-CHAR        Symbol vstupni abecedy typu ID nebo STRING.
-NONCHAR     Nevstupni symbol typu ID, COMPOSITE, EPSILON nebo #.
-SYMBOL      Symbol zasobnikove abecedy typu CHAR nebo NONCHAR.
-
-STATE       Symbol stavu typu ID nebo COMPOSITE.
-
-RULE        Symboly jsou od sebe oddelene bilymi znaky:
-            STATE NONCHAR -> STATE SYMBOL*
-
-
-Formatovany zapis AUTOMATU:
-
-Symboly uvnitr zavorek { } jsou od sebe oddelene carkou. Vsechny
-komponenty pak muze oddelovat libovolny pocet bilych znaku.
-
-    ( {STATE*}, {CHAR*}, {SYMBOL*}, {RULE*}, STATE, SYMBOL, {STATE*} )
 
 Zapis odpovida definici hlubokeho zasobnikoveho automatu
 
@@ -84,9 +60,38 @@ kde Q je mnozina stavu, Sigma mnozina vstupnich symbolu, Gamma mnozina
 zasobnikovych symbolu, R mnozina pravidel, s pocatecni stav, S pocatecni
 symbol a F mnozina koncovych stavu.
 
+    ( {STATE*}, {CHAR*}, {SYMBOL*}, {RULE*}, STATE, SYMBOL, {STATE*} )
+    
+Symboly uvnitr zavorek { } jsou od sebe oddelene carkou. Vsechny
+komponenty pak muze oddelovat libovolny pocet bilych znaku.
+
+STATE       Symbol stavu typu ID nebo COMPOSITE.
+CHAR        Symbol vstupni abecedy typu ID nebo STRING.
+NONCHAR     Nevstupni symbol typu ID, COMPOSITE, EPSILON nebo #.
+SYMBOL      Symbol zasobnikove abecedy typu CHAR nebo NONCHAR.
+RULE        Symboly jsou od sebe oddelene bilymi znaky:
+            STATE NONCHAR -> STATE SYMBOL*
+ID          Retezec z unicode alfanumerickych znaku a podtrzitka.
+EPSILON     Prazdny retezec se oznacuje ''.
+STRING      Retezec v apostrofech z libovolnych tisknutelnych znaku.
+            Apostrof se znaci ''.
+COMPOSITE   Retezec uzavreny v zavorkach < >. Obsahuje libovolne znaky
+            krome > a ', tez muze obsahovat retezce typu STRING.
+
 Komentare:
 
 V textu se mohou vyskytovat komentare do konce radku. Jsou uvozene //.
+
+Kodovani:
+
+Soubor musi byt v kodovani utf-8.
+=====================================================================
+Chybove kody:
+
+EOK         0   Vse probehlo v poradku.
+EPARAM      1   Chybne zadane parametry.
+EIO         2   Chyba pri praci se vstupem a vystupem.
+EPDA        3   Lexikalni, syntakticka nebo semanticka chyba v automatu.
 
 =====================================================================
 Priklad 1: automat se formatovane vypise na vystup
@@ -196,5 +201,5 @@ s_alpha,
 <start>,
 {s_alpha}
 )
-
-
+=====================================================================
+konec README
