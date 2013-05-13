@@ -7,7 +7,7 @@ V~této kapitole popisuji návrh a implementaci konzolové aplikace pro redukci 
 
 \section{Návrh aplikace a formátu vstupního souboru}
 
-Při návrhu aplikace jsem vycházela z~kapitoly věnované zobecněným hlubokým zásobníkovým automatům. Odkáži se tedy na kapitolu \ref{kap_pda_gen} a použité principy zde nebudu více rozebírat. Dále navrhuji základní komponenty aplikace, postup pro syntaktickou analýzu řetězce a formát zápisu automatu. 
+Při návrhu aplikace jsem vycházela z~kapitoly \ref{kap_pda_gen} věnované zobecněným hlubokým zásobníkovým automatům. Dále bylo třeba navrhnout základní komponenty aplikace, postup pro syntaktickou analýzu řetězce a formát zápisu automatu. 
 
 \subsubsection{Rozvržení aplikace}\label{kap_aplikace_rozvrzeni}
 
@@ -17,9 +17,9 @@ Modul \texttt{automaton} obsahuje třídu reprezentující zobecněný hluboký 
 
 \subsubsection{Syntaktická analýza řetězce}\label{kap_aplikace_analyza}
 
-Zobecněné hluboké zásobníkové automaty jsou nedeterministické, což je třeba u~syntaktické analýzy zohlednit. Vzhledem k~demonstračním účelům aplikace jsem se rozhodla použít metodu shora dolů s~návratem, která je jednoduchá na implementaci, ale z~hlediska časové složitosti neefektivní.
+Zobecněné hluboké zásobníkové automaty jsou nedeterministické, což je třeba u~syntaktické analýzy zohlednit. Vzhledem k~demonstračním účelům aplikace jsem se rozhodla použít metodu shora dolů s~návratem, která je z~hlediska časové složitosti neefektivní, ale jednoduchá na implementaci.
 
-Automat postupně provádí jednotlivé kroky derivace tak, že na nejvrchnější možný nevstupní symbol aplikuje první nalezené pravidlo. Pokud je na vrcholu zásobníku vstupní symbol, provede se pop operace. Jestliže tuto operaci nelze provést, automat se vrátí do předchozí konfigurace a pokusí se aplikovat jiné pravidlo, jinak opět provede návrat. Pokud se automat vrátí do výchozí konfigurace, pak analyzovaný řetězec není řetězcem jazyka přijímaného tímto automatem. Jinak algoritmus skončí, jakmile je přečten celý vstupní řetězec, automat je v~konečném stavu a zásobník je prázdný.
+Automat postupně provádí jednotlivé kroky derivace tak, že na nejvrchnější možný nevstupní symbol aplikuje první nalezené pravidlo. Pokud je na vrcholu zásobníku vstupní symbol, provede se pop operace. Jestliže tuto operaci nelze provést, automat se vrátí do předchozí konfigurace a pokusí se aplikovat jiné pravidlo. V~případě neúspěchu je opět proveden návrat. Pokud se automat vrátí za výchozí konfiguraci, pak analyzovaný řetězec není řetězcem jazyka přijímaného tímto automatem. V~opačném případě algoritmus skončí, jakmile je přečten celý vstupní řetězec, automat je v~konečném stavu a zásobník je prázdný.
 
 Automat prochází derivační strom do hloubky. Je proto vhodné omezit hloubku stromu, jinak by analýza řetězce mohla vést k~zacyklení aplikace. Pro ukládání konfigurací a obnovení konfigurace předcházející lze použít zásobník. Po každém kroku automatu se na tento zásobník vloží aktuální konfigurace a pořadové číslo aplikovaného pravidla. Při neúspěchu se automat nastaví podle konfigurace na vrcholu zásobníku. Po úspěšné analýze lze pomocí tohoto zásobníku zrekonstruovat jednotlivé kroky derivace.
 
@@ -41,11 +41,11 @@ Ukázka zápisu zobecněného hlubokého automatu pro aplikaci \texttt{gdeep\_pd
     { A, B, C, a, b, c },
     // množina pravidel
     { 
-        <s1> A~-> <s2> a A~b B c C,
-        <s2> A~-> <s3> a A,
+        <s1> A -> <s2> a A b B c C,
+        <s2> A -> <s3> a A,
         <s3> B -> <s4> b B,
         <s4> C -> <s2> c C,
-        <s2> A~-> <s5>,            // epsilon pravidlo
+        <s2> A -> <s5>,            // epsilon pravidlo
         <s5> B -> <s5> '',         // epsilon pravidlo
         <s5> C -> <s5> '' '' ''    // epsilon pravidlo
     },
@@ -95,7 +95,7 @@ Syntaktickou analýzu řetězce umožňuje třída \texttt{GDP} z~modulu \texttt
 
 \subsubsection{Ošetření chybových stavů}
 
-V~modulu \texttt{error} jsou definované výjimky \texttt{Error}, \texttt{EPARAM}, \texttt{EIO} a \texttt{EPDA}. \texttt{Error} je základní třída, ze které dědí ostatní výjimky. \texttt{EPARAM} indikuje chybu v~parametrech, \texttt{EIO} chybu při práci se soubory a \texttt{EPDA} označuje chybu v~zásobníkovém automatu. Pokud je vyvolána výjimka, na standardní chybový výstup se vypíše chybová hláška a aplikace skončí s~odpovídající návratovou hodnotou.
+V~modulu \texttt{error} jsou definované výjimky \texttt{Error}, \texttt{EPARAM}, \texttt{EIO} a \texttt{EPDA}. \texttt{Error} je základní třída, kterou dědí ostatní výjimky. \texttt{EPARAM} indikuje chybu v~parametrech, \texttt{EIO} chybu při práci se soubory a \texttt{EPDA} označuje chybu v~zásobníkovém automatu. Pokud je vyvolána výjimka, na standardní chybový výstup se vypíše chybová hláška a aplikace skončí s~odpovídající návratovou hodnotou.
 
 \section{Testování}
 
@@ -103,7 +103,7 @@ Pro účely testování jsem použila framework \texttt{unittest} a vytvořila n
 
 \section{Spuštění aplikace}
 
-Aplikace \texttt{gdeep\_pda} pro svůj běh vyžaduje Python verze 3.2. Manuál s~podrobnějšími informacemi je k~dispozici v~souboru \texttt{README}. Aplikaci lze spustit příkazem:
+Aplikace \texttt{gdeep\_pda} pro svůj běh vyžaduje Python verze 3.2. Manuál s~podrobnějšími informacemi je k~dispozici v~souboru \texttt{MANUAL}. Aplikaci lze spustit příkazem:
 
 \begin{verbatim}
 python3 gdeep_pda.py [-h|--help] [--input=filename] [--output=filename] 

@@ -21,8 +21,8 @@ prezentace:
 counting: $(CO).pdf
 	bash counter.sh
 
-vlnka: clean
-	vlna -l -m -n *.tex $(REF).bib obsah/*.tex
+#vlnka: clean
+#	vlna -l -m -n *.tex $(REF).bib obsah/*.tex
 
 $(CO).pdf: $(CO).ps
 	dvipdf $(CO)
