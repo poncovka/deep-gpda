@@ -73,8 +73,8 @@ class TestParser(Test):
     def test_ok_pda_08(self):
         self.runParser_ok("test_ok_08")
 
-    def test_ok_pda_09(self):
-        self.runParser_ok("test_ok_09")
+    def test_ok_pda_big_01(self):
+        self.runParser_ok("test_ok_big_01")
             
     def test_err_pda_01(self):
         self.runParser_err("test_err_01")
