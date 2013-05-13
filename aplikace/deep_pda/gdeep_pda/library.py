@@ -130,6 +130,7 @@ def printHelp():
     --reduce-symbols             Zredukuje pocet nevstupnich symbolu.
     --analyze-string="string"    Zjisti, zda string je retezec jazyka prijimaneho
                                  danym automatem, a vypise sekvenci kroku.
+                                 Jednotlive symboly musi byt oddelene mezerami.
     --max-steps=n                Analyza retezce se provede pro maximalne n
                                  derivacnich kroku pro n >= 0.
     \n'''

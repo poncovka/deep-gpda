@@ -1,7 +1,7 @@
 '''
-Created on 12.5.2013
+Testy funkce pro analyzu retezce.
 
-@author: wendy
+@author: Vendula Poncova
 '''
 import unittest
 from .test_case import Test
@@ -135,14 +135,5 @@ class TestAnalyze(Test):
     def test_err_analyze_symbols_02(self):        
         for string in ("a c", "a a b c c", "a a a b b b c c c c") :
             self.runAnalyze_err("test_ok_symbols_02", string, 1000)
-            
-#####################################################################
-
-if __name__ == "__main__":
-    #import sys;sys.argv = ['', 'Test.testName']
-    
-    runner = unittest.TextTestRunner()
-    test_suite = TestAnalyze().suite()
-    runner.run (test_suite)
     
 ##################################################################### konec souboru

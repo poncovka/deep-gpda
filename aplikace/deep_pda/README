@@ -1,0 +1,200 @@
+Aplikace:   gdeep_pda
+Autor:      Vendula Poncova (xponco00)
+
+Datum:      13.5.2013
+
+=====================================================================
+Popis:
+
+Aplikace slouzi k demonstraci zobecneneho zasobnikoveho automatu.
+Je schopna jej nacist ze souboru a formatovane vypsat na vystup,
+prevest vstupni automat na zredukovany se tremi stavy, pripadne
+se tremi nevstupnimi symboly, a rozhodnout, zda automat prijima
+dany retezec a vypsat derivacni kroky.
+
+Tato aplikace byla testovana jen na operacnich systemech unixoveho
+typu:
+    
+    Ubuntu 12.10
+    Linux Mint 13
+
+=====================================================================
+Spusteni:
+
+Ke spusteni je treba mit nainstalovan Python3.2 :
+>>>	sudo apt-get install python3.2
+
+Testy je mozne spustit prikazem:
+>>>	python3 test.py
+
+Aplikace se spusti:
+>>> python3 gdeep_pda.py [params]
+
+=====================================================================
+Parametry:
+
+gdeep_pda [-h|--help] [--input=filename] [--output=filename] [--reduce-states]
+     [--reduce-symbols] [--analyze-string="string"]
+
+
+-h, --help                   Vypise napovedu.
+--input=filename             Nacte vstup ze souboru.
+--output=filename            Vypise vystup do souboru.
+--reduce-states              Zredukuje pocet stavu.
+--reduce-symbols             Zredukuje pocet nevstupnich symbolu.
+--analyze-string="string"    Zjisti, zda string je retezec jazyka prijimaneho
+                             danym automatem, a vypise sekvenci kroku.
+                             Jednotlive symboly musi byt oddelene mezerami.
+--max-steps=n                Analyza retezce se provede pro maximalne n
+                             derivacnich kroku pro n >= 0.
+
+=====================================================================
+Format vstupniho souboru:
+Soubor musi byt v kodovani utf-8.
+
+ID          Retezec z unicode alfanumerickych znaku a podtrzitka.
+EPSILON     Prazdny retezec se oznacuje ''.
+STRING      Retezec v apostrofech z libovolnych tisknutelnych znaku.
+            Apostrof se znaci ''.
+COMPOSITE   Retezec uzavreny v zavorkach < >. Obsahuje libovolne znaky
+            krome > a ', tez muze obsahovat retezce typu STRING.
+
+CHAR        Symbol vstupni abecedy typu ID nebo STRING.
+NONCHAR     Nevstupni symbol typu ID, COMPOSITE, EPSILON nebo #.
+SYMBOL      Symbol zasobnikove abecedy typu CHAR nebo NONCHAR.
+
+STATE       Symbol stavu typu ID nebo COMPOSITE.
+
+RULE        Symboly jsou od sebe oddelene bilymi znaky:
+            STATE NONCHAR -> STATE SYMBOL*
+
+
+Formatovany zapis AUTOMATU:
+
+Symboly uvnitr zavorek { } jsou od sebe oddelene carkou. Vsechny
+komponenty pak muze oddelovat libovolny pocet bilych znaku.
+
+    ( {STATE*}, {CHAR*}, {SYMBOL*}, {RULE*}, STATE, SYMBOL, {STATE*} )
+
+Zapis odpovida definici hlubokeho zasobnikoveho automatu
+
+    (Q, Sigma, Gamma, R, s, S, F),
+
+kde Q je mnozina stavu, Sigma mnozina vstupnich symbolu, Gamma mnozina
+zasobnikovych symbolu, R mnozina pravidel, s pocatecni stav, S pocatecni
+symbol a F mnozina koncovych stavu.
+
+Komentare:
+
+V textu se mohou vyskytovat komentare do konce radku. Jsou uvozene //.
+
+=====================================================================
+Priklad 1: automat se formatovane vypise na vystup
+
+python3 gdeep_pda.py --input=example/pda_01
+(
+{s1, s2, s3, s4, s5},
+{'a', 'b', 'c'},
+{'a', 'b', 'c', A, B, C},
+{
+s1 A -> s2 'a' A 'b' B 'c' C,
+s2 A -> s3 'a' A,
+s2 A -> s5,
+s3 B -> s4 'b' B,
+s4 C -> s2 'c' C,
+s5 B -> s5,
+s5 C -> s5
+},
+s1,
+A,
+{s5}
+)
+
+=====================================================================
+Priklad 2: analyza retezce aabbcc
+
+python3 gdeep_pda.py --input=example/pda_01 --analyze-string="a a b b c c"
+        state  input       pushdown                rule
+-------------------------------------------------------------------------------------
+     (  s1,    'aabbcc',   A                    )
+ =>  (  s2,    'aabbcc',   'a' A 'b' B 'c' C    )  [ s2 A -> s2 'a' A 'b' B 'c' C ]
+ =>  (  s2,    'abbcc',    A 'b' B 'c' C        )
+ =>  (  s3,    'abbcc',    'a' A 'b' B 'c' C    )  [ s3 A -> s3 'a' A ]
+ =>  (  s3,    'bbcc',     A 'b' B 'c' C        )
+ =>  (  s4,    'bbcc',     A 'b' 'b' B 'c' C    )  [ s4 B -> s4 'b' B ]
+ =>  (  s5,    'bbcc',     'b' 'b' B 'c' 'c' C  )  [ s5 A -> s5 ]
+ =>  (  s5,    'bcc',      'b' B 'c' 'c' C      )
+ =>  (  s5,    'cc',       B 'c' 'c' C          )
+ =>  (  s5,    'cc',       'c' 'c' C            )  [ s5 B -> s5 ]
+ =>  (  s5,    'c',        'c' C                )
+ =>  (  s5,    '',         C                    )
+ =>  (  s5,    '',                              )  [ s5 C -> s5 ]
+
+=====================================================================
+Priklad 3: vypis automatu se tremi nevstupnimi symboly
+
+python3 gdeep_pda.py --input=example/pda_02 --reduce-symbols
+(
+{<end>, <s,**>, <s,*>, <s,0,**>, <s,0,*>, <s,00,**>, <s,00,*>, <s,001,**>,
+<s,001,*>, <s,001>, <s,00>, <s,01,**>, <s,01,*>, <s,01>, <s,0>, <s,1,**>,
+<s,1,*>, <s,1>, <s>, <start>},
+{'a'},
+{#, 'a', 0, 1},
+{
+<s,**> 0 -> <s,0,**>,
+<s,**> 1 -> <s,1,**>,
+<s,*> 0 -> <s,0,*>,
+<s,*> 1 -> <s,1,*>,
+<s,0,**> 0 -> <s,00,**>,
+<s,0,**> 1 -> <s,01,**>,
+<s,0,*> 0 -> <s,00,*>,
+<s,0,*> 1 -> <s,01,*>,
+<s,00,**> 1 -> <s,001,**>,
+<s,00,*> 1 -> <s,001,*>,
+<s,001,**> # -> <s,**> 0 0 1 #,
+<s,001,*> # -> <s,*> 0 0 1 #,
+<s,001> # -> <s,*> 0 1 0 1 0 1 #,
+<s,00> 1 -> <s,001>,
+<s,01,**> # -> <s,**> 'a' #,
+<s,01,*> # -> <s,*> 0 1 #,
+<s,01> # -> <s> 0 1 #,
+<s,0> 0 -> <s,00>,
+<s,0> 1 -> <s,01>,
+<s,1,**> # -> <end>,
+<s,1,*> # -> <s> 1 #,
+<s,1> # -> <s,**> 1 #,
+<s> 0 -> <s,0>,
+<s> 1 -> <s,1>,
+<start> # -> <s> 0 0 1 1 #
+},
+<start>,
+#,
+{<end>}
+)
+
+=====================================================================
+Priklad 4: vypis automatu se tremi stavy
+
+python3 gdeep_pda.py --input=example/pda_02 --reduce-states
+(
+{s_alpha, s_beta, s_gamma},
+{'a'},
+{'a', <1>, <s,#,exp>, <s,#,set>, <s,#>, <s,A,*>, <s,A>, <start>},
+{
+s_alpha <1> -> s_alpha,
+s_alpha <s,#,set> -> s_gamma <s,#,exp>,
+s_alpha <s,#> -> s_alpha,
+s_alpha <s,A> -> s_alpha 'a' 'a' 'a',
+s_alpha <start> -> s_alpha <s,A> <s,#>,
+s_beta <s,#> -> s_alpha <s,#,set>,
+s_beta <s,A> -> s_beta <s,A,*>,
+s_gamma <s,#,exp> -> s_alpha <s,#>,
+s_gamma <s,#,set> -> s_beta <s,#>,
+s_gamma <s,A,*> -> s_gamma <s,A>
+},
+s_alpha,
+<start>,
+{s_alpha}
+)
+
+

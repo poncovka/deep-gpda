@@ -1,7 +1,7 @@
 '''
-Created on 12.5.2013
+Testy pro parsovani automatu ze vstupu.
 
-@author: wendy
+@author: Vendula Poncova
 '''
 import unittest
 from .test_case import Test

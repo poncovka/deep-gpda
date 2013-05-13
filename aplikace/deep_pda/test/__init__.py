@@ -1,5 +1,7 @@
 '''
-Created on 12.5.2013
+Balik pro testovani applikace gdeep_pda
 
-@author: wendy
+@author: Vendula Poncova
 '''
+
+from .main import main as run

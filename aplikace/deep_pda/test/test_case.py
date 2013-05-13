@@ -1,7 +1,7 @@
 '''
-Created on 12.5.2013
+Zakladni trida TestCase.
 
-@author: wendy
+@author: Vendula Poncova
 '''
 import sys
 import os.path
@@ -10,7 +10,9 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.
 import unittest
 from io import StringIO
 
-from gdeep_pda import application, error
+from gdeep_pda import application
+
+#####################################################################
 
 class Test(unittest.TestCase):
 
@@ -55,3 +57,5 @@ class Test(unittest.TestCase):
 
         suite = unittest.TestLoader().loadTestsFromTestCase(self)
         return suite
+    
+##################################################################### konec souboru

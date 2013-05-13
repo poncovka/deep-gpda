@@ -1,7 +1,7 @@
 '''
-Created on 12.5.2013
+Testy pro parametry aplikace.
 
-@author: wendy
+@author: Vendula Poncova
 '''
 
 import unittest
@@ -78,13 +78,5 @@ class TestApplication(Test):
                             err = False, 
                             out = True)
 
-#####################################################################
-
-if __name__ == "__main__":
-    #import sys;sys.argv = ['', 'Test.testName']
-    
-    runner = unittest.TextTestRunner()
-    test_suite = TestApplication().suite()
-    runner.run (test_suite)
     
 ##################################################################### konec souboru

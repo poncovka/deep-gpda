@@ -1,7 +1,7 @@
 '''
-Created on 12.5.2013
+Trida pro testovani funkci z knihovny.
 
-@author: wendy
+@author: Vendula Poncova
 '''
 import unittest
 from .test_case import Test
