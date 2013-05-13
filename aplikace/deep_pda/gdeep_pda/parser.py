@@ -5,7 +5,7 @@ Nacte z retezce zasobnikovy automat.
 
 import re
 import string as pystring
-from .library import unquote
+from .library import unquote, isSurrounded
 from .error import check, EPDA
 from .automaton import GDP
 
@@ -286,7 +286,17 @@ class GDPParser:
         else:
             return group
 
+##################################################################### checkQuote()
+
+    def checkQuote(self, symbol, group):
+        
+        if isSurrounded(symbol, "'", "'" ) :
+            if symbol not in group and unquote(symbol) not in group :
+                #print(symbol, symbol not in group[1], unquote(symbol) not in group[1])
+                raise EPDA("Nevstupni symboly nesmi byt v uvozovkach.")
+
 ##################################################################### run()
+
     
     def run(self, string):
         '''
@@ -301,11 +311,22 @@ class GDPParser:
         
             # rozparsovanu vstupu
             group, index = self.matchItem(self.pda_pattern, 0, string)
-            
-            check(group, DEBUG_CODE, DEBUG, 3)
-            # odstraneni uvozovek ze všech symbolů
+                        
+            #kontrola uvozovek v nevstupnich symbolech
+            for symbol in group[2] :
+                self.checkQuote(symbol, group[1])
+             
+            for [q,symbol,p,v] in group[3] :
+                self.checkQuote(symbol, group[1])
+                
+                for symbol in v :
+                    if symbol != "''" :
+                        self.checkQuote(symbol, group[1])
+                    
+            self.checkQuote(group[5], group[1])
+                
+            # odstraneni uvozovek
             group = unquote(group)
-            check(group, DEBUG_CODE, DEBUG, 3)
             
             # zpracovani vysledku parsovani
             rules = list()
@@ -322,7 +343,7 @@ class GDPParser:
                 # sestaveni pravidla        
                 rules.append((q,A,p,tuple(w)))
                     
-        except Exception:
+        except Exception:            
             raise EPDA("Chyba v syntaxi automatu.")
 
         # vytvoreni noveho automatu

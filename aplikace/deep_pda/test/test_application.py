@@ -67,6 +67,16 @@ class TestApplication(Test):
                             error.EIO().code, 
                             err = True, 
                             out = False)
+        
+        
+    def test_ok_io_01(self):
+        
+        self.print_input("({s},{a,b,c},{a,b,c,A,B,C},{s A -> s a b c},s,A,{s})")
+        
+        self.runApplication(["gdeep_pda"], 
+                            0, 
+                            err = False, 
+                            out = True)
 
 #####################################################################
 

@@ -1,0 +1,28 @@
+
+
+(
+
+{s1, s2, s3, s4, s5, <s5> ,<stav, epsilon> },
+
+{ á,ů,ž, '{ahoj', ',/>.>', '}', '(-)', '<apostrof>'' abcd' ,a,b,c, '\n\t'},
+
+{Agáta,Bedřich,Cecílie, á,ů,ž, á,ů,ž, '{ahoj', ',/>.>', '}', '(-)', '<apostrof>'' abcd' ,a,b,c, '\n\t'},
+
+{
+s1 Agáta -> s2 'a' Agáta b Bedřich c Cecílie,
+s2 Agáta -> s3 a Agáta,
+s3 Bedřich -> s4 'b' Bedřich,
+s4 Cecílie -> s2 c Cecílie,
+s2 Agáta -> s5 ,
+s5 Bedřich -> s5 '' '' '',
+s5 Cecílie -> s5 ''
+},
+
+s1,
+
+Agáta,
+
+{s5}
+
+)
+

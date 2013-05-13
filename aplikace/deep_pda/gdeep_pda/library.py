@@ -23,7 +23,8 @@ def enum(*sequential, **named):
 
 def isSurrounded(item, left, right):
     
-    return len(item) >= 2 and item[0] == left and item[-1] == right
+    if len(item) < 2 : return False
+    else: return (item[0] == left and item[-1] == right)
 
 #=================================================================== unquote()
 
@@ -38,6 +39,22 @@ def unquote(item, char = "'"):
         
         if isSurrounded(item, char, char) :
             item = item[1:-1]
+            
+    return item
+
+#=================================================================== unquote()
+
+def quote(item, group = None, char = "'"):
+    
+    if isinstance(item, list):
+        
+        for n,i in enumerate(item):
+            item[n] = quote(i, group)
+                
+    elif isinstance(item, str) :
+        
+        if group == None or item in group :
+            item = char + item + char
             
     return item
 
@@ -145,7 +162,7 @@ def processParams(argv):
         elif opt in arg_options and arg_options[opt] not in args:
             args[arg_options[opt]] = value
 
-        else: raise EPARAM
+        else: raise EPARAM("Chybne zadany parametr: " + arg)
 
     if ("help" in args) and len(args) != 1:
         raise EPARAM
@@ -155,6 +172,9 @@ def processParams(argv):
 
     if "output" not in args :
         args["output"] = None
+        
+    if "--reduce-symbols" in args and "--reduce-states" in args :
+        raise EPARAM("Nelze volat oba parametry --reduce.")
         
     if "analyze_string" in args :
         string = GDPParser().parseString(args["analyze_string"])

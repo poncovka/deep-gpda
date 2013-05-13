@@ -3,28 +3,30 @@ Created on 12.5.2013
 
 @author: wendy
 '''
-
+import sys
 import unittest
-import test.test_application
-import test.test_parser
+from test import *
 
-def suite():
+def suite(tests):
 
     loader = unittest.TestLoader()
     suite = unittest.TestSuite()
-    
-    suite.addTest(loader.loadTestsFromModule(test.test_application))
-    suite.addTest(loader.loadTestsFromModule(test.test_parser))
-    
+        
+    if not tests :
+        suite.addTest(loader.discover(".", "test_*.py"))
+    else:
+        suite.addTest(loader.loadTestsFromNames(tests))
+        
     return suite
 
 
 if __name__ == "__main__":
-    #import sys;sys.argv = ['', 'Test.testName']
+    
+    tests = sys.argv[1:] 
     
     try:
         runner = unittest.TextTestRunner()
-        test_suite = suite()
+        test_suite = suite(tests)
         runner.run (test_suite)
     
     except SystemExit as inst:

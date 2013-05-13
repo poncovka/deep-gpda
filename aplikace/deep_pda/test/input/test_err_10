@@ -1,0 +1,36 @@
+// Test
+// PDA prijima jazyk a^n b^n c^n
+
+(
+// Q mnozina stavu
+{s1, s2, s3, s4, s5},
+
+// Sigma mnozina vstupnich symbolu
+{a,b,c},
+
+// Gamma mnozina zasobnikovych symbolu
+{A,B,C,a,b,c},
+
+// R mnozina pravidel
+{
+s1 A -> s2 a A b B c C,
+s2 A -> s3 a A,
+s3 B -> s4 b B,
+s4 C -> s2 c C,
+s2 'A' -> s5,
+s5 B -> s5 '' '' '',
+s5 C -> s5 ''
+},
+
+// s pocatecni stav
+s1,
+
+// S pocatecni symbol
+A,
+
+// F mnozina koncovych stavu
+{s5}
+
+)
+
+// konec

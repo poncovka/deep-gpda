@@ -5,7 +5,7 @@ Trida pro zobecneny hluboky zasobnikovy automat a jeho pravidla.
 '''
 
 from .error import check, EPDA
-from .library import tableprint
+from .library import tableprint, quote, unquote
 
 
 DEBUG = False
@@ -118,13 +118,16 @@ class GDP:
                     raise EPDA("Na prave strane pravidla je nedefinovany symbol.")     
             
 #=================================================================== serializace
+               
 
     def serializeRule(self, rule):
         
         (q,A,p,v) = rule
         
         str_rule = q + " " + A + " -> " + p
-        if v : str_rule += " " + " ".join(v)
+        if v :
+            v = quote(list(v),self.Sigma)
+            str_rule += " " + " ".join(v)
         
         return str_rule
     
@@ -135,9 +138,11 @@ class GDP:
         
         for (state, index, pushdown, step, rule) in backtracking :
             
+            pushdown = quote(list(pushdown), self.Sigma)
+            
             derivation   = "=>" if derivation_table else ""
             str_state    = state + ", "
-            str_input    = "".join(string[index:]) + ", "
+            str_input    = "'" + "".join(string[index:]) + "'" + ", "
             str_pushdown = " ".join(reversed(pushdown))
             str_rule     = "[ " + self.serializeRule(rule) + " ] " if rule else ""
             
@@ -162,9 +167,11 @@ class GDP:
 
         # abecedy
         Si = list(self.Sigma)
+        Si = quote(Si,self.Sigma)
         Si.sort()
 
         Ga = list(self.Gamma)
+        Ga = quote(Ga, self.Sigma)
         Ga.sort()
 
         # pravidla

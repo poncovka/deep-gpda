@@ -1,0 +1,20 @@
+(
+{s_alpha, s_beta, s_gamma},
+{'a'},
+{'a', <1>, <s,#,exp>, <s,#,set>, <s,#>, <s,A,*>, <s,A>, <start>},
+{
+s_alpha <1> -> s_alpha,
+s_alpha <s,#,set> -> s_gamma <s,#,exp>,
+s_alpha <s,#> -> s_alpha,
+s_alpha <s,A> -> s_alpha 'a' 'a' 'a',
+s_alpha <start> -> s_alpha <s,A> <s,#>,
+s_beta <s,#> -> s_alpha <s,#,set>,
+s_beta <s,A> -> s_beta <s,A,*>,
+s_gamma <s,#,exp> -> s_alpha <s,#>,
+s_gamma <s,#,set> -> s_beta <s,#>,
+s_gamma <s,A,*> -> s_gamma <s,A>
+},
+s_alpha,
+<start>,
+{s_alpha}
+)
