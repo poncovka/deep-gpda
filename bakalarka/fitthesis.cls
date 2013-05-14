@@ -215,7 +215,7 @@ Práce je chráněna autorským zákonem a její užití bez udělení oprávně
 
 \vfill
 
-\mkuctxt{18}{\@title} %Nazev prace v jazyce v jakem je napsana
+\mkuctxt{18}{Hluboké zásobníkové automaty\\konečného indexu} %Nazev prace v jazyce v jakem je napsana
 
 \vfill
 
@@ -257,7 +257,7 @@ Práce je chráněna autorským zákonem a její užití bez udělení oprávně
 \vfill
 
 \mktxt@b{16}{\@cite@CS}
-\noindent\@author: Hluboké zásobníkové automaty konečného indexu, \MakeLowercase{\@projecttype@CS}, Brno, FIT VUT v~Brně, \@year
+\noindent\@author: \@title, \MakeLowercase{\@projecttype@CS}, Brno, FIT VUT v~Brně, \@year
 %===================================================
 \newpage
 }
@@ -325,7 +325,7 @@ Práce je chráněna autorským zákonem a její užití bez udělení oprávně
 
 \vfill
 
-\mkuctxt{18}{\@title@CS}
+\mkuctxt{18}{Hluboké zásobníkové automaty\\konečného indexu}
 \mkuctxt{10}{\@title@EN}
 
 \vfill

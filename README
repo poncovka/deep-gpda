@@ -1,0 +1,47 @@
+=====================================================================
+BP:         Hluboke zasobnikove automaty konecneho indexu
+Autor:      Vendula Poncova (xponco00)
+
+Datum:      13.5.2013
+
+=====================================================================
+
+Obsah CD:
+
+|-- aplikace
+|   |-- MANUAL
+|   |-- example
+|   |-- gdeep_pda
+|   |-- gdeep_pda.py
+|   |-- test
+|   `-- test.py
+|-- aplikace.tar.gz
+|-- bp
+|-- xponco00.pdf
+|-- bp.tar.gz
+ --README
+
+===================================================================== 
+aplikace :
+---------
+Obsahuje zdrojove kody aplikace gdeep_pda, testovaci skript, manual 
+a ve slozce example ukazkove vstupni soubory.
+
+   MANUAL          Dokumentace k aplikaci.
+   example         Ukazkove vstupni soubory.
+   gdeep_pda       Balik aplikace gdeep_pda.
+   gdeep_pda.py    Spousteci skript aplikace.
+   test            Testovaci balik.
+   test.py         Spousteci skript testovani.
+
+bp :
+----
+Obsahuje zdrojove soubory bakalarske prace vcetne obrazku a Makefile.
+
+aplikace.tar.gz    je zabalena slozka aplikace.
+bp.tar.gz          obsahuje zabalenou slozku bp.
+xponco00.pdf       je bakalarska prace.
+README             je tento soubor.
+
+===================================================================== 
+konec README

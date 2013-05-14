@@ -49,7 +49,7 @@ desky:
 	pdflatex desky
 
 clean:
-	rm -f *.dvi *.log $(CO).blg $(CO).bbl $(CO).toc *.aux $(CO).out $(CO).lof
+	rm -f *.dvi *.log $(CO).blg $(CO).bbl $(CO).toc *.aux $(CO).out $(CO).lof $(CO).ps bp-xponco00.tar.gz
 	rm -f $(CO).pdf
 	rm -f *~ obsah/*~
 
